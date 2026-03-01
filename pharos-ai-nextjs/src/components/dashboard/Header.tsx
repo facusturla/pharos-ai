@@ -3,9 +3,10 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV = [
-  { label: 'COMMAND CENTER', href: '/dashboard' },
-  { label: 'NEWS FEED',       href: '/dashboard/timeline' },
-  { label: 'DAILY OUTLOOKS',  href: '/dashboard/outlook' },
+  { label: 'SITUATION ROOM',    href: '/dashboard' },
+  { label: 'INTEL FEED',        href: '/dashboard/feed' },
+  { label: 'ACTORS',            href: '/dashboard/actors' },
+  { label: 'DAILY BRIEFS',      href: '/dashboard/briefs' },
 ];
 
 export function Header() {
