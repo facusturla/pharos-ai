@@ -86,60 +86,61 @@ export default function PredictionsPage() {
     : '—';
 
   return (
-    <div className="flex flex-col flex-1 min-w-0 overflow-hidden" style={{ height: '100%', background: 'var(--bg-1)' }}>
+    <div className="flex flex-col flex-1 min-w-0 overflow-hidden h-full bg-[var(--bg-1)]">
 
       {/* ── Top bar ── */}
-      <div className="flex items-center gap-4 flex-shrink-0 px-4" style={{ height: 44, background: 'var(--bg-app)', borderBottom: '1px solid var(--bd)' }}>
+      <div className="flex items-center gap-4 shrink-0 px-4 h-[44px] bg-[var(--bg-app)] border-b border-[var(--bd)]">
         <div className="flex items-center gap-2">
-          <TrendingUp size={14} strokeWidth={2.5} style={{ color: 'var(--blue-l)', flexShrink: 0 }} />
+          <TrendingUp size={14} strokeWidth={2.5} className="text-[var(--blue-l)] shrink-0" />
           <span className="section-title">PREDICTION MARKETS</span>
-          <span className="label" style={{ color: 'var(--t4)' }}>VIA POLYMARKET</span>
+          <span className="label text-[var(--t4)]">VIA POLYMARKET</span>
         </div>
 
-        <Separator orientation="vertical" className="h-5" style={{ background: 'var(--bd)' }} />
+        <Separator orientation="vertical" className="h-5 bg-[var(--bd)]" />
 
         {/* Stats */}
         <div className="flex gap-5 items-center">
           <div>
-            <span className="label" style={{ color: 'var(--t4)' }}>MARKETS </span>
-            <span className="mono" style={{ fontWeight: 700, color: 'var(--t1)' }}>{markets.length}</span>
-            <span className="mono ml-1.5" style={{ color: 'var(--success)', fontSize: 9 }}>({activeCount} LIVE)</span>
+            <span className="label text-[var(--t4)]">MARKETS </span>
+            <span className="mono font-bold text-[var(--t1)]">{markets.length}</span>
+            <span className="mono ml-1.5 text-[9px] text-[var(--success)]">({activeCount} LIVE)</span>
           </div>
           <div>
-            <span className="label" style={{ color: 'var(--t4)' }}>TOTAL VOL </span>
-            <span className="mono" style={{ fontWeight: 700, color: 'var(--t1)' }}>{fmtVol(totalVolume)}</span>
+            <span className="label text-[var(--t4)]">TOTAL VOL </span>
+            <span className="mono font-bold text-[var(--t1)]">{fmtVol(totalVolume)}</span>
           </div>
           <div>
-            <span className="label" style={{ color: 'var(--t4)' }}>24H VOL </span>
-            <span className="mono" style={{ fontWeight: 700, color: totalVol24h > 0 ? 'var(--success)' : 'var(--t4)' }}>{fmtVol(totalVol24h)}</span>
+            <span className="label text-[var(--t4)]">24H VOL </span>
+            <span className="mono font-bold" style={{ color: totalVol24h > 0 ? 'var(--success)' : 'var(--t4)' }}>{fmtVol(totalVol24h)}</span>
           </div>
         </div>
 
         {/* Refresh + timestamp */}
         <div className="flex items-center gap-2.5 ml-auto">
-          <span className="mono" style={{ color: 'var(--t4)', fontSize: 9 }}>{lastUpdated}</span>
-          <Button variant="outline" size="icon-sm" onClick={() => fetchMarkets(true)} disabled={loading} style={{ borderColor: 'var(--bd)', background: 'transparent', color: 'var(--t3)' }}>
+          <span className="mono text-[9px] text-[var(--t4)]">{lastUpdated}</span>
+          <Button variant="outline" size="icon-sm" onClick={() => fetchMarkets(true)} disabled={loading} className="border-[var(--bd)] bg-transparent text-[var(--t3)]">
             <RefreshCw size={12} style={{ animation: isRefreshing ? 'spin 1s linear infinite' : 'none' }} />
           </Button>
         </div>
       </div>
 
       {/* ── Column header ── */}
-      <div className="flex-shrink-0" style={{ background: 'var(--bg-app)', borderBottom: '1px solid var(--bd)', display: 'grid', gridTemplateColumns: COL, alignItems: 'center', height: 30 }}>
+      <div
+        className="shrink-0 grid items-center h-[30px] bg-[var(--bg-app)] border-b border-[var(--bd)]"
+        style={{ gridTemplateColumns: COL }}
+      >
         <div />
-        <div className="label pl-0.5" style={{ fontSize: 8 }}>MARKET</div>
+        <div className="label pl-0.5 text-[8px]">MARKET</div>
 
-        <ToggleGroup type="single" value={sortBy} onValueChange={v => v && setSortBy(v as SortBy)} style={{ display: 'contents' }}>
+        <ToggleGroup type="single" value={sortBy} onValueChange={v => v && setSortBy(v as SortBy)} className="contents">
           {SORT_OPTS.map(col => (
             <ToggleGroupItem
               key={col.key}
               value={col.key}
-              className="mono"
+              className="mono bg-transparent border-none h-[30px] rounded-none p-0 flex items-center text-[8px] tracking-[0.08em]"
               style={{
-                background: 'none', border: 'none', height: 30, borderRadius: 0,
-                padding: 0, paddingRight: col.key === 'probability' ? 0 : 12,
-                display: 'flex', justifyContent: col.key === 'probability' ? 'flex-start' : 'flex-end',
-                alignItems: 'center', fontSize: 8, letterSpacing: '0.08em',
+                paddingRight: col.key === 'probability' ? 0 : 12,
+                justifyContent: col.key === 'probability' ? 'flex-start' : 'flex-end',
                 fontWeight: sortBy === col.key ? 700 : 400,
                 color: sortBy === col.key ? 'var(--blue-l)' : 'var(--t4)',
               }}
@@ -149,43 +150,43 @@ export default function PredictionsPage() {
           ))}
         </ToggleGroup>
 
-        <div className="label text-right pr-3" style={{ fontSize: 8 }}>ENDS</div>
+        <div className="label text-right pr-3 text-[8px]">ENDS</div>
 
         <div className="flex justify-end items-center gap-1.5 pr-2">
-          <span className="label" style={{ fontSize: 7, color: showActiveOnly ? 'var(--success)' : 'var(--t4)', fontWeight: 700 }}>LIVE</span>
-          <Switch checked={showActiveOnly} onCheckedChange={setShowActiveOnly} style={{ transform: 'scale(0.75)', transformOrigin: 'right' }} />
+          <span className="label text-[7px] font-bold" style={{ color: showActiveOnly ? 'var(--success)' : 'var(--t4)' }}>LIVE</span>
+          <Switch checked={showActiveOnly} onCheckedChange={setShowActiveOnly} className="scale-75 origin-right" />
         </div>
         <div />
       </div>
 
       {/* ── Content ── */}
-      <div style={{ flex: 1, overflowY: 'auto' }}>
+      <div className="flex-1 overflow-y-auto">
         {loading ? (
-          <div style={{ padding: '8px 0' }}>
+          <div className="py-2">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: COL, alignItems: 'center', height: 44, borderBottom: '1px solid var(--bd)', padding: '0 4px', gap: 8 }}>
-                <Skeleton style={{ height: 10, width: 20, background: 'var(--bg-3)' }} />
-                <Skeleton style={{ height: 12, width: `${60 + (i % 3) * 20}%`, background: 'var(--bg-3)' }} />
-                <Skeleton style={{ height: 4, width: '80%', background: 'var(--bg-3)' }} />
-                <Skeleton style={{ height: 10, width: 50, background: 'var(--bg-3)', marginLeft: 'auto' }} />
-                <Skeleton style={{ height: 10, width: 40, background: 'var(--bg-3)', marginLeft: 'auto' }} />
-                <Skeleton style={{ height: 10, width: 50, background: 'var(--bg-3)', marginLeft: 'auto' }} />
-                <Skeleton style={{ height: 18, width: 44, background: 'var(--bg-3)', marginLeft: 'auto' }} />
+              <div key={i} className="grid items-center h-[44px] border-b border-[var(--bd)] px-1 gap-2" style={{ gridTemplateColumns: COL }}>
+                <Skeleton className="h-[10px] w-5 bg-[var(--bg-3)]" />
+                <Skeleton className="h-3 bg-[var(--bg-3)]" style={{ width: `${60 + (i % 3) * 20}%` }} />
+                <Skeleton className="h-1 w-4/5 bg-[var(--bg-3)]" />
+                <Skeleton className="h-[10px] w-[50px] bg-[var(--bg-3)] ml-auto" />
+                <Skeleton className="h-[10px] w-10 bg-[var(--bg-3)] ml-auto" />
+                <Skeleton className="h-[10px] w-[50px] bg-[var(--bg-3)] ml-auto" />
+                <Skeleton className="h-[18px] w-11 bg-[var(--bg-3)] ml-auto" />
                 <div />
               </div>
             ))}
           </div>
         ) : error ? (
           <div className="p-6">
-            <Alert variant="destructive" style={{ background: 'var(--danger-dim)', borderColor: 'rgba(231,106,110,0.3)', color: 'var(--danger)' }}>
+            <Alert variant="destructive" className="bg-[var(--danger-dim)] border-[rgba(231,106,110,0.3)] text-[var(--danger)]">
               <AlertCircle size={14} />
-              <AlertDescription className="mono" style={{ fontSize: 11, color: 'var(--danger)' }}>
+              <AlertDescription className="mono text-[11px] text-[var(--danger)]">
                 {error}
               </AlertDescription>
             </Alert>
           </div>
         ) : filtered.length === 0 ? (
-          <div className="flex items-center justify-center" style={{ height: 200, color: 'var(--t4)' }}>
+          <div className="flex items-center justify-center h-[200px] text-[var(--t4)]">
             <span className="label">NO MARKETS FOUND</span>
           </div>
         ) : (

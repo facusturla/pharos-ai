@@ -19,14 +19,13 @@ export function SubMarketTable({ subMarkets, selectedId, onSelect }: Props) {
   const HEADERS = ['DATE / QUESTION', 'LAST', 'BID', 'ASK', 'SPREAD', '24H VOL', 'STATUS'];
 
   return (
-    <Table style={{ width: '100%', marginTop: 4 }}>
+    <Table className="w-full mt-1">
       <TableHeader>
-        <TableRow style={{ borderBottom: '1px solid var(--bd)', background: 'transparent' }}>
+        <TableRow className="border-b border-b-[var(--bd)] bg-transparent">
           {HEADERS.map(h => (
             <TableHead
               key={h}
-              className="label"
-              style={{ height: 24, fontSize: 7, padding: '0 8px 0 4px', textAlign: h === 'DATE / QUESTION' ? 'left' : 'right' }}
+              className={`label h-6 text-[7px] py-0 pr-2 pl-1 ${h === 'DATE / QUESTION' ? 'text-left' : 'text-right'}`}
             >
               {h}
             </TableHead>
@@ -46,9 +45,8 @@ export function SubMarketTable({ subMarkets, selectedId, onSelect }: Props) {
             <TableRow
               key={sm.id}
               onClick={() => onSelect(sm.id)}
-              className="hover:bg-transparent transition-none"
+              className="hover:bg-transparent transition-none h-[30px] border-b border-b-[var(--bd)] cursor-pointer"
               style={{
-                height: 30, borderBottom: '1px solid var(--bd)', cursor: 'pointer',
                 background: isSelected ? 'rgba(45,114,210,0.1)' : 'transparent',
                 borderLeft: isSelected ? '2px solid var(--blue)' : '2px solid transparent',
               }}
@@ -56,32 +54,42 @@ export function SubMarketTable({ subMarkets, selectedId, onSelect }: Props) {
               onMouseLeave={e => { if (!isSelected) (e.currentTarget as HTMLTableRowElement).style.background = 'transparent'; }}
             >
               {/* Question */}
-              <TableCell className="mono truncate" style={{ maxWidth: 140, padding: '0 8px 0 4px', color: isSelected ? 'var(--blue-l)' : 'var(--t1)', fontWeight: isSelected ? 700 : 400, fontSize: 10 }}>
+              <TableCell
+                className="mono truncate max-w-[140px] py-0 pr-2 pl-1 text-[10px]"
+                style={{ color: isSelected ? 'var(--blue-l)' : 'var(--t1)', fontWeight: isSelected ? 700 : 400 }}
+              >
                 {label}
               </TableCell>
               {/* Last price */}
-              <TableCell className="mono text-right" style={{ padding: '0 8px', fontWeight: 700, color: ltpC }}>
+              <TableCell className="mono text-right px-2 py-0 font-bold" style={{ color: ltpC }}>
                 {Math.round(sm.lastTradePrice * 100)}%
               </TableCell>
               {/* Bid */}
-              <TableCell className="mono text-right" style={{ padding: '0 8px', color: 'var(--t3)', fontSize: 10 }}>
+              <TableCell className="mono text-right px-2 py-0 text-[var(--t3)] text-[10px]">
                 {sm.bestBid > 0 ? Math.round(sm.bestBid * 100) : '—'}
               </TableCell>
               {/* Ask */}
-              <TableCell className="mono text-right" style={{ padding: '0 8px', color: 'var(--t3)', fontSize: 10 }}>
+              <TableCell className="mono text-right px-2 py-0 text-[var(--t3)] text-[10px]">
                 {sm.bestAsk > 0 ? Math.round(sm.bestAsk * 100) : '—'}
               </TableCell>
               {/* Spread */}
-              <TableCell className="mono text-right" style={{ padding: '0 8px', color: sc, fontSize: 10 }}>
+              <TableCell className="mono text-right px-2 py-0 text-[10px]" style={{ color: sc }}>
                 {sm.spread > 0 ? (sm.spread * 100).toFixed(1) : '—'}
               </TableCell>
               {/* 24h volume */}
-              <TableCell className="mono text-right" style={{ padding: '0 8px', fontSize: 10, color: sm.volume24hr > 0 ? 'var(--success)' : 'var(--t4)' }}>
+              <TableCell
+                className="mono text-right px-2 py-0 text-[10px]"
+                style={{ color: sm.volume24hr > 0 ? 'var(--success)' : 'var(--t4)' }}
+              >
                 {sm.volume24hr > 0 ? `$${(sm.volume24hr / 1000).toFixed(0)}K` : '—'}
               </TableCell>
               {/* Status */}
-              <TableCell className="text-right" style={{ padding: '0 4px' }}>
-                <Badge variant="outline" style={{ fontSize: 7, padding: '1px 4px', letterSpacing: '0.06em', color: st.color, borderColor: st.border, background: st.bg }}>
+              <TableCell className="text-right px-1 py-0">
+                <Badge
+                  variant="outline"
+                  className="text-[7px] px-1 py-px tracking-[0.06em]"
+                  style={{ color: st.color, borderColor: st.border, background: st.bg }}
+                >
                   {st.label}
                 </Badge>
               </TableCell>

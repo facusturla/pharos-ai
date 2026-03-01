@@ -19,12 +19,12 @@ function ActorsInner() {
   const selected = ACTORS.find(a => a.id === selId) ?? null;
 
   return (
-    <div style={{ display: 'flex', flex: 1, minWidth: 0, overflow: 'hidden' }}>
+    <div className="flex flex-1 min-w-0 overflow-hidden">
       <ActorList
         selectedId={selId}
         onSelect={id => { setSelId(id); if (id) setTab('intel'); }}
       />
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {selected
           ? <ActorDossier actor={selected} tab={tab} onTabChange={setTab} />
           : <EmptyState icon={Users} message="Select an actor" />
@@ -36,7 +36,7 @@ function ActorsInner() {
 
 export default function ActorsPage() {
   return (
-    <Suspense fallback={<div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span className="label">Loading…</span></div>}>
+    <Suspense fallback={<div className="flex flex-1 items-center justify-center"><span className="label">Loading…</span></div>}>
       <ActorsInner />
     </Suspense>
   );

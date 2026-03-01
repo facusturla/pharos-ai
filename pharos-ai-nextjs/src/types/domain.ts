@@ -100,56 +100,9 @@ export interface XPost {
   pharosNote?: string;
 }
 
-// ── Map data ─────────────────────────────────────────────────────────────────
-
-export interface StrikeArc {
-  id: string;
-  from: [number, number];
-  to: [number, number];
-  label: string;
-  type: 'US_STRIKE' | 'ISRAEL_STRIKE' | 'NAVAL';
-  severity: 'CRITICAL' | 'HIGH';
-}
-
-export interface MissileTrack {
-  id: string;
-  from: [number, number];
-  to: [number, number];
-  label: string;
-  intercepted: boolean;
-  severity: 'CRITICAL' | 'HIGH';
-}
-
-export interface Target {
-  id: string;
-  name: string;
-  position: [number, number];
-  type: 'NUCLEAR' | 'MILITARY' | 'NAVAL' | 'INFRASTRUCTURE';
-  status: 'DESTROYED' | 'DAMAGED' | 'TARGETED';
-  description: string;
-}
-
-export interface Asset {
-  id: string;
-  name: string;
-  position: [number, number];
-  type: 'CARRIER' | 'AFB' | 'NAVAL_BASE' | 'ARMY_BASE';
-  nation: 'US' | 'ISRAEL' | 'NATO';
-  description?: string;
-}
-
-export interface ThreatZone {
-  id: string;
-  name: string;
-  coordinates: [number, number][];
-  type: 'CLOSURE' | 'PATROL' | 'NFZ' | 'THREAT';
-  color: [number, number, number, number];
-}
-
-export interface HeatPoint {
-  position: [number, number];
-  weight: number;
-}
+// ── Map data types live in src/data/mapData.ts + src/data/mapTokens.ts ───────
+// (Not re-defined here — that system uses Extract<> from mapTokens which
+//  requires co-location with the token types.)
 
 // ── Map stories ───────────────────────────────────────────────────────────────
 

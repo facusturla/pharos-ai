@@ -25,8 +25,6 @@ const SOURCES = [
 
 const TIER_C: Record<number, string> = { 1: 'var(--success)', 2: 'var(--warning)' };
 
-
-
 export default function BriefPage() {
   const recentEvents = [...EVENTS]
     .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
@@ -36,89 +34,89 @@ export default function BriefPage() {
   const majorActors = ACTORS.filter(a => ['us', 'idf', 'iran', 'irgc', 'houthis'].includes(a.id));
 
   return (
-    <ScrollArea style={{ flex: 1, background: 'var(--bg-1)' }}>
-      <div style={{ maxWidth: 720, margin: '0 auto', padding: '32px 24px 60px' }}>
+    <ScrollArea className="flex-1 bg-[var(--bg-1)]">
+      <div className="max-w-[720px] mx-auto px-6 pt-8 pb-[60px]">
 
         {/* Classification header */}
-        <div style={{ textAlign: 'center', marginBottom: 32, paddingBottom: 20, borderBottom: '2px solid var(--bd)' }}>
-          <div style={{ marginBottom: 8 }}>
-            <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.16em', color: 'var(--t4)', fontFamily: 'SFMono-Regular, monospace', textTransform: 'uppercase' }}>
+        <div className="text-center mb-8 pb-5 border-b-2 border-[var(--bd)]">
+          <div className="mb-2">
+            <span className="mono text-[9px] font-bold tracking-[0.16em] text-[var(--t4)] uppercase">
               UNCLASSIFIED // PHAROS ANALYTICAL
             </span>
           </div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--t1)', letterSpacing: '0.04em', marginBottom: 6, fontFamily: 'SFMono-Regular, monospace' }}>
+          <h1 className="mono text-[22px] font-bold text-[var(--t1)] tracking-[0.04em] mb-[6px]">
             DAILY INTELLIGENCE BRIEF
           </h1>
-          <h2 style={{ fontSize: 15, fontWeight: 700, color: 'var(--danger)', letterSpacing: '0.08em', marginBottom: 10, fontFamily: 'SFMono-Regular, monospace' }}>
+          <h2 className="mono text-[15px] font-bold text-[var(--danger)] tracking-[0.08em] mb-2.5">
             OPERATION EPIC FURY / ROARING LION
           </h2>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 20 }}>
-            <span className="mono" style={{ fontSize: 10, color: 'var(--t3)' }}>DATE: 2026-03-01</span>
-            <span className="mono" style={{ fontSize: 10, color: 'var(--t3)' }}>AS OF: 14:00 UTC</span>
-            <span className="mono" style={{ fontSize: 10, color: 'var(--t3)' }}>DAY 2 OF OPERATIONS</span>
+          <div className="flex justify-center gap-5">
+            <span className="mono text-[10px] text-[var(--t3)]">DATE: 2026-03-01</span>
+            <span className="mono text-[10px] text-[var(--t3)]">AS OF: 14:00 UTC</span>
+            <span className="mono text-[10px] text-[var(--t3)]">DAY 2 OF OPERATIONS</span>
           </div>
         </div>
 
         <BriefSection number="1" title="EXECUTIVE SUMMARY">
-          <p style={{ lineHeight: 1.8, color: 'var(--t1)', marginBottom: 12 }}>{CONFLICT.summary}</p>
-          <p style={{ lineHeight: 1.8, color: 'var(--t2)', marginBottom: 12 }}>
+          <p className="leading-[1.8] text-[var(--t1)] mb-3">{CONFLICT.summary}</p>
+          <p className="leading-[1.8] text-[var(--t2)] mb-3">
             As of 14:00 UTC on March 1, 2026 — Day 2 of operations — the United States and Israel continue to conduct active strikes against Iranian nuclear, missile, and military infrastructure. Iran's transitional government has vowed continued retaliation but appears to be operating on pre-delegated retaliatory protocols rather than coherent centralized command.
           </p>
-          <p style={{ lineHeight: 1.8, color: 'var(--t2)' }}>
+          <p className="leading-[1.8] text-[var(--t2)]">
             The economic dimension of the conflict has escalated sharply. IRGC closure of the Strait of Hormuz combined with Houthi resumption of Red Sea attacks has effectively closed both major maritime chokepoints simultaneously — the most severe supply disruption since 1973. Brent crude is trading at $143/barrel (+35%).
           </p>
         </BriefSection>
 
         <BriefSection number="2" title="KEY DEVELOPMENTS — LAST 24 HOURS">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div className="flex flex-col gap-[6px]">
             {CONFLICT.keyFacts.map((fact, i) => (
-              <div key={i} style={{ display: 'flex', gap: 12, padding: '8px 12px', background: 'var(--bg-2)', border: '1px solid var(--bd)', borderLeft: '3px solid var(--danger)' }}>
-                <span style={{ fontSize: 10, fontWeight: 700, color: 'var(--danger)', flexShrink: 0, fontFamily: 'monospace', paddingTop: 1 }}>
+              <div key={i} className="flex gap-3 px-3 py-2 bg-[var(--bg-2)] border border-[var(--bd)] [border-left:3px_solid_var(--danger)]">
+                <span className="mono text-[10px] font-bold text-[var(--danger)] shrink-0 pt-[1px]">
                   {String(i + 1).padStart(2, '0')}
                 </span>
-                <p style={{ fontSize: 12.5, color: 'var(--t1)', lineHeight: 1.5 }}>{fact}</p>
+                <p className="text-[12.5px] text-[var(--t1)] leading-normal">{fact}</p>
               </div>
             ))}
           </div>
         </BriefSection>
 
         <BriefSection number="3" title="SITUATION BY ACTOR">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <div className="flex flex-col gap-3">
             {majorActors.map(actor => (
-              <div key={actor.id} style={{ padding: '12px 16px', background: 'var(--bg-2)', border: '1px solid var(--bd)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+              <div key={actor.id} className="px-4 py-3 bg-[var(--bg-2)] border border-[var(--bd)]">
+                <div className="flex items-center gap-2 mb-2">
                   {actor.countryCode && <Flag code={actor.countryCode} size={18} />}
-                  <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--t1)' }}>{actor.fullName}</span>
-                  <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 6px', background: 'var(--danger-dim)', color: 'var(--danger)', marginLeft: 'auto' }}>
+                  <span className="text-[13px] font-bold text-[var(--t1)]">{actor.fullName}</span>
+                  <span className="text-[8px] font-bold px-[6px] py-[2px] bg-[var(--danger-dim)] text-[var(--danger)] ml-auto">
                     {actor.activityLevel}
                   </span>
-                  <span style={{ fontSize: 8, fontWeight: 700, padding: '2px 6px', background: 'var(--bg-3)', color: 'var(--t2)' }}>
+                  <span className="text-[8px] font-bold px-[6px] py-[2px] bg-[var(--bg-3)] text-[var(--t2)]">
                     {actor.stance}
                   </span>
                 </div>
-                <p style={{ fontSize: 12.5, color: 'var(--t2)', lineHeight: 1.7 }}>{actor.assessment}</p>
+                <p className="text-[12.5px] text-[var(--t2)] leading-relaxed">{actor.assessment}</p>
               </div>
             ))}
           </div>
         </BriefSection>
 
         <BriefSection number="4" title="ECONOMIC IMPACT">
-          <p style={{ lineHeight: 1.8, color: 'var(--t2)', marginBottom: 12 }}>
+          <p className="leading-[1.8] text-[var(--t2)] mb-3">
             The simultaneous closure of the Strait of Hormuz and Bab el-Mandeb Strait represents an unprecedented dual-chokepoint disruption. The Strait of Hormuz carries approximately 20% of global seaborne oil and 30% of global LNG — roughly 14 million barrels per day. Both are effectively closed.
           </p>
-          <div style={{ display: 'flex', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
+          <div className="flex gap-[10px] mb-3 flex-wrap">
             <EconChip label="Brent Crude"     val="$143/bbl" sub="+35% ↑" color="var(--danger)" />
             <EconChip label="WTI"             val="$138/bbl" sub="+33% ↑" color="var(--danger)" />
             <EconChip label="LNG Asia"        val="+29%"     sub="spot"    color="var(--warning)" />
             <EconChip label="Hormuz Transit"  val="ZERO"     sub="vessels" color="var(--danger)" />
           </div>
-          <p style={{ lineHeight: 1.8, color: 'var(--t2)' }}>
-            <strong style={{ color: 'var(--warning)' }}>Economic risk threshold:</strong> If Hormuz closure exceeds 2 weeks, Bloomberg Economics estimates a global GDP shock of 0.8–1.4%. Oil at $180–200/bbl is analytically plausible under 3-week+ closure.
+          <p className="leading-[1.8] text-[var(--t2)]">
+            <strong className="text-[var(--warning)]">Economic risk threshold:</strong> If Hormuz closure exceeds 2 weeks, Bloomberg Economics estimates a global GDP shock of 0.8–1.4%. Oil at $180–200/bbl is analytically plausible under 3-week+ closure.
           </p>
         </BriefSection>
 
         <BriefSection number="5" title="OUTLOOK — THREE SCENARIOS">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div className="flex flex-col gap-[10px]">
             <ScenarioCard label="BEST CASE"  subtitle="Ceasefire within 72 hours"           color="var(--success)" prob="15%"
               body="Iran's transitional government signals willingness for back-channel ceasefire negotiations via Oman. US and Israel agree to pause strikes contingent on IRGC stand-down and nominal Hormuz reopening. Oil prices partially retrace to $110–120/bbl." />
             <ScenarioCard label="BASE CASE"  subtitle="5–7 day operation; limited ceasefire" color="var(--warning)" prob="55%"
@@ -129,21 +127,24 @@ export default function BriefPage() {
         </BriefSection>
 
         <BriefSection number="6" title="SOURCES">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div className="flex flex-col gap-1">
             {SOURCES.map((src, i) => (
-              <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '6px 10px', border: '1px solid var(--bd)' }}>
-                <span style={{ fontSize: 8, fontWeight: 700, padding: '1px 5px', background: TIER_C[src.tier] + '22', color: TIER_C[src.tier], flexShrink: 0 }}>
+              <div key={i} className="flex items-center gap-[10px] px-[10px] py-[6px] border border-[var(--bd)]">
+                <span
+                  className="text-[8px] font-bold px-[5px] py-[1px] shrink-0"
+                  style={{ background: TIER_C[src.tier] + '22', color: TIER_C[src.tier] }}
+                >
                   T{src.tier}
                 </span>
-                <span style={{ fontSize: 11, fontWeight: 600, color: 'var(--t1)', minWidth: 180 }}>{src.name}</span>
-                <span style={{ fontSize: 10, color: 'var(--t3)', flex: 1 }}>{src.note}</span>
+                <span className="text-[11px] font-semibold text-[var(--t1)] min-w-[180px]">{src.name}</span>
+                <span className="text-[10px] text-[var(--t3)] flex-1">{src.note}</span>
               </div>
             ))}
           </div>
         </BriefSection>
 
-        <div style={{ marginTop: 40, paddingTop: 16, borderTop: '1px solid var(--bd)', textAlign: 'center' }}>
-          <span className="label" style={{ fontSize: 8, color: 'var(--t4)' }}>
+        <div className="mt-10 pt-4 border-t border-[var(--bd)] text-center">
+          <span className="label text-[8px] text-[var(--t4)]">
             UNCLASSIFIED // PHAROS ANALYTICAL // OPERATION EPIC FURY // {fmtDate(CONFLICT.startDate)}
           </span>
         </div>

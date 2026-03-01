@@ -33,7 +33,7 @@ function IntelFeedInner() {
   const selected = EVENTS.find(e => e.id === selId) ?? null;
 
   return (
-    <div style={{ display: 'flex', flex: 1, minWidth: 0, overflow: 'hidden' }}>
+    <div className="flex flex-1 min-w-0 overflow-hidden">
       <FeedFilterRail
         sevFilter={sevFilter}
         typeFilter={typeFilter}
@@ -48,7 +48,7 @@ function IntelFeedInner() {
         selectedId={selId}
         onSelect={id => { setSelId(id); if (id) setTab('report'); }}
       />
-      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {selected
           ? <EventDetail event={selected} tab={tab} onTabChange={setTab} />
           : <EmptyState icon={FileText} message="Select an event" />
@@ -60,7 +60,7 @@ function IntelFeedInner() {
 
 export default function IntelFeedPage() {
   return (
-    <Suspense fallback={<div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><span className="label">Loading…</span></div>}>
+    <Suspense fallback={<div className="flex flex-1 items-center justify-center"><span className="label">Loading…</span></div>}>
       <IntelFeedInner />
     </Suspense>
   );

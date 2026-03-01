@@ -76,7 +76,7 @@ export function PriceChart({ yesTokenId }: Props) {
   const Placeholder = ({ msg }: { msg: string }) => (
     <div style={{ width: w, height: h + 24 }} className="flex flex-col gap-1">
       <span className="mono label">PRICE HISTORY</span>
-      <div className="flex flex-1 items-center justify-center" style={{ border: '1px solid var(--bd)', borderRadius: 2 }}>
+      <div className="flex flex-1 items-center justify-center border border-[var(--bd)] rounded-[2px]">
         <span className="mono label">{msg}</span>
       </div>
     </div>
@@ -116,17 +116,20 @@ export function PriceChart({ yesTokenId }: Props) {
       {/* ── Header row ── */}
       <div className="flex items-center gap-2.5">
         <span className="mono label">PRICE HISTORY</span>
-        <span className="mono" style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', color: change >= 0 ? 'var(--success)' : 'var(--danger)' }}>
+        <span
+          className="mono text-[9px] font-bold tracking-[0.06em]"
+          style={{ color: change >= 0 ? 'var(--success)' : 'var(--danger)' }}
+        >
           {change >= 0 ? '+' : ''}{(change * 100).toFixed(1)}%
         </span>
         {hPt && hDate && (
-          <span className="mono" style={{ fontSize: 9, color: 'var(--t4)', marginLeft: 4 }}>
+          <span className="mono text-[9px] text-[var(--t4)] ml-1">
             {hDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }).toUpperCase()}
             {' '}{hDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-            {'  '}<span style={{ color: hColor, fontWeight: 700 }}>{Math.round(hPt.p * 100)}%</span>
+            {'  '}<span className="font-bold" style={{ color: hColor }}>{Math.round(hPt.p * 100)}%</span>
           </span>
         )}
-        <span className="mono ml-auto" style={{ fontSize: 9, color: 'var(--t4)', opacity: 0.5 }}>{pts.length} pts</span>
+        <span className="mono ml-auto text-[9px] text-[var(--t4)] opacity-50">{pts.length} pts</span>
       </div>
 
       {/* ── SVG chart ── */}
@@ -134,7 +137,7 @@ export function PriceChart({ yesTokenId }: Props) {
         <svg
           ref={svgRef}
           width={w} height={h}
-          style={{ display: 'block', cursor: 'crosshair' }}
+          className="block cursor-crosshair"
           onMouseMove={onMouseMove}
           onMouseLeave={() => setHoverIdx(null)}
         >
@@ -205,12 +208,11 @@ export function PriceChart({ yesTokenId }: Props) {
         {/* Hover tooltip */}
         {hX !== null && hY !== null && hPt && hDate && hDelta !== null && (
           <div
-            className="absolute pointer-events-none"
+            className="absolute pointer-events-none bg-[var(--bg-app)] rounded-[2px] py-[6px] px-2 min-w-[120px] z-10"
             style={{
               top: Math.max(PAD.top, Math.min(h - 80, hY - 40)),
               ...(tooltipLeft ? { right: w - hX + 10 } : { left: hX + 10 }),
-              background: 'var(--bg-app)', border: `1px solid ${hColor}`,
-              borderRadius: 2, padding: '6px 8px', minWidth: 120, zIndex: 10,
+              border: `1px solid ${hColor}`,
             }}
           >
             <div className="mono label mb-1">
@@ -219,18 +221,24 @@ export function PriceChart({ yesTokenId }: Props) {
             </div>
             <div className="flex justify-between items-baseline gap-3">
               <span className="mono label">YES</span>
-              <span className="mono" style={{ fontSize: 16, fontWeight: 700, color: hColor, lineHeight: 1 }}>
+              <span className="mono text-base font-bold leading-none" style={{ color: hColor }}>
                 {Math.round(hPt.p * 100)}%
               </span>
             </div>
-            <div className="mono mt-1" style={{ fontSize: 8, color: hDelta >= 0 ? 'var(--success)' : 'var(--danger)', letterSpacing: '0.04em' }}>
+            <div
+              className="mono mt-1 text-[8px] tracking-[0.04em]"
+              style={{ color: hDelta >= 0 ? 'var(--success)' : 'var(--danger)' }}
+            >
               {hDelta >= 0 ? '▲' : '▼'} {Math.abs(hDelta * 100).toFixed(1)}% from open
             </div>
           </div>
         )}
 
         {/* Resize handle */}
-        <div onMouseDown={onResizeDown} className="absolute bottom-0 right-0 flex items-center justify-center" style={{ width: 14, height: 14, cursor: 'nwse-resize' }}>
+        <div
+          onMouseDown={onResizeDown}
+          className="absolute bottom-0 right-0 flex items-center justify-center w-[14px] h-[14px] cursor-[nwse-resize]"
+        >
           <svg width={8} height={8} viewBox="0 0 8 8" fill="none">
             <line x1="2" y1="8" x2="8" y2="2" stroke="var(--t4)" strokeWidth={1.2} />
             <line x1="5" y1="8" x2="8" y2="5" stroke="var(--t4)" strokeWidth={1.2} />

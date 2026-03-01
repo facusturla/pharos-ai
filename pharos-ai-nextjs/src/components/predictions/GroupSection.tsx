@@ -33,31 +33,29 @@ export function GroupSection({ group, markets, expandedId, onToggle, globalRankO
       <CollapsibleTrigger asChild>
         <Button
           variant="ghost"
+          className="w-full h-[30px] rounded-none flex items-center justify-start px-[14px] gap-2"
           style={{
-            width: '100%', height: 30, borderRadius: 0,
-            display: 'flex', alignItems: 'center', justifyContent: 'flex-start',
-            padding: '0 14px', gap: 8,
             background: group.bg,
             borderBottom: `1px solid ${group.border}`,
             borderLeft: `3px solid ${group.color}`,
           }}
         >
           {open
-            ? <ChevronDown  size={11} style={{ color: group.color, flexShrink: 0 }} />
-            : <ChevronRight size={11} style={{ color: group.color, flexShrink: 0 }} />}
+            ? <ChevronDown  size={11} className="shrink-0" style={{ color: group.color }} />
+            : <ChevronRight size={11} className="shrink-0" style={{ color: group.color }} />}
 
-          <span className="mono" style={{ fontWeight: 700, color: group.color, letterSpacing: '0.10em', fontSize: 9 }}>
+          <span className="mono font-bold tracking-[0.10em] text-[9px]" style={{ color: group.color }}>
             {group.label}
           </span>
-          <span className="mono" style={{ color: 'var(--t4)', letterSpacing: '0.04em', fontSize: 9 }}>
+          <span className="mono text-[var(--t4)] tracking-[0.04em] text-[9px]">
             {group.description}
           </span>
 
           <div className="flex items-center gap-3 ml-auto">
-            <span className="mono" style={{ color: 'var(--t4)', fontSize: 9 }}>
+            <span className="mono text-[var(--t4)] text-[9px]">
               {markets.length} {markets.length === 1 ? 'MARKET' : 'MARKETS'}
             </span>
-            <span className="mono" style={{ color: 'var(--t3)', fontWeight: 700, fontSize: 9 }}>
+            <span className="mono text-[var(--t3)] font-bold text-[9px]">
               {fmtVol(groupVol)} VOL
             </span>
           </div>
