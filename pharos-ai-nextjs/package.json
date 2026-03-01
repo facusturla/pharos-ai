@@ -98,16 +98,10 @@
     ],
     "mac": {
       "target": [
-        {
-          "target": "dmg",
-          "arch": "arm64"
-        }
+        { "target": "zip", "arch": "arm64" },
+        { "target": "dir", "arch": "arm64" }
       ],
       "category": "public.app-category.productivity"
-    },
-    "dmg": {
-      "title": "Pharos Intelligence",
-      "backgroundColor": "#1C2127"
     }
   }
 }

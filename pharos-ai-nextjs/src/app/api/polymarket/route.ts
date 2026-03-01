@@ -8,52 +8,133 @@ const QUERIES = [
   'iran oil', 'irgc', 'iran us war', 'persian gulf',
 ];
 
+interface RawMarket {
+  id: string;
+  slug?: string;
+  question: string;
+  conditionId: string;
+  outcomes: string;
+  outcomePrices: string;
+  volume: string | number;
+  volume24hr: number;
+  volume1wk: number;
+  volume1mo: number;
+  liquidity: string | number;
+  active: boolean;
+  closed: boolean;
+  endDate?: string;
+  startDate?: string;
+  groupItemTitle?: string;
+  lastTradePrice?: number;
+  bestBid?: number;
+  bestAsk?: number;
+  spread?: number;
+  clobTokenIds?: string;
+  umaResolutionStatuses?: unknown;
+}
+
 interface PolyEvent {
   id: string;
   title: string;
   description: string;
   volume: number;
+  volume24hr: number;
+  volume1wk: number;
+  volume1mo: number;
+  volume1yr: number;
   liquidity: number;
+  openInterest: number;
+  competitive: number;
+  active: boolean;
+  closed: boolean;
+  startDate: string;
+  endDate: string;
+  image: string;
+  markets: RawMarket[];
+}
+
+export interface SubMarket {
+  id: string;
+  question: string;
+  groupItemTitle: string;
+  outcomes: string[];
+  prices: number[];          // mid prices [YES, NO]
+  lastTradePrice: number;
+  bestBid: number;
+  bestAsk: number;
+  spread: number;
+  volume: number;
+  volume24hr: number;
+  volume1wk: number;
+  volume1mo: number;
   active: boolean;
   closed: boolean;
   endDate: string;
-  image: string;
-  volume24hr: number;
-  volume1wk: number;
-  markets: Array<{
-    id: string;
-    slug?: string;
-    question: string;
-    outcomes: string;
-    outcomePrices: string;
-    volume: string;
-    liquidity: string;
-    active: boolean;
-    closed: boolean;
-    endDate: string;
-    conditionId: string;
-    clobTokenIds?: string;   // JSON-encoded string array — [YES_token, NO_token]
-  }>;
+  yesTokenId: string;
+  conditionId: string;
 }
 
 export interface PredictionMarket {
   id: string;
   title: string;
-  description: string;
-  category: string;        // empty — assigned manually by LLM pipeline
+  description: string;       // up to 800 chars
+  category: string;          // empty — assigned manually by LLM pipeline
+  // primary market stats (from highest-volume sub-market)
   outcomes: string[];
-  prices: number[];        // implied probabilities 0–1
+  prices: number[];
+  lastTradePrice: number;
+  bestBid: number;
+  bestAsk: number;
+  spread: number;
+  // event-level aggregates
   volume: number;
   volume24hr: number;
   volume1wk: number;
+  volume1mo: number;
+  volume1yr: number;
   liquidity: number;
+  openInterest: number;
+  competitive: number;
   active: boolean;
   closed: boolean;
+  startDate: string;
   endDate: string;
   image: string;
   polyUrl: string;
   conditionId: string;
-  yesTokenId: string;      // CLOB token ID for YES outcome — used for price history chart
+  yesTokenId: string;
+  // all sub-markets in the event (group events have many)
+  subMarkets: SubMarket[];
+}
+
+function parseSubMarket(m: RawMarket): SubMarket {
+  let outcomes: string[] = [];
+  let prices:   number[] = [];
+  let tokenIds: string[] = [];
+  try { outcomes = JSON.parse(m.outcomes        ?? '[]'); }                     catch { /* ignore */ }
+  try { prices   = (JSON.parse(m.outcomePrices  ?? '[]') as string[]).map(Number); } catch { /* ignore */ }
+  try { tokenIds = JSON.parse(m.clobTokenIds    ?? '[]'); }                     catch { /* ignore */ }
+
+  return {
+    id:             m.id,
+    question:       m.question,
+    groupItemTitle: m.groupItemTitle ?? '',
+    outcomes,
+    prices,
+    lastTradePrice: m.lastTradePrice ?? prices[0] ?? 0,
+    bestBid:        m.bestBid  ?? 0,
+    bestAsk:        m.bestAsk  ?? 0,
+    spread:         m.spread   ?? 0,
+    volume:         Number(m.volume    ?? 0),
+    volume24hr:     m.volume24hr ?? 0,
+    volume1wk:      m.volume1wk  ?? 0,
+    volume1mo:      m.volume1mo  ?? 0,
+    active:         m.active  ?? false,
+    closed:         m.closed  ?? false,
+    endDate:        m.endDate ?? '',
+    yesTokenId:     tokenIds[0] ?? '',
+    conditionId:    m.conditionId ?? '',
+  };
 }
 
 export async function GET() {
@@ -66,7 +147,7 @@ export async function GET() {
       )
     );
 
-    const seen = new Set<string>();
+    const seen   = new Set<string>();
     const events: PolyEvent[] = [];
 
     for (const result of results) {
@@ -83,35 +164,41 @@ export async function GET() {
     events.sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
 
     const markets: PredictionMarket[] = events
-      .filter(event => !event.closed)   // drop fully settled markets
+      .filter(event => !event.closed)
       .slice(0, 60)
       .map(event => {
-        const market = event.markets[0];
-        let outcomes: string[] = [];
-        let prices: number[] = [];
-        let tokenIds: string[] = [];
-        try { outcomes = JSON.parse(market.outcomes        ?? '[]'); } catch { /* ignore */ }
-        try { prices   = (JSON.parse(market.outcomePrices  ?? '[]') as string[]).map(Number); } catch { /* ignore */ }
-        try { tokenIds = JSON.parse(market.clobTokenIds    ?? '[]'); } catch { /* ignore */ }
+        const subMarkets = event.markets.map(parseSubMarket);
+        // primary = highest-volume sub-market (most relevant)
+        const primary    = [...subMarkets].sort((a, b) => b.volume - a.volume)[0] ?? subMarkets[0];
 
         return {
-          id: event.id,
-          title: event.title,
-          description: event.description?.slice(0, 300) ?? '',
-          category: '',
-          outcomes,
-          prices,
-          volume: event.volume ?? 0,
-          volume24hr: event.volume24hr ?? 0,
-          volume1wk: event.volume1wk ?? 0,
-          liquidity: event.liquidity ?? 0,
-          active: event.active ?? false,
-          closed: event.closed ?? false,
-          endDate: event.endDate ?? '',
-          image: event.image ?? '',
-          polyUrl: `https://polymarket.com/event/${market.slug ?? event.id}`,
-          conditionId: market.conditionId ?? '',
-          yesTokenId: tokenIds[0] ?? '',
+          id:            event.id,
+          title:         event.title,
+          description:   event.description?.slice(0, 800) ?? '',
+          category:      '',
+          outcomes:      primary.outcomes,
+          prices:        primary.prices,
+          lastTradePrice: primary.lastTradePrice,
+          bestBid:       primary.bestBid,
+          bestAsk:       primary.bestAsk,
+          spread:        primary.spread,
+          volume:        event.volume       ?? 0,
+          volume24hr:    event.volume24hr   ?? 0,
+          volume1wk:     event.volume1wk    ?? 0,
+          volume1mo:     event.volume1mo    ?? 0,
+          volume1yr:     event.volume1yr    ?? 0,
+          liquidity:     event.liquidity    ?? 0,
+          openInterest:  event.openInterest ?? 0,
+          competitive:   event.competitive  ?? 0,
+          active:        event.active       ?? false,
+          closed:        event.closed       ?? false,
+          startDate:     event.startDate    ?? '',
+          endDate:       event.endDate      ?? '',
+          image:         event.image        ?? '',
+          polyUrl:       `https://polymarket.com/event/${event.markets[0]?.slug ?? event.id}`,
+          conditionId:   primary.conditionId,
+          yesTokenId:    primary.yesTokenId,
+          subMarkets,
         };
       });
 

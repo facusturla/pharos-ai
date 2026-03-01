@@ -1,5 +1,6 @@
 'use client';
 
+import '@/lib/deckgl-device';
 import { useState, useMemo, useCallback } from 'react';
 import Link from 'next/link';
 import DeckGL from '@deck.gl/react';
