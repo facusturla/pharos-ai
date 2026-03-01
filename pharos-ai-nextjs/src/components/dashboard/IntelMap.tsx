@@ -70,6 +70,13 @@ export default function IntelMap() {
         radiusPixels: 60,
         intensity: 1,
         threshold: 0.03,
+        colorRange: [
+          [255, 255, 178, 25],
+          [254, 204, 92, 80],
+          [253, 141, 60, 120],
+          [240, 59, 32, 160],
+          [189, 0, 38, 200],
+        ],
       }),
 
     visibility.zones &&
@@ -296,6 +303,8 @@ export default function IntelMap() {
             { color: '#DCC832', shape: 'circle', label: 'TARGETED' },
             { color: '#2D72D2', shape: 'circle', label: 'US ASSET' },
             { color: '#32C8C8', shape: 'circle', label: 'IDF ASSET' },
+            { color: '#DC3232', shape: 'zone', label: 'CLOSURE ZONE' },
+            { color: '#DC9632', shape: 'zone', label: 'PATROL ZONE' },
           ].map(({ color, shape, label }) => (
             <div
               key={label}
@@ -303,6 +312,8 @@ export default function IntelMap() {
             >
               {shape === 'rect' ? (
                 <div style={{ width: 12, height: 3, background: color, flexShrink: 0 }} />
+              ) : shape === 'zone' ? (
+                <div style={{ width: 10, height: 8, background: color + '44', border: `1px solid ${color}`, flexShrink: 0 }} />
               ) : (
                 <div
                   style={{ width: 8, height: 8, borderRadius: '50%', background: color, flexShrink: 0 }}
