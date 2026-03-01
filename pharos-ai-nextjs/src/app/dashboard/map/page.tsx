@@ -573,8 +573,8 @@ export default function FullMapPage() {
     <div
       style={{
         display: 'flex',
-        width: '100vw',
-        height: '100vh',
+        width: '100%',
+        height: '100%',
         background: '#1C2127',
         overflow: 'hidden',
         fontFamily: 'SFMono-Regular, Menlo, monospace',

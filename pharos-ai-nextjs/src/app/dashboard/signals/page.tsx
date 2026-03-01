@@ -4,17 +4,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { X_POSTS, type XPost } from '@/data/iranXPosts';
 import XPostCard from '@/components/shared/XPostCard';
 import { SignalFilterRail, type Significance, type AccountType } from '@/components/signals/SignalFilterRail';
-
-function SectionHeader({ label, count, color }: { label: string; count: number; color: string }) {
-  return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10, padding: '4px 0', borderBottom: `2px solid ${color}` }}>
-      <div style={{ width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0 }} />
-      <span style={{ fontSize: 10, fontWeight: 700, color, letterSpacing: '0.08em', textTransform: 'uppercase' }}>{label}</span>
-      <span style={{ fontSize: 9, fontWeight: 700, padding: '1px 6px', background: color + '20', color, marginLeft: 4 }}>{count}</span>
-      <div style={{ flex: 1, height: 1, background: color + '30' }} />
-    </div>
-  );
-}
+import { SectionHeader } from '@/components/signals/SectionHeader';
 
 export default function SignalsPage() {
   const [sigFilter,  setSigFilter]  = useState<Record<Significance, boolean>>({ BREAKING: true, HIGH: true, STANDARD: true });
