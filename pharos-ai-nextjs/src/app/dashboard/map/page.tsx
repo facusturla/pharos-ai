@@ -1,10 +1,11 @@
 'use client';
 
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import DeckGL from '@deck.gl/react';
 import { ArcLayer, ScatterplotLayer, TextLayer, PolygonLayer } from '@deck.gl/layers';
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
+import { TripsLayer } from '@deck.gl/geo-layers';
 import Map from 'react-map-gl/maplibre';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import type { PickingInfo } from '@deck.gl/core';
@@ -56,6 +57,55 @@ const CATEGORY_COLORS: Record<MapStory['category'], { bg: string; text: string }
   INTEL: { bg: '#2A1C3A', text: '#B84CE8' },
   DIPLOMATIC: { bg: '#1C3A2A', text: '#4CE8A8' },
 };
+
+// ---------------------------------------------------------------------------
+// TripsLayer animation helpers
+// ---------------------------------------------------------------------------
+
+/** Generate N+1 waypoints along a great-circle arc with parabolic altitude */
+function arcWaypoints(
+  from: [number, number],
+  to: [number, number],
+  segments = 60
+): [number, number, number][] {
+  const pts: [number, number, number][] = [];
+  const dLon = to[0] - from[0];
+  const dLat = to[1] - from[1];
+  const dist = Math.sqrt(dLon * dLon + dLat * dLat);
+  const maxAlt = Math.max(dist * 55_000, 300_000);
+  for (let i = 0; i <= segments; i++) {
+    const t = i / segments;
+    const lon = from[0] + dLon * t;
+    const lat = from[1] + dLat * t;
+    const alt = maxAlt * 4 * t * (1 - t);
+    pts.push([lon, lat, alt]);
+  }
+  return pts;
+}
+
+/** Evenly-spaced timestamps for N+1 waypoints over a given duration */
+function arcTimestamps(segments: number, duration: number): number[] {
+  return Array.from({ length: segments + 1 }, (_, i) => (i / segments) * duration);
+}
+
+// Animation constants
+const ANIM_LOOP = 150;
+const TRAIL_LEN = 25;
+const ANIM_SPEED = 0.4;
+const ARC_SEGS = 60;
+
+// Pre-compute trip paths — done once at module load, never recreated
+const TRIPS_STRIKES = STRIKE_ARCS.map(arc => ({
+  ...arc,
+  path: arcWaypoints(arc.from, arc.to, ARC_SEGS),
+  timestamps: arcTimestamps(ARC_SEGS, 100),
+}));
+
+const TRIPS_MISSILES = MISSILE_TRACKS.map(arc => ({
+  ...arc,
+  path: arcWaypoints(arc.from, arc.to, ARC_SEGS),
+  timestamps: arcTimestamps(ARC_SEGS, 100),
+}));
 
 function StoryCard({
   story,
@@ -225,6 +275,18 @@ export default function FullMapPage() {
     heat: true,
   });
 
+  const [currentTime, setCurrentTime] = useState(0);
+  const animRef = useRef<number>(0);
+
+  useEffect(() => {
+    const animate = () => {
+      setCurrentTime(t => (t + ANIM_SPEED) % ANIM_LOOP);
+      animRef.current = requestAnimationFrame(animate);
+    };
+    animRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animRef.current);
+  }, []);
+
   const toggleLayer = (key: keyof LayerVisibility) => {
     setVisibility((prev) => ({ ...prev, [key]: !prev[key] }));
   };
@@ -252,24 +314,24 @@ export default function FullMapPage() {
       return [45, 114, 210, 40];
     }
     return d.type === 'NAVAL'
-      ? [50, 200, 200, 220]
+      ? [50, 200, 200, 50]
       : d.type === 'ISRAEL_STRIKE'
-      ? [50, 200, 120, 220]
-      : [45, 114, 210, 220];
+      ? [50, 200, 120, 50]
+      : [45, 114, 210, 50];
   };
 
   const getMissileSourceColor = (d: MissileTrack): [number, number, number, number] => {
     if (dimActive && !activeStory!.highlightMissileIds.includes(d.id)) {
       return [210, 50, 50, 30];
     }
-    return [210, 50, 50, 220];
+    return [210, 50, 50, 40];
   };
 
   const getMissileTargetColor = (d: MissileTrack): [number, number, number, number] => {
     if (dimActive && !activeStory!.highlightMissileIds.includes(d.id)) {
       return [210, 50, 50, 30];
     }
-    return d.intercepted ? [255, 200, 0, 200] : [255, 50, 50, 220];
+    return d.intercepted ? [255, 200, 0, 40] : [255, 50, 50, 50];
   };
 
   const getTargetFillColor = (d: Target): [number, number, number, number] => {
@@ -333,6 +395,7 @@ export default function FullMapPage() {
         },
       }),
 
+    // Ghost route — faint arc showing full strike path
     visibility.strikes &&
       new ArcLayer<StrikeArc>({
         id: 'strikes',
@@ -343,9 +406,10 @@ export default function FullMapPage() {
         getTargetColor: (d: StrikeArc): [number, number, number, number] =>
           dimActive && !activeStory!.highlightStrikeIds.includes(d.id)
             ? [255, 255, 255, 30]
-            : [255, 255, 255, 180],
+            : [255, 255, 255, 40],
         getWidth: (d: StrikeArc): number => (d.severity === 'CRITICAL' ? 3 : 2),
         widthUnits: 'pixels',
+        widthMinPixels: 1,
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
@@ -354,6 +418,7 @@ export default function FullMapPage() {
         },
       }),
 
+    // Ghost route — faint arc showing full missile path
     visibility.missiles &&
       new ArcLayer<MissileTrack>({
         id: 'missiles',
@@ -364,12 +429,55 @@ export default function FullMapPage() {
         getTargetColor: getMissileTargetColor,
         getWidth: (d: MissileTrack): number => (d.severity === 'CRITICAL' ? 3 : 2),
         widthUnits: 'pixels',
+        widthMinPixels: 1,
         pickable: true,
         autoHighlight: true,
         updateTriggers: {
           getSourceColor: activeStory ? [activeStory.id] : [],
           getTargetColor: activeStory ? [activeStory.id] : [],
         },
+      }),
+
+    // Animated strike paths
+    visibility.strikes &&
+      new TripsLayer({
+        id: 'trips-strikes',
+        data: TRIPS_STRIKES,
+        getPath: (d: any) => d.path,
+        getTimestamps: (d: any) => d.timestamps,
+        getColor: (d: any): [number, number, number] =>
+          d.type === 'NAVAL'
+            ? [50, 200, 200]
+            : d.type === 'ISRAEL_STRIKE'
+            ? [50, 200, 120]
+            : [45, 114, 210],
+        currentTime,
+        trailLength: TRAIL_LEN,
+        fadeTrail: true,
+        capRounded: true,
+        jointRounded: true,
+        widthMinPixels: 2,
+        getWidth: 3,
+        pickable: false,
+      }),
+
+    // Animated missile paths
+    visibility.missiles &&
+      new TripsLayer({
+        id: 'trips-missiles',
+        data: TRIPS_MISSILES,
+        getPath: (d: any) => d.path,
+        getTimestamps: (d: any) => d.timestamps,
+        getColor: (d: any): [number, number, number] =>
+          d.intercepted ? [255, 200, 0] : [255, 50, 50],
+        currentTime,
+        trailLength: TRAIL_LEN,
+        fadeTrail: true,
+        capRounded: true,
+        jointRounded: true,
+        widthMinPixels: 2,
+        getWidth: (d: any) => d.severity === 'CRITICAL' ? 3 : 2,
+        pickable: false,
       }),
 
     visibility.targets &&
@@ -442,7 +550,7 @@ export default function FullMapPage() {
 
   ].filter(Boolean), [visibility, activeStory, dimActive,
     getStrikeColor, getMissileSourceColor, getMissileTargetColor,
-    getTargetFillColor, getAssetFillColor]);
+    getTargetFillColor, getAssetFillColor, currentTime]);
 
   const getTooltip = useCallback(({ object, layer }: PickingInfo<TooltipObject>) => {
     if (!object) return null;
