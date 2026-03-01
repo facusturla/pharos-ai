@@ -27,6 +27,7 @@ import {
 import { MAP_STORIES, type MapStory, type StoryEvent } from '@/data/mapStories';
 import StoryIcon from '@/components/dashboard/StoryIcon';
 import StoryTimeline from '@/components/dashboard/StoryTimeline';
+import MapDetailPanel, { type SelectedItem } from '@/components/dashboard/MapDetailPanel';
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 
@@ -216,6 +217,7 @@ export default function FullMapPage() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [openStoryId, setOpenStoryId] = useState<string | null>(null);
   const [activeStory, setActiveStory] = useState<MapStory | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItem | null>(null);
   const [visibility, setVisibility] = useState<LayerVisibility>({
     strikes: true,
     missiles: true,
@@ -243,6 +245,25 @@ export default function FullMapPage() {
   const clearStory = () => {
     setActiveStory(null);
   };
+
+  const handleMapClick = useCallback(({ object, layer }: PickingInfo) => {
+    if (!object || !layer) {
+      setSelectedItem(null);
+      return;
+    }
+    const id = layer.id;
+    if (id === 'strikes') setSelectedItem({ type: 'strike', data: object as StrikeArc });
+    else if (id === 'missiles') setSelectedItem({ type: 'missile', data: object as MissileTrack });
+    else if (id === 'targets' || id === 'target-labels') setSelectedItem({ type: 'target', data: object as Target });
+    else if (id === 'assets' || id === 'asset-labels') setSelectedItem({ type: 'asset', data: object as Asset });
+    else if (id === 'zones') setSelectedItem({ type: 'zone', data: object as ThreatZone });
+    else setSelectedItem(null);
+  }, []);
+
+  const handleStoryActivateFromPanel = useCallback((story: MapStory) => {
+    setOpenStoryId(story.id);
+    activateStory(story);
+  }, []);  // eslint-disable-line react-hooks/exhaustive-deps
 
   // Helper: is dim mode active?
   const dimActive = activeStory !== null;
@@ -422,6 +443,8 @@ export default function FullMapPage() {
         background: true,
         getBackgroundColor: (): [number, number, number, number] => [28, 33, 39, 200],
         backgroundPadding: [3, 2, 3, 2] as [number, number, number, number],
+        pickable: true,
+        autoHighlight: true,
       }),
 
     visibility.assets &&
@@ -437,6 +460,8 @@ export default function FullMapPage() {
         background: true,
         getBackgroundColor: (): [number, number, number, number] => [28, 33, 39, 200],
         backgroundPadding: [3, 2, 3, 2] as [number, number, number, number],
+        pickable: true,
+        autoHighlight: true,
       }),
 
 
@@ -692,6 +717,7 @@ export default function FullMapPage() {
           controller={true}
           layers={layers}
           getTooltip={getTooltip as (info: PickingInfo) => ReturnType<typeof getTooltip>}
+          onClick={handleMapClick}
           style={{ width: '100%', height: '100%' }}
         >
           <Map mapStyle={MAP_STYLE} />
@@ -832,12 +858,12 @@ export default function FullMapPage() {
           ))}
         </div>
 
-        {/* Coords — bottom right */}
+        {/* Coords — bottom right (shift left when panel open) */}
         <div
           style={{
             position: 'absolute',
             bottom: 16,
-            right: 12,
+            right: selectedItem ? 332 : 12,
             background: 'rgba(28,33,39,0.85)',
             border: '1px solid #404854',
             padding: '4px 8px',
@@ -845,10 +871,19 @@ export default function FullMapPage() {
             fontFamily: 'monospace',
             color: '#5C7080',
             pointerEvents: 'none',
+            transition: 'right 0.22s cubic-bezier(0.4, 0, 0.2, 1)',
           }}
         >
           {viewState.latitude.toFixed(2)}°N {viewState.longitude.toFixed(2)}°E
         </div>
+
+        {/* Detail panel */}
+        <MapDetailPanel
+          item={selectedItem}
+          onClose={() => setSelectedItem(null)}
+          onSelectItem={setSelectedItem}
+          onActivateStory={handleStoryActivateFromPanel}
+        />
       </div>
     </div>
   );
