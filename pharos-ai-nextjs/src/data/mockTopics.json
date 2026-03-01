@@ -1,0 +1,64 @@
+{
+  "topics": [
+    {
+      "id": "middle-east",
+      "name": "Middle East Operations",
+      "events": 47,
+      "status": "ACTIVE",
+      "priority": "HIGH",
+      "description": "Ongoing military and diplomatic developments in the Middle East region",
+      "regions": ["Gaza Strip", "West Bank", "Lebanon", "Syria", "Iran"],
+      "lastUpdate": "2025-01-27T14:30:00Z"
+    },
+    {
+      "id": "ukraine",
+      "name": "Russia-Ukraine Theater",
+      "events": 32,
+      "status": "ACTIVE", 
+      "priority": "HIGH",
+      "description": "Military operations and diplomatic efforts in the Russia-Ukraine conflict",
+      "regions": ["Eastern Ukraine", "Crimea", "Black Sea", "Belarus Border"],
+      "lastUpdate": "2025-01-27T13:45:00Z"
+    },
+    {
+      "id": "nato",
+      "name": "NATO Developments",
+      "events": 18,
+      "status": "MONITORING",
+      "priority": "MEDIUM",
+      "description": "North Atlantic Treaty Organization activities and member state coordination",
+      "regions": ["Baltic States", "Poland", "Turkey", "Mediterranean"],
+      "lastUpdate": "2025-01-27T12:15:00Z"
+    },
+    {
+      "id": "trump",
+      "name": "US Administration",
+      "events": 25,
+      "status": "ACTIVE",
+      "priority": "MEDIUM", 
+      "description": "US foreign policy decisions and administrative changes",
+      "regions": ["Washington DC", "US Embassies", "Trade Partners"],
+      "lastUpdate": "2025-01-27T11:20:00Z"
+    },
+    {
+      "id": "china-taiwan",
+      "name": "China-Taiwan Strait",
+      "events": 14,
+      "status": "MONITORING",
+      "priority": "HIGH",
+      "description": "Cross-strait tensions and military activities in the Taiwan Strait",
+      "regions": ["Taiwan Strait", "South China Sea", "East China Sea"],
+      "lastUpdate": "2025-01-27T10:30:00Z"
+    },
+    {
+      "id": "cyber",
+      "name": "Cyber Operations",
+      "events": 9,
+      "status": "MONITORING",
+      "priority": "LOW",
+      "description": "State-sponsored cyber activities and infrastructure threats",
+      "regions": ["Global Networks", "Critical Infrastructure", "Financial Systems"],
+      "lastUpdate": "2025-01-27T09:45:00Z"
+    }
+  ]
+} 

@@ -1,0 +1,56 @@
+{
+  "events": {
+    "middle-east": [
+      {
+        "id": 1,
+        "timestamp": "2025-01-27T14:58:00Z",
+        "title": "IDF announces Gaza operation",
+        "description": "Israeli Defense Forces commence targeted military operation in northern Gaza Strip",
+        "importance": 3,
+        "source": "IDF OFFICIAL",
+        "verified": true,
+        "region": "Gaza Strip",
+        "actors": ["Israel", "Hamas"],
+        "tags": ["military", "operation", "gaza"]
+      },
+      {
+        "id": 2,
+        "timestamp": "2025-01-27T14:45:00Z", 
+        "title": "EU emergency session called",
+        "description": "European Union foreign ministers schedule emergency meeting on Middle East escalation",
+        "importance": 2,
+        "source": "REUTERS",
+        "verified": true,
+        "region": "Brussels",
+        "actors": ["EU", "Foreign Ministers"],
+        "tags": ["diplomacy", "eu", "emergency"]
+      },
+      {
+        "id": 3,
+        "timestamp": "2025-01-27T13:00:00Z",
+        "title": "US travel advisory updated",
+        "description": "State Department elevates travel warnings for Lebanon and Syria to highest level",
+        "importance": 1,
+        "source": "STATE DEPT",
+        "verified": true,
+        "region": "Middle East",
+        "actors": ["US State Department"],
+        "tags": ["travel", "advisory", "security"]
+      }
+    ],
+    "ukraine": [
+      {
+        "id": 4,
+        "timestamp": "2025-01-27T12:00:00Z",
+        "title": "Russian buildup reported near Kharkiv",
+        "description": "Ukrainian forces observe increased Russian military presence in border regions",
+        "importance": 2,
+        "source": "UKRAINIAN MOD",
+        "verified": false,
+        "region": "Eastern Ukraine",
+        "actors": ["Russia", "Ukraine"],
+        "tags": ["military", "buildup", "kharkiv"]
+      }
+    ]
+  }
+} 

@@ -1,0 +1,60 @@
+{
+  "alerts": [
+    {
+      "id": 1,
+      "title": "BREAKING: Major military operation announced in Gaza Strip",
+      "time": "2 MINUTES AGO",
+      "timestamp": "2025-01-27T14:58:00Z",
+      "importance": 3,
+      "topic": "MIDDLE EAST",
+      "topicId": "middle-east",
+      "read": false,
+      "source": "IDF OFFICIAL",
+      "content": "Israeli Defense Forces announce commencement of targeted operation in northern Gaza following intelligence reports of weapon storage facilities. Operation expected to last 48-72 hours with coordinated air and ground components.",
+      "region": "Gaza Strip",
+      "verified": true
+    },
+    {
+      "id": 2,
+      "title": "EU Ministers convene emergency session on escalation",
+      "time": "15 MINUTES AGO",
+      "timestamp": "2025-01-27T14:45:00Z",
+      "importance": 2,
+      "topic": "NATO/EU",
+      "topicId": "nato",
+      "read": false,
+      "source": "REUTERS",
+      "content": "European Union foreign ministers called for emergency virtual meeting to discuss coordinated response to Middle East escalation. Meeting scheduled for 16:00 UTC with focus on humanitarian aid and diplomatic intervention.",
+      "region": "Brussels",
+      "verified": true
+    },
+    {
+      "id": 3,
+      "title": "State Department issues updated travel advisory",
+      "time": "1 HOUR AGO",
+      "timestamp": "2025-01-27T13:00:00Z",
+      "importance": 1,
+      "topic": "US POLICY",
+      "topicId": "trump",
+      "read": true,
+      "source": "STATE DEPT",
+      "content": "US State Department elevates travel advisory for Lebanon and Syria to Level 4: Do Not Travel. Advisory cites increased military activity and potential for rapid escalation in border regions.",
+      "region": "Middle East",
+      "verified": true
+    },
+    {
+      "id": 4,
+      "title": "Ukrainian forces report Russian buildup near Kharkiv",
+      "time": "2 HOURS AGO",
+      "timestamp": "2025-01-27T12:00:00Z",
+      "importance": 2,
+      "topic": "UKRAINE",
+      "topicId": "ukraine",
+      "read": false,
+      "source": "UKRAINIAN MOD",
+      "content": "Ukrainian Ministry of Defense reports increased Russian military presence near Kharkiv region. Satellite imagery confirms movement of armored vehicles and artillery units over past 24 hours.",
+      "region": "Eastern Ukraine",
+      "verified": false
+    }
+  ]
+} 

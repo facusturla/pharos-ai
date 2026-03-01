@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* shadcn compatibility */
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius: 6px;
+
+  /* Pharos macOS design tokens → Tailwind */
+  --color-window:   #ECECEC;
+  --color-toolbar:  rgba(246,246,246,0.93);
+  --color-sidebar:  rgba(238,238,238,0.90);
+  --color-surface:  #FFFFFF;
+  --color-panel:    #F8F8F8;
+  --color-hover:    rgba(0,0,0,0.04);
+  --color-selected: #2F6EBA;
+  --color-sep:      rgba(0,0,0,0.09);
+  --color-sep-strong: rgba(0,0,0,0.14);
+  --color-label:    rgba(0,0,0,0.88);
+  --color-label-2:  rgba(0,0,0,0.50);
+  --color-label-3:  rgba(0,0,0,0.28);
+  --color-sys-blue:   #007AFF;
+  --color-sys-red:    #FF3B30;
+  --color-sys-green:  #28CD41;
+  --color-sys-orange: #FF9500;
+  --color-sys-purple: #AF52DE;
+  --color-sys-gray:   #8E8E93;
+
+  --font-sans: -apple-system, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+  --font-display: -apple-system, "SF Pro Display", "Inter", "Helvetica Neue", sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+}
+
+:root {
+  /* shadcn tokens (light mode) */
+  --background: 0 0% 100%;
+  --foreground: 0 0% 9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 9%;
+  --primary: 211 100% 50%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 0 0% 9%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 0 0% 96%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 4 86% 58%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 91%;
+  --input: 0 0% 91%;
+  --ring: 211 100% 50%;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: -apple-system, "SF Pro Text", "Inter", "Helvetica Neue", sans-serif;
+  background: #ECECEC;
+  color: rgba(0,0,0,0.88);
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Apple-style scrollbar */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.18); border-radius: 4px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.28); background-clip: padding-box; }
