@@ -98,6 +98,7 @@ function proxyImg(url: string): string {
 
 export function NewsTimeline({ feedData }: NewsTimelineProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
+  const [focusedArticle, setFocusedArticle] = useState<TimelineArticle | null>(null);
   const [selectedTiers, setSelectedTiers] = useState<Set<number>>(new Set([1, 2, 3, 4]));
   const viewportRef = useRef<HTMLDivElement>(null);
 
@@ -505,17 +506,15 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
                 />
 
                 {/* Card */}
-                <a
-                  href={article.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute block no-underline group"
-                  style={{ left: `${x}px`, top: `${cardTop}px`, width: `${CARD_W}px` }}
+                <div
+                  className="absolute"
+                  style={{ left: `${x}px`, top: `${cardTop}px`, width: `${CARD_W}px`, cursor: 'pointer' }}
                   onMouseEnter={() => setHoveredId(article.id)}
                   onMouseLeave={() => setHoveredId(null)}
+                  onClick={() => setFocusedArticle(article)}
                 >
                   <div
-                    className={`rounded-lg border overflow-hidden transition-shadow duration-150
+                    className={`rounded-lg border overflow-hidden transition-all duration-150
                       ${isHovered
                         ? 'bg-[#1a1a24] border-white/30 shadow-2xl shadow-black/50'
                         : 'bg-[#111118] border-white/15'
@@ -533,7 +532,6 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
                       </div>
                     )}
                     <div className="px-3 py-2.5">
-                      {/* Source + time */}
                       <div className="flex items-center gap-2 mb-1.5">
                         <div
                           className="px-1.5 py-0.5 rounded text-[8px] mono font-bold leading-none"
@@ -551,17 +549,14 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
                           {formatTimeAgo(article.time)}
                         </span>
                       </div>
-                      {/* Title */}
                       <h4 className="text-[12px] text-white font-semibold leading-snug line-clamp-2">
                         {article.title}
                       </h4>
-                      {/* Snippet */}
                       {article.snippet && (
                         <p className="text-[10px] text-white/70 mt-1 leading-relaxed line-clamp-2">
                           {article.snippet}
                         </p>
                       )}
-                      {/* Meta */}
                       <div className="flex items-center gap-2 mt-2">
                         <span className="text-[9px] mono font-bold text-white/60">{article.feed.country}</span>
                         <div className="flex gap-0.5">
@@ -572,10 +567,13 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
                             <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />
                           ))}
                         </div>
+                        {isHovered && (
+                          <span className="ml-auto text-[8px] mono text-white/40">click to expand</span>
+                        )}
                       </div>
                     </div>
                   </div>
-                </a>
+                </div>
               </div>
             );
           })}
@@ -591,6 +589,119 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
         <div className="absolute bottom-4 left-4 mono text-[10px] text-white/40 pointer-events-none">
           {zoomPct}% · scroll to zoom · drag to pan
         </div>
+
+        {/* ─── Focus panel ─── */}
+        {focusedArticle && (() => {
+          const a = focusedArticle;
+          const color = PERSPECTIVE_COLORS[a.feed.perspective] ?? '#6b7280';
+          return (
+            <>
+              {/* Backdrop */}
+              <div
+                className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                onClick={() => setFocusedArticle(null)}
+              />
+              {/* Panel — slides in from right */}
+              <div
+                className="absolute top-0 right-0 bottom-0 w-[420px] bg-[#0e0e16] border-l border-white/10 flex flex-col overflow-hidden"
+                style={{ boxShadow: '-20px 0 60px rgba(0,0,0,0.6)' }}
+              >
+                {/* Panel header */}
+                <div className="flex items-center justify-between px-5 py-3 border-b border-white/10 shrink-0">
+                  <div className="flex items-center gap-2">
+                    <div
+                      className="px-2 py-1 rounded text-[8px] mono font-bold"
+                      style={{ backgroundColor: `${color}25`, color, border: `1px solid ${color}40` }}
+                    >
+                      {a.feed.name.toUpperCase()}
+                    </div>
+                    {a.feed.stateFunded && (
+                      <span className="text-[8px] mono font-bold text-amber-400">STATE FUNDED</span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setFocusedArticle(null)}
+                    className="text-white/40 hover:text-white transition-colors text-[18px] leading-none"
+                  >
+                    ×
+                  </button>
+                </div>
+
+                {/* Scrollable content */}
+                <div className="flex-1 overflow-y-auto">
+                  {/* Image */}
+                  {a.imageUrl && (
+                    <div className="w-full h-[220px] overflow-hidden bg-[#0a0a0f] shrink-0">
+                      <img
+                        src={proxyImg(a.imageUrl)}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).parentElement!.style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
+
+                  <div className="px-5 py-4">
+                    {/* Timestamp */}
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="mono text-[13px] font-bold text-white">
+                        {a.time.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+                      </span>
+                      <span className="mono text-[13px] font-bold text-white">
+                        {formatHour(a.time)}
+                      </span>
+                      <span className="mono text-[11px] text-white/50">
+                        {formatTimeAgo(a.time)}
+                      </span>
+                    </div>
+
+                    {/* Title */}
+                    <h2 className="text-[17px] font-bold text-white leading-snug mb-3">
+                      {a.title}
+                    </h2>
+
+                    {/* Snippet */}
+                    {a.snippet && (
+                      <p className="text-[13px] text-white/75 leading-relaxed mb-4">
+                        {a.snippet}
+                      </p>
+                    )}
+
+                    {/* Metadata grid */}
+                    <div className="grid grid-cols-2 gap-2 mb-4">
+                      {[
+                        { label: 'SOURCE', value: a.feed.name },
+                        { label: 'COUNTRY', value: a.feed.country },
+                        { label: 'PERSPECTIVE', value: a.feed.perspective.replace('_', ' ') },
+                        { label: 'TIER', value: `T${a.feed.tier} — ${TIER_LABELS[a.feed.tier]}` },
+                      ].map(({ label, value }) => (
+                        <div key={label} className="bg-white/[0.04] rounded px-3 py-2 border border-white/[0.06]">
+                          <div className="mono text-[8px] text-white/40 tracking-wider mb-0.5">{label}</div>
+                          <div className="text-[11px] text-white font-medium">{value}</div>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Open article button */}
+                    <a
+                      href={a.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-2.5 rounded-lg border no-underline transition-colors"
+                      style={{
+                        backgroundColor: `${color}15`,
+                        borderColor: `${color}40`,
+                        color,
+                      }}
+                    >
+                      <span className="mono text-[10px] font-bold tracking-wider">OPEN ARTICLE →</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })()}
       </div>
     </div>
   );
