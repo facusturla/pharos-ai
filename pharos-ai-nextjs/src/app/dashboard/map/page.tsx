@@ -15,11 +15,17 @@
 
 import dynamic from 'next/dynamic';
 
+import MapErrorBoundary from '@/components/map/MapErrorBoundary';
+
 const MapPageContent = dynamic(
   () => import('@/components/map/MapPageContent'),
   { ssr: false },
 );
 
 export default function FullMapPage() {
-  return <MapPageContent />;
+  return (
+    <MapErrorBoundary>
+      <MapPageContent />
+    </MapErrorBoundary>
+  );
 }

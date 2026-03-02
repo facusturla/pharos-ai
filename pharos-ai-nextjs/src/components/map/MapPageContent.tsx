@@ -96,7 +96,7 @@ export default function FullMapPage() {
           <Map mapStyle={mapStyle === 'dark' ? MAP_STYLE_DARK : MAP_STYLE_SAT} />
         </DeckGL>
 
-        <MapOverlays activeStory={activeStory} onClearStory={() => setActiveStory(null)} />
+        <MapOverlays activeStory={activeStory} onClearStory={() => setActiveStory(null)} sidebarOpen={sidebarOpen} onToggleSidebar={() => setSidebarOpen(o => !o)} />
         <MapLegend hasPanel={!!selectedItem} />
         <MapControls viewState={viewState} mapStyle={mapStyle} hasPanel={!!selectedItem} onStyleChange={setMapStyle} />
 
