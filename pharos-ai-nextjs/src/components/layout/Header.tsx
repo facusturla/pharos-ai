@@ -1,6 +1,9 @@
 'use client';
 import Link           from 'next/link';
 import { usePathname } from 'next/navigation';
+import { CONFLICT }   from '@/data/iranConflict';
+import { EVENTS }     from '@/data/iranEvents';
+import { fmtDate }    from '@/lib/format';
 
 const NAV = [
   { label: 'OVERVIEW',    href: '/dashboard'              },
@@ -16,6 +19,11 @@ export function Header() {
   const path = usePathname();
   const isActive = (href: string) =>
     href === '/dashboard' ? path === '/dashboard' : path.startsWith(href);
+
+  const latestDate = [...EVENTS]
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())[0]?.timestamp;
+  const displayDate = latestDate ? fmtDate(latestDate) : fmtDate(CONFLICT.startDate);
+  const usKia = CONFLICT.casualties.us.kia;
 
   return (
     <header
@@ -86,7 +94,7 @@ export function Header() {
 
         {/* UTC clock */}
         <span className="mono text-[10px] text-[var(--t4)] tracking-[0.02em]">
-          2026-03-01 · UTC
+          {displayDate} · UTC
         </span>
 
         {/* KIA badge */}
@@ -95,7 +103,7 @@ export function Header() {
         >
           <div className="w-[5px] h-[5px] rounded-full bg-[var(--danger)] shrink-0" />
           <span className="text-[9px] font-bold text-[var(--danger)] tracking-[0.08em] uppercase">
-            3 US KIA
+            {usKia} US KIA
           </span>
         </div>
       </div>

@@ -74,7 +74,7 @@ export default function OverviewPage() {
                 <CasChip label="US KIA"       val={String(CONFLICT.casualties.us.kia)}           color="var(--danger)"  />
                 <CasChip label="IL Civilians"  val={String(CONFLICT.casualties.israel.civilians)} color="var(--warning)" />
                 <CasChip label="IR Killed"     val={String(CONFLICT.casualties.iran.killed)}      color="var(--t2)"      />
-                <CasChip label="Regional KIA"  val="4"                                             color="var(--t3)"      />
+                <CasChip label="Regional"      val={CONFLICT.casualties.regional.split(',')[0].replace(/[^0-9]/g, '') || '—'} color="var(--t3)" />
               </div>
             </div>
           </div>

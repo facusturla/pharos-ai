@@ -8,19 +8,21 @@ import Flag from '@/components/shared/Flag';
 import { BriefSection, EconChip, ScenarioCard } from '@/components/brief/BriefSection';
 
 const SOURCES = [
-  { name: 'Reuters',                     tier: 1, note: 'Primary wire coverage — Tel Aviv, Tehran, Washington' },
+  { name: 'Reuters',                     tier: 1, note: 'Primary wire coverage — Tel Aviv, Tehran, Washington, Muscat' },
   { name: 'New York Times',              tier: 1, note: 'Investigative sourcing + senior Pentagon readouts' },
-  { name: 'Associated Press',            tier: 1, note: 'Casualty figures, diplomatic wires' },
-  { name: 'CENTCOM official statements', tier: 1, note: 'US KIA, operational updates' },
-  { name: 'IDF Spokesperson',            tier: 1, note: 'Strike confirmations, target lists' },
-  { name: 'ISW / CTP',                   tier: 1, note: 'Operational analysis, OSINT corroboration' },
-  { name: 'IAEA Director General',       tier: 1, note: 'Nuclear facility sensor contact / safeguards' },
-  { name: 'Axios',                        tier: 1, note: 'Leadership decapitation confirmations' },
-  { name: 'IRNA (Iranian state media)',  tier: 2, note: 'Used for Iranian-side claims only — treat as propaganda unless corroborated' },
-  { name: 'CNBC / Trump interview',      tier: 1, note: 'Presidential statements, Mar-a-Lago readout' },
-  { name: 'CSIS',                         tier: 1, note: 'Target analysis, nuclear facility BDA' },
-  { name: 'Kpler / MarineTraffic',       tier: 2, note: 'Strait of Hormuz vessel tracking, AIS data' },
-  { name: 'Maersk customer advisory',   tier: 1, note: 'Commercial shipping disruption, route closures' },
+  { name: 'Associated Press',            tier: 1, note: 'Casualty figures, diplomatic wires, Pakistan protests' },
+  { name: 'CENTCOM official statements', tier: 1, note: 'US KIA, strike footage, fact-checks, friendly fire disclosure' },
+  { name: 'IDF Spokesperson',            tier: 1, note: 'Strike confirmations, target lists, Northern Front operations' },
+  { name: 'NBC News / Richard Engel',    tier: 1, note: 'On-ground reporting, verified footage, Trump interviews' },
+  { name: 'The Guardian',                tier: 1, note: 'Live blog, RAF Akrotiri, IAEA, UK govt statements' },
+  { name: 'IAEA Director General',       tier: 1, note: 'Nuclear facility safeguards, radiation monitoring, reactor warnings' },
+  { name: 'Bloomberg / Javier Blas',     tier: 1, note: 'Energy markets, Ras Tanura shutdown, OPEC+ analysis' },
+  { name: 'Al Jazeera',                  tier: 1, note: 'Gulf civilian damage, Iran leadership council, Larijani rejection' },
+  { name: 'UK gov.uk / MoD',            tier: 1, note: 'E3 joint statement, RAF Akrotiri response, base authorization' },
+  { name: 'IRNA / PressTV (Iran state)', tier: 2, note: 'Iranian claims — treat as propaganda unless corroborated by tier 1' },
+  { name: 'Times of Israel',             tier: 2, note: 'Israeli domestic coverage, Beit Shemesh details, northern sirens' },
+  { name: 'Kpler / MarineTraffic',       tier: 2, note: 'Strait of Hormuz vessel tracking, tanker strikes' },
+  { name: 'Cirium (aviation)',            tier: 2, note: 'Flight cancellation tracking — 6,000+ across 3 days' },
 ];
 
 const TIER_C: Record<number, string> = { 1: 'var(--success)', 2: 'var(--warning)' };
@@ -51,19 +53,19 @@ export default function BriefPage() {
             OPERATION EPIC FURY / ROARING LION
           </h2>
           <div className="flex justify-center gap-5">
-            <span className="mono text-[10px] text-[var(--t3)]">DATE: 2026-03-01</span>
-            <span className="mono text-[10px] text-[var(--t3)]">AS OF: 14:00 UTC</span>
-            <span className="mono text-[10px] text-[var(--t3)]">DAY 2 OF OPERATIONS</span>
+            <span className="mono text-[10px] text-[var(--t3)]">DATE: 2026-03-02</span>
+            <span className="mono text-[10px] text-[var(--t3)]">AS OF: 12:00 UTC</span>
+            <span className="mono text-[10px] text-[var(--t3)]">DAY 3 OF OPERATIONS</span>
           </div>
         </div>
 
         <BriefSection number="1" title="EXECUTIVE SUMMARY">
           <p className="leading-[1.8] text-[var(--t1)] mb-3">{CONFLICT.summary}</p>
           <p className="leading-[1.8] text-[var(--t2)] mb-3">
-            As of 14:00 UTC on March 1, 2026 — Day 2 of operations — the United States and Israel continue to conduct active strikes against Iranian nuclear, missile, and military infrastructure. Iran's transitional government has vowed continued retaliation but appears to be operating on pre-delegated retaliatory protocols rather than coherent centralized command.
+            As of 12:00 UTC on March 2, 2026 — Day 3 of operations — the conflict has expanded dramatically. Hezbollah has entered the war, firing rockets and drones at Israel from Lebanon. The IDF has launched an offensive campaign against Hezbollah across southern Lebanon, the Bekaa Valley, and Beirut&apos;s Dahieh suburb. An Iranian drone struck RAF Akrotiri in Cyprus — the first direct attack on European NATO territory. Iran&apos;s death toll has risen to 555 across 131 cities. Ali Larijani has publicly rejected negotiations with the United States.
           </p>
           <p className="leading-[1.8] text-[var(--t2)]">
-            The economic dimension of the conflict has escalated sharply. IRGC closure of the Strait of Hormuz combined with Houthi resumption of Red Sea attacks has effectively closed both major maritime chokepoints simultaneously — the most severe supply disruption since 1973. Brent crude is trading at $143/barrel (+35%).
+            The economic dimension continues to escalate. Saudi Aramco shut its Ras Tanura refinery (550K bbl/day) after a drone strike. Combined with the Hormuz closure and Houthi Red Sea attacks, this represents the most severe energy supply disruption since 1973. Brent crude has surged ~14% to ~$79/barrel. OPEC+ announced a modest 206K bbl/day increase — a fraction of the disruption. More than 6,000 flights have been cancelled across 3 days.
           </p>
         </BriefSection>
 
@@ -105,24 +107,25 @@ export default function BriefPage() {
             The simultaneous closure of the Strait of Hormuz and Bab el-Mandeb Strait represents an unprecedented dual-chokepoint disruption. The Strait of Hormuz carries approximately 20% of global seaborne oil and 30% of global LNG — roughly 14 million barrels per day. Both are effectively closed.
           </p>
           <div className="flex gap-[10px] mb-3 flex-wrap">
-            <EconChip label="Brent Crude"     val="$143/bbl" sub="+35% ↑" color="var(--danger)" />
-            <EconChip label="WTI"             val="$138/bbl" sub="+33% ↑" color="var(--danger)" />
-            <EconChip label="LNG Asia"        val="+29%"     sub="spot"    color="var(--warning)" />
-            <EconChip label="Hormuz Transit"  val="ZERO"     sub="vessels" color="var(--danger)" />
+            <EconChip label="Brent Crude"     val="~$79/bbl"  sub="+14% ↑" color="var(--danger)" />
+            <EconChip label="WTI"             val="~$73/bbl"  sub="+12% ↑" color="var(--danger)" />
+            <EconChip label="Ras Tanura"      val="OFFLINE"   sub="550K bbl/day" color="var(--danger)" />
+            <EconChip label="Hormuz Transit"  val="ZERO"      sub="vessels" color="var(--danger)" />
+            <EconChip label="Flights"         val="6,000+"    sub="cancelled"  color="var(--warning)" />
           </div>
           <p className="leading-[1.8] text-[var(--t2)]">
-            <strong className="text-[var(--warning)]">Economic risk threshold:</strong> If Hormuz closure exceeds 2 weeks, Bloomberg Economics estimates a global GDP shock of 0.8–1.4%. Oil at $180–200/bbl is analytically plausible under 3-week+ closure.
+            <strong className="text-[var(--warning)]">Economic risk threshold:</strong> OPEC+ has offered only 206K bbl/day increase — a fraction of the ~14M bbl/day that transits Hormuz daily. If Hormuz closure persists beyond 3 weeks, Bloomberg Economics estimates a global GDP shock of 0.8–1.4%. Trump has said the operation could take &quot;four weeks or less.&quot;
           </p>
         </BriefSection>
 
         <BriefSection number="5" title="OUTLOOK — THREE SCENARIOS">
           <div className="flex flex-col gap-[10px]">
-            <ScenarioCard label="BEST CASE"  subtitle="Ceasefire within 72 hours"           color="var(--success)" prob="15%"
-              body="Iran's transitional government signals willingness for back-channel ceasefire negotiations via Oman. US and Israel agree to pause strikes contingent on IRGC stand-down and nominal Hormuz reopening. Oil prices partially retrace to $110–120/bbl." />
-            <ScenarioCard label="BASE CASE"  subtitle="5–7 day operation; limited ceasefire" color="var(--warning)" prob="55%"
-              body="US and Israel complete nuclear and missile infrastructure destruction over 5–7 days. Iran's retaliatory capability is significantly degraded but Hormuz closure persists 10–14 days. Oil spikes to $155–165/bbl before beginning to retrace once Hormuz reopening is signaled." />
-            <ScenarioCard label="WORST CASE" subtitle="Wider regional war — Hezbollah front opens" color="var(--danger)" prob="30%"
-              body="Hezbollah opens a sustained northern front against Israel. Israel is forced to conduct a ground incursion into southern Lebanon. Hormuz closure extends beyond 3 weeks. Oil surpasses $180/bbl. Iran's nuclear program is destroyed but at the cost of a 6-month regional war." />
+            <ScenarioCard label="BEST CASE"  subtitle="Ceasefire within 2 weeks; Hezbollah stands down"  color="var(--success)" prob="10%"
+              body="Iran's transitional government negotiates through Oman backchannel. Hezbollah agrees to ceasefire following IDF offensive. Hormuz reopens within 2 weeks. Oil retraces to ~$70–75/bbl. Requires Larijani faction to be overruled by Pezeshkian. Currently unlikely given Larijani's public rejection of talks." />
+            <ScenarioCard label="BASE CASE"  subtitle="4-week air campaign; limited ground operations"   color="var(--warning)" prob="50%"
+              body="Trump's '4 weeks or less' timeline plays out. US/Israel complete systematic destruction of nuclear, missile, naval, and command infrastructure. Hezbollah front remains at threshold level (rockets, not precision missiles). Hormuz closure persists 3–4 weeks. Oil stays elevated at $80–100/bbl. No ground invasion of Iran." />
+            <ScenarioCard label="WORST CASE" subtitle="Full regional war — ground invasions, NATO drawn in" color="var(--danger)" prob="40%"
+              body="NOW PARTIALLY REALIZED: Hezbollah has opened a northern front. IDF chief says 'all options on the table' including ground invasion of Lebanon. RAF Akrotiri struck — NATO territory under attack. If Hezbollah deploys its ~2,000 long-range precision missiles, Israeli air defenses would be overwhelmed. Ground incursion into Lebanon becomes necessary. Iran's 4M-volunteer mobilization suggests protracted resistance. Oil could spike above $120/bbl. Conflict extends months, not weeks." />
           </div>
         </BriefSection>
 
