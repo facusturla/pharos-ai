@@ -1043,6 +1043,320 @@ The use of Claude AI in a major military operation marks a significant milestone
     actorResponses: [],
     tags: ['ai', 'claude', 'anthropic', 'pentagon', 'military-ai', 'day-2'],
   },
+
+  // ── MARCH 2 — Day 3 ──────────────────────────────────────────────────────
+
+  {
+    id:        'evt-028',
+    timestamp: '2026-03-02T01:00:00Z',
+    severity:  'CRITICAL',
+    type:      'MILITARY',
+    title:     'Hezbollah launches missiles and drones at Israel — IDF retaliates with strikes across Lebanon',
+    location:  'Southern Lebanon / Beirut / Northern Israel',
+    summary:   'Hezbollah launched missiles and drones at northern Israel overnight, claiming the attack was in retaliation for the killing of Khamenei. The IDF responded within hours, striking Hezbollah targets across southern Lebanon, the Bekaa Valley, and Beirut\'s Dahieh suburb. Lebanon\'s health ministry reported 31 killed and 149 wounded. IDF chief Eyal Zamir said Israelis should "prepare for many prolonged days of combat ahead." The IDF urged residents of nearly 50 Lebanese villages to evacuate. An IDF spokesperson said "all options are on the table" when asked about a ground invasion.',
+    fullContent: `Hezbollah fired rockets and drones at northern Israel beginning around midnight local time (22:00 UTC March 1). Multiple rockets struck open areas in northern Israel. Sirens sounded across Haifa and the Upper Galilee.
+
+IDF response — within hours:
+• IAF struck Hezbollah targets across three areas: southern Lebanon, Bekaa Valley, and Beirut's southern suburb (Dahieh).
+• Residents of Beirut woke to explosions around 3 a.m. local time as Israeli strikes hit Dahieh — a densely populated commercial and residential area that serves as Hezbollah's stronghold.
+• Lebanon's health ministry: 31 killed, 149 wounded from Israeli strikes.
+• IDF ordered evacuation of nearly 50 Lebanese villages.
+
+IDF chief of staff Lt. Gen. Eyal Zamir: "We have launched an offensive campaign against Hezbollah. We must be prepared for several days of fighting — many."
+
+IDF spokesperson to reporters: "Hezbollah made a very bad mistake by choosing to strike Israel overnight. The IDF will react very swiftly and they will pay a heavy price. All options are on the table."
+
+When asked specifically about a ground invasion of Lebanon: "All options are on the table."
+
+The Hezbollah attack breaks the November 2024 US-brokered Israel-Lebanon ceasefire. This is the first time Hezbollah has formally joined Iran in retaliatory action against Israel during the current conflict. ISW/CTP previously assessed Hezbollah possesses ~130,000 rockets — the most densely rocket-armed non-state actor in history.`,
+    verified: true,
+    sources: [
+      { name: 'IDF Spokesperson',    tier: 1, reliability: 90 },
+      { name: 'Guardian',             tier: 1, reliability: 95 },
+      { name: 'NYT',                  tier: 1, reliability: 97 },
+      { name: 'Reuters',              tier: 1, reliability: 99 },
+      { name: 'Times of Israel',      tier: 2, reliability: 88 },
+      { name: 'AP',                   tier: 1, reliability: 98 },
+    ],
+    actorResponses: [
+      { actorId: 'idf',       actorName: 'IDF Chief Zamir',      stance: 'SUPPORTING', type: 'STATEMENT', statement: 'We have launched an offensive campaign against Hezbollah. We must be prepared for several days of fighting — many.' },
+      { actorId: 'idf',       actorName: 'IDF Spokesperson',     stance: 'SUPPORTING', type: 'STATEMENT', statement: 'Hezbollah made a very bad mistake. All options are on the table.' },
+      { actorId: 'hezbollah', actorName: 'Hezbollah',            stance: 'OPPOSING',   type: 'STATEMENT', statement: 'The Islamic Resistance in Lebanon strikes the Zionist entity in retaliation for the criminal assassination of the Supreme Leader.' },
+    ],
+    tags: ['hezbollah', 'lebanon', 'dahieh', 'beirut', 'northern-front', 'ground-invasion', 'day-3'],
+  },
+
+  {
+    id:        'evt-029',
+    timestamp: '2026-03-02T06:00:00Z',
+    severity:  'CRITICAL',
+    type:      'MILITARY',
+    title:     'Iran drone strikes RAF Akrotiri — first attack on a UK sovereign base; MoD evacuates families',
+    location:  'RAF Akrotiri, Cyprus',
+    summary:   'An Iranian drone struck RAF Akrotiri, a UK sovereign base in Cyprus, at approximately midnight local time. No casualties reported but the Ministry of Defence confirmed a "suspected drone strike" and evacuated military families living on the base. Cypriot President Christodoulides confirmed it was an Iranian drone. The strike came hours after PM Starmer authorized US use of UK bases for defensive operations — effectively dragging an EU member state\'s territory into the conflict. Reuters described it as "a marked escalation."',
+    fullContent: `UK Ministry of Defence spokesperson: "Our armed forces are responding to a suspected drone strike at RAF Akrotiri in Cyprus at midnight local time."
+
+Cypriot President Nikos Christodoulides confirmed it was an Iranian drone, per BBC News.
+
+Details:
+• The drone struck RAF Akrotiri at approximately midnight local time (22:00 UTC March 1).
+• Limited damage, no casualties.
+• MoD evacuated military families living on the base as a precaution (Daily Mail confirmed).
+• Officials believe the drone originated from Iran or an Iranian proxy (possibly Houthi or IRGC launch from Iraq/Syria).
+
+Strategic significance:
+• RAF Akrotiri is a British Sovereign Base Area — UK sovereign territory, not Cypriot.
+• The strike came hours after PM Starmer gave consent for the US to use UK bases (including Akrotiri) for defensive operations against Iranian missiles and drones.
+• This makes it the first direct Iranian strike on a European NATO ally's territory.
+• Reuters described it as "a marked escalation effectively dragging an EU member state's sovereign territory into the conflict."
+• Cyprus is an EU member; an attack on its sovereign base areas raises questions about NATO Article 5 (UK is NATO member) and EU mutual defense obligations.
+
+UK Defence Secretary John Healey convened an emergency COBRA meeting. UK military posture has shifted from "enabling defensive operations" to "directly under attack."`,
+    verified: true,
+    sources: [
+      { name: 'UK Ministry of Defence',  tier: 1, reliability: 99 },
+      { name: 'BBC News',                tier: 1, reliability: 96 },
+      { name: 'Reuters',                 tier: 1, reliability: 99 },
+      { name: 'Guardian',                tier: 1, reliability: 95 },
+      { name: 'Daily Mail',              tier: 2, reliability: 80 },
+    ],
+    actorResponses: [
+      { actorId: 'uk',     actorName: 'UK MoD Spokesperson',           stance: 'NEUTRAL',    type: 'STATEMENT', statement: 'Our armed forces are responding to a suspected drone strike at RAF Akrotiri in Cyprus at midnight local time.' },
+      { actorId: 'cyprus', actorName: 'President Christodoulides',     stance: 'NEUTRAL',    type: 'STATEMENT', statement: 'An Iranian drone crashed into the British RAF base in Cyprus.' },
+    ],
+    tags: ['raf-akrotiri', 'cyprus', 'uk', 'drone', 'nato', 'eu', 'escalation', 'day-3'],
+  },
+
+  {
+    id:        'evt-030',
+    timestamp: '2026-03-02T07:00:00Z',
+    severity:  'CRITICAL',
+    type:      'MILITARY',
+    title:     'Several US warplanes crash in Kuwait during intense Iranian fire — all crew survive',
+    location:  'Kuwait',
+    summary:   'Kuwait\'s defence ministry announced that "several United States military aircraft crashed" during Monday morning. All crew members bailed out safely and were checked at a hospital in stable condition. Video footage showed at least one F-15 spinning to the ground while on fire. The crashes came during an intense period of Iranian fire targeting Kuwait. The cause is under investigation — unclear whether the aircraft were shot down by Iranian missiles/AA or suffered mechanical failures under combat conditions.',
+    fullContent: `Kuwait's Ministry of Defence statement: "Several United States military aircraft crashed this morning. All crew members survived."
+
+Details:
+• Kuwait MOD did not specify the number or type of aircraft involved.
+• The War Zone (twz.com) identified at least one aircraft as an F-15, publishing footage showing an F-15 "spinning into the ground while on fire."
+• Separate footage showed a pilot being ejected and recovered.
+• CNN confirmed "several" aircraft crashed based on Kuwait MOD statement.
+• All pilots bailed safely; being treated at a hospital in stable condition.
+• The incident occurred during intense Iranian missile and drone fire targeting Kuwait.
+
+Analysis:
+• The cause is under investigation. Possibilities include: (1) Iranian anti-aircraft missiles, (2) Iranian drone collision, (3) friendly fire from air defense systems, (4) mechanical failure under combat stress.
+• Kuwait already lost 3 US service members in the conflict (Army sustainment unit, March 1).
+• US Embassy Kuwait issued shelter-in-place: "There is a continuing threat of missile and UAV attacks over Kuwait. Do not come to the embassy."
+• Smoke was seen rising from the area near the US Embassy in Kuwait City (AFP correspondent).`,
+    verified: true,
+    sources: [
+      { name: 'Kuwait Ministry of Defence', tier: 1, reliability: 95 },
+      { name: 'CNN',                        tier: 1, reliability: 95 },
+      { name: 'The War Zone',               tier: 2, reliability: 88 },
+      { name: 'Times of Israel',             tier: 2, reliability: 88 },
+      { name: 'Telegraph',                  tier: 1, reliability: 93 },
+    ],
+    actorResponses: [
+      { actorId: 'us', actorName: 'US Embassy Kuwait', stance: 'NEUTRAL', type: 'ALERT', statement: 'There is a continuing threat of missile and UAV attacks over Kuwait. Do not come to the embassy. US Embassy personnel are sheltering in place.' },
+    ],
+    tags: ['kuwait', 'f-15', 'crash', 'warplanes', 'embassy', 'day-3'],
+  },
+
+  {
+    id:        'evt-031',
+    timestamp: '2026-03-02T07:30:00Z',
+    severity:  'CRITICAL',
+    type:      'ECONOMIC',
+    title:     'Saudi Ras Tanura refinery shuts after drone strike — 550K bbl/day offline; oil prices surge further',
+    location:  'Ras Tanura, Saudi Arabia / Global markets',
+    summary:   'Saudi Aramco shut its Ras Tanura refinery — the largest in the Middle East at 550,000 barrels per day capacity — after an Iranian drone strike. Bloomberg and Reuters confirmed the shutdown. The refinery is on the Persian Gulf coast, directly exposed to Iranian drone and missile range. Separately, Israeli and Kurdish oil and gas fields were also shut amid the strikes. Oil prices had already surged 8–9% on Sunday evening; the Ras Tanura shutdown added further supply anxiety on top of the Hormuz closure. Dow futures dropped nearly 600 points.',
+    fullContent: `Bloomberg first reported: "Aramco halted operations at Saudi Arabia's largest refinery at Ras Tanura on the Persian Gulf coast after a drone strike in the area."
+
+Reuters confirmed: "Saudi Arabia shut its biggest domestic oil refinery on Monday after a drone strike, a source said, as Israeli and U.S. strikes and Iranian retaliation forced shutdowns of oil and gas facilities across the Middle East."
+
+Ras Tanura details:
+• Capacity: 550,000 barrels per day — largest in the Middle East.
+• Located on the Persian Gulf coast in Saudi Arabia's Eastern Province.
+• Previously targeted in 2021 by Houthis (no damage then).
+• Saudi defence ministry said it downed incoming drones with no injuries.
+• Aramco shut the refinery "as a precaution" while assessing damages.
+
+Broader energy impact:
+• Reuters: "Israeli and U.S. strikes and Iranian retaliation forced shutdowns of oil and gas facilities across the Middle East."
+• Kurdish oil and gas fields also shut amid the conflict.
+• Israeli energy infrastructure affected.
+• Combined with Hormuz closure and tanker attacks, this is the most severe supply disruption since 1973.
+
+Markets (Monday morning):
+• Brent crude: ~$79.50 (up ~9% from Friday close, continuing to climb).
+• WTI: ~$72.80 (up ~8.5%).
+• Dow futures: down nearly 600 points.
+• CNBC: "Stocks to come under pressure Monday" following Iran strikes.
+• Total flight cancellations across 3 days: ~6,000+.`,
+    verified: true,
+    sources: [
+      { name: 'Bloomberg',            tier: 1, reliability: 97 },
+      { name: 'Reuters',              tier: 1, reliability: 99 },
+      { name: 'CNBC',                 tier: 1, reliability: 95 },
+      { name: 'The National (UAE)',   tier: 2, reliability: 88 },
+    ],
+    actorResponses: [
+      { actorId: 'saudi', actorName: 'Saudi Defence Ministry', stance: 'NEUTRAL', type: 'STATEMENT', statement: 'Saudi Arabia downed incoming drones. There were no reported injuries. Investigations into the Ras Tanura incident are continuing.' },
+    ],
+    tags: ['ras-tanura', 'aramco', 'oil', 'refinery', 'saudi', 'markets', 'dow', 'day-3'],
+  },
+
+  {
+    id:        'evt-032',
+    timestamp: '2026-03-02T04:17:00Z',
+    severity:  'HIGH',
+    type:      'DIPLOMATIC',
+    title:     'Larijani: "We will not negotiate with the United States" — rejects Trump\'s claim Iran wants talks',
+    location:  'Tehran',
+    summary:   'Ali Larijani, Secretary of Iran\'s Supreme National Security Council, posted on X at 9:47 AM Tehran time: "We will not negotiate with the United States." This directly contradicts Trump, who told The Atlantic that Iran\'s new leadership "wanted to talk" and that he had "agreed to talk." Larijani also wrote that Trump\'s "wishful thinking" had dragged the region into an unnecessary war. The rejection signals the hardline faction within the interim leadership council is asserting dominance over the reformist Pezeshkian.',
+    fullContent: `Ali Larijani, Secretary of Iran's Supreme National Security Council, posted on X (formerly Twitter) at 9:47 AM IST (04:17 UTC) on March 2, 2026:
+
+"We will not negotiate with the United States."
+
+In a follow-up post, Larijani wrote that President Trump's "wishful thinking" had dragged the region into an unnecessary war.
+
+Context:
+This directly contradicts Trump, who in an interview with The Atlantic said: "They want to talk and I have agreed to talk, so I will be talking to them. They should have done it sooner. They should have given what was very practical and easy to do sooner. They waited too long."
+
+Analysis:
+• Larijani is a powerful conservative figure — Secretary of the SNSC is arguably the most influential security role after the Supreme Leader.
+• His public rejection suggests the hardline faction (backed by IRGC remnant leadership and Mohseni-Ejei on the interim council) is overriding any diplomatic signals from reformist President Pezeshkian.
+• The Omani FM's backchannel efforts from March 1 now appear undercut.
+• A US official had told Al Jazeera on March 1 that the conflict would "last for weeks, not just days" — Larijani's statement confirms there is no near-term diplomatic off-ramp.`,
+    verified: true,
+    sources: [
+      { name: 'Al Jazeera',       tier: 1, reliability: 95 },
+      { name: 'NYT',              tier: 1, reliability: 97 },
+      { name: 'CNBC TV18',        tier: 2, reliability: 88 },
+      { name: 'Firstpost',        tier: 2, reliability: 85 },
+    ],
+    actorResponses: [
+      { actorId: 'iran', actorName: 'Ali Larijani (SNSC)',  stance: 'OPPOSING', type: 'STATEMENT', statement: 'We will not negotiate with the United States. Trump\'s wishful thinking has dragged the region into an unnecessary war.' },
+    ],
+    tags: ['larijani', 'negotiations-rejected', 'diplomacy', 'hardliners', 'day-3'],
+  },
+
+  {
+    id:        'evt-033',
+    timestamp: '2026-03-02T09:00:00Z',
+    severity:  'HIGH',
+    type:      'INTELLIGENCE',
+    title:     'IAEA Grossi warns of mass evacuations if nuclear power stations attacked — 555 killed in Iran',
+    location:  'Vienna / Tehran',
+    summary:   'IAEA Director General Grossi warned at the quarterly Board of Governors meeting that "mass evacuation of cities across the Middle East may be necessary" if civil nuclear power stations are attacked, leading to radiological release. He noted the UAE has 4 operating nuclear reactors, and Jordan/Syria have research reactors. "We cannot rule out a possible radiological release with serious consequences, including the necessity to evacuate areas as large or larger than major cities." Separately, Iran\'s Red Crescent Society updated the death toll to 555 killed across 131 Iranian cities, with 100,000 rescuers on "full alert" and 4 million volunteers on standby.',
+    fullContent: `IAEA DG Grossi at the IAEA Board of Governors opening (March 2, Vienna):
+
+"We cannot rule out a possible radiological release with serious consequences, including the necessity to evacuate areas as large or larger than major cities."
+
+"Let me underline that the situation today is very concerning. Iran and many other countries in the region that have been subject to military attacks have operational nuclear power plants and nuclear research reactors, as well as associated fuel storage sites, increasing the threat to nuclear safety."
+
+He listed at-risk facilities:
+• UAE: 4 operating nuclear reactors (Barakah Nuclear Energy Plant).
+• Jordan and Syria: Operational nuclear research reactors.
+• Bahrain, Iraq, Kuwait, Oman, Qatar, Saudi Arabia: "These countries all use nuclear applications of some sort. We therefore urge utmost restraint in all military operations."
+
+On Iran's struck facilities: "We have no indication that any of the nuclear installations, including the Bushehr nuclear power plant, the Tehran research reactor, or other nuclear fuel cycle facilities have been damaged or hit. Efforts to contact the Iranian nuclear regulatory authorities continue with no response so far."
+
+He expressed "a strong sense of frustration" that negotiations had failed: "Diplomacy is hard, but it is never impossible. Nuclear diplomacy is even more difficult, but it's never impossible."
+
+Iranian Red Crescent Society (Telegram post, March 2):
+• 555 people killed in Iran across 131 cities from US-Israeli strikes.
+• Over 100,000 rescuers on "full alert."
+• Network of approximately 4 million volunteers on standby for humanitarian services and psychosocial support.
+• Guardian noted: "We have not been able to independently verify these figures yet."`,
+    verified: true,
+    sources: [
+      { name: 'Guardian (Patrick Wintour)', tier: 1, reliability: 95 },
+      { name: 'IAEA Board of Governors',   tier: 1, reliability: 99 },
+      { name: 'Iranian Red Crescent (Telegram)', tier: 2, reliability: 80 },
+    ],
+    actorResponses: [
+      { actorId: 'iaea', actorName: 'IAEA DG Grossi',  stance: 'NEUTRAL', type: 'STATEMENT', statement: 'We cannot rule out a possible radiological release requiring evacuation of areas as large or larger than major cities. We urge utmost restraint.' },
+    ],
+    tags: ['iaea', 'nuclear-safety', 'grossi', 'uae-reactors', 'casualties-555', 'evacuation', 'day-3'],
+  },
+
+  {
+    id:        'evt-034',
+    timestamp: '2026-03-02T06:30:00Z',
+    severity:  'HIGH',
+    type:      'MILITARY',
+    title:     'Smoke rises near US Embassy in Kuwait City — embassy says "continuing threat"; shelter in place',
+    location:  'Kuwait City, Kuwait',
+    summary:   'AFP correspondents reported smoke rising from the area where the US Embassy is located in Kuwait City on Monday morning. The embassy did not confirm it was directly hit but issued a security alert: "There is a continuing threat of missile and UAV attacks over Kuwait. Do not come to the embassy. US Embassy personnel are sheltering in place." This follows the 3 US KIA at Ali Al Salem and the crash of several US warplanes in Kuwait the same morning.',
+    fullContent: `AFP (via Kuwait Times): An AFP correspondent reported smoke rising from the area where the US Embassy is located in Kuwait City on Monday, March 2.
+
+US Embassy Kuwait security alert:
+"There is a continuing threat of missile and UAV attacks over Kuwait. Do not come to the Embassy. Take cover in your residence on the lowest available floor and away from windows. US Embassy personnel are sheltering in place."
+
+The embassy did not announce it had been directly hit.
+
+This adds to the escalating situation in Kuwait:
+• March 1: 3 US service members killed at Ali Al Salem AB (Army sustainment unit).
+• March 2 morning: "Several" US warplanes crashed during intense Iranian fire — all crew survived.
+• March 2 morning: Smoke rising near US Embassy.
+• Kuwait was one of the Gulf states struck by Iranian retaliatory missiles from Day 1.
+
+DW News: "Iran: Smoke rises from US embassy in Kuwait."
+CBS News: "U.S. Embassy personnel are sheltering in place."`,
+    verified: true,
+    sources: [
+      { name: 'AFP / Kuwait Times',   tier: 1, reliability: 95 },
+      { name: 'DW News',              tier: 1, reliability: 93 },
+      { name: 'CBS News',             tier: 1, reliability: 95 },
+      { name: 'US Embassy Kuwait',    tier: 1, reliability: 99 },
+    ],
+    actorResponses: [],
+    tags: ['kuwait', 'embassy', 'smoke', 'shelter-in-place', 'day-3'],
+  },
+
+  {
+    id:        'evt-035',
+    timestamp: '2026-03-02T05:00:00Z',
+    severity:  'HIGH',
+    type:      'POLITICAL',
+    title:     'Trump: Iran operation could take "four weeks or less" — Daily Mail interview',
+    location:  'Washington D.C.',
+    summary:   'In an interview with the Daily Mail, Trump said the operation against Iran could take approximately four weeks. "It was always a four-week process. It\'s a big country. It will take four weeks or less." This was the first time the US president gave a specific timeline for the operation. Separately, Trump told Fox News that 48 leaders had been killed. A US official told Al Jazeera the conflict would "last for weeks, not just days" and would continue until the US can "guarantee Iran does not possess nuclear weapons or ballistic missiles."',
+    fullContent: `Trump interview with the Daily Mail (published March 1/2):
+
+"It was always a four-week process. It's a big country. It will take four weeks or less."
+
+This was the first specific operational timeline given by the US president.
+
+Related statements:
+• Trump to Fox News: "Nobody can believe the success we're having. 48 leaders are gone in one shot."
+• US official to Al Jazeera: The conflict would "last for weeks, not just days" and continue "until it can guarantee Iran does not possess nuclear weapons or ballistic missiles."
+• CBS News headline: "Trump says Iran operation could take 'four weeks or less,' 3 U.S. troops killed."
+
+Analysis:
+A 4-week timeline suggests the US is planning an extended air campaign, not a quick strike-and-withdraw. This aligns with:
+• Continued IDF strikes on IRGC command infrastructure (Day 2-3).
+• Task Force Scorpion Strike drone operations (ongoing).
+• Systematic destruction of Iran's navy (9 warships, naval HQ).
+• SEAD operations degrading Iranian air defense.
+• The opening of the Lebanon front (complicating Israeli focus).
+
+The timeline also explains why the US is not rushing to negotiate — Trump sees this as a methodical campaign with defined objectives, not a punitive raid.`,
+    verified: true,
+    sources: [
+      { name: 'Daily Mail interview',  tier: 2, reliability: 85 },
+      { name: 'CBS News',              tier: 1, reliability: 95 },
+      { name: 'Al Jazeera (US official)', tier: 1, reliability: 93 },
+      { name: 'Fox News (Trump)',       tier: 2, reliability: 85 },
+    ],
+    actorResponses: [
+      { actorId: 'us', actorName: 'President Trump', stance: 'SUPPORTING', type: 'STATEMENT', statement: 'It was always a four-week process. It\'s a big country. It will take four weeks or less.' },
+    ],
+    tags: ['trump', 'timeline', 'four-weeks', 'campaign-duration', 'day-3'],
+  },
 ];
 
 export const SEV_STYLE: Record<Severity, { bg: string; color: string; dimBg: string }> = {

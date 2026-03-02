@@ -106,6 +106,11 @@ export const STRIKE_ARCS: StrikeArc[] = [
   { id: 's20', actor: 'ISRAEL', priority: 'P2', category: 'KINETIC', type: 'AIRSTRIKE',    status: 'COMPLETE', from: [34.9408, 31.2083], to: [51.40,   35.68  ], label: 'IDF Day 2: Nevatim → Internal Security HQ Tehran',             severity: 'HIGH'     },
   { id: 's21', actor: 'US',     priority: 'P2', category: 'KINETIC', type: 'NAVAL_STRIKE', status: 'COMPLETE', from: [58.0,    25.5   ], to: [60.6223, 25.3467], label: 'Naval Day 2: USS Ford → IRGC Chabahar (Jamaran corvette sunk)',  severity: 'HIGH'     },
   { id: 's22', actor: 'US',     priority: 'P2', category: 'KINETIC', type: 'NAVAL_STRIKE', status: 'COMPLETE', from: [59.5,    23.0   ], to: [56.2666, 27.1832], label: 'Naval Day 2: USS Lincoln → IRGC Naval HQ (largely destroyed)',   severity: 'HIGH'     },
+
+  // ── Day 3 (March 2) — Verified strike arcs ─────────────────────────────────
+  { id: 's23', actor: 'ISRAEL', priority: 'P1', category: 'KINETIC', type: 'AIRSTRIKE',  status: 'COMPLETE', from: [34.9408, 31.2083], to: [35.5184, 33.8706], label: 'IDF Day 3: Nevatim → Hezbollah Dahieh, Beirut (31 killed)',      severity: 'CRITICAL' },
+  { id: 's24', actor: 'ISRAEL', priority: 'P2', category: 'KINETIC', type: 'AIRSTRIKE',  status: 'COMPLETE', from: [34.9408, 31.2083], to: [35.5,    33.2   ], label: 'IDF Day 3: Nevatim → Hezbollah S.Lebanon (50 villages evacuated)', severity: 'HIGH'     },
+  { id: 's25', actor: 'ISRAEL', priority: 'P2', category: 'KINETIC', type: 'AIRSTRIKE',  status: 'COMPLETE', from: [34.9408, 31.2083], to: [36.2,    34.0   ], label: 'IDF Day 3: Nevatim → Hezbollah Bekaa Valley',                    severity: 'HIGH'     },
 ];
 
 // ─── Missile tracks ───────────────────────────────────────────────────────────
@@ -141,6 +146,11 @@ export const MISSILE_TRACKS: MissileTrack[] = [
   { id: 'm26', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [51.4,    35.7   ], to: [55.0271, 25.0157], label: 'IRGC Day 2: → Jebel Ali port Dubai (dark smoke over port)',         severity: 'HIGH'     },
   { id: 'm27', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [51.4,    35.7   ], to: [54.6510, 24.4430], label: 'IRGC Day 2: → Abu Dhabi airport (1 killed, 7 wounded)',             severity: 'HIGH'     },
   { id: 'm28', actor: 'IRGC',   priority: 'P3', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [48.6799, 31.3342], to: [51.5320, 25.2610], label: 'IRGC Day 2: → Doha industrial district (explosions, smoke)',          severity: 'HIGH'     },
+
+  // ── Day 3 (March 2) — Verified missile/drone tracks ───────────────────────
+  { id: 'm29', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'DRONE',     status: 'IMPACTED',    from: [51.4,    35.7   ], to: [34.5833, 32.9889], label: 'Iran Day 3: Drone → RAF Akrotiri Cyprus (UK sovereign base struck)',  severity: 'CRITICAL' },
+  { id: 'm30', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'DRONE',     status: 'IMPACTED',    from: [51.4,    35.7   ], to: [50.1644, 26.6398], label: 'Iran Day 3: Drone → Ras Tanura refinery Saudi (Aramco shutdown)',      severity: 'CRITICAL' },
+  { id: 'm31', actor: 'IRGC',   priority: 'P2', category: 'KINETIC', type: 'BALLISTIC', status: 'IMPACTED',    from: [48.6799, 31.3342], to: [47.9742, 29.3759], label: 'Iran Day 3: → Kuwait City area (smoke near US Embassy)',               severity: 'HIGH'     },
 ];
 
 // ─── Targets (Iranian installations) ─────────────────────────────────────────
@@ -172,6 +182,12 @@ export const TARGETS: Target[] = [
   { id: 't22', actor: 'IRGC', priority: 'P1', category: 'INSTALLATION', type: 'NAVAL_BASE',     status: 'DESTROYED', name: 'IRGC Naval Headquarters',        position: [56.28,   27.19  ], description: 'Day 2 — Trump: "largely destroyed." Total 9 warships sunk across fleet' },
   { id: 't23', actor: 'IRAN', priority: 'P2', category: 'INSTALLATION', type: 'COMMAND',        status: 'STRUCK',    name: 'Tehran Revolutionary Court',     position: [51.42,   35.69  ], description: 'Day 2 — Revolutionary Court building destroyed per OSINT/satellite' },
   { id: 't24', actor: 'IRAN', priority: 'P2', category: 'INSTALLATION', type: 'AIR_BASE',       status: 'STRUCK',    name: 'Iranian Air Force Runway',        position: [51.30,   35.65  ], description: 'Day 2 — IDF struck F-4 and F-5 fighter jets as they prepared for takeoff from runway' },
+
+  // ── Day 3 (March 2) — Verified targets ─────────────────────────────────────
+  { id: 't25', actor: 'IRAN', priority: 'P2', category: 'INSTALLATION', type: 'INFRASTRUCTURE', status: 'STRUCK',    name: 'Ras Tanura Refinery, Saudi Arabia',    position: [50.1644, 26.6398], description: 'Day 3 — Iranian drone strike, Aramco shutdown, 550K bbl/day offline' },
+  { id: 't26', actor: 'IRAN', priority: 'P2', category: 'INSTALLATION', type: 'AIR_BASE',       status: 'STRUCK',    name: 'RAF Akrotiri, Cyprus (UK)',             position: [34.5833, 32.9889], description: 'Day 3 — Iranian drone struck UK sovereign base, no casualties, families evacuated' },
+  { id: 't27', actor: 'IRAN', priority: 'P2', category: 'INSTALLATION', type: 'COMMAND',        status: 'STRUCK',    name: 'Hezbollah Dahieh, Beirut',              position: [35.5184, 33.8706], description: 'Day 3 — IDF struck Hezbollah stronghold, 31 killed, 149 wounded per Lebanon MoH' },
+  { id: 't28', actor: 'IRAN', priority: 'P3', category: 'INSTALLATION', type: 'INFRASTRUCTURE', status: 'STRUCK',    name: 'Hezbollah S.Lebanon / Bekaa targets',  position: [35.5,    33.2   ], description: 'Day 3 — IDF struck positions, ~50 villages ordered evacuated' },
 ];
 
 // ─── Allied assets ────────────────────────────────────────────────────────────
@@ -310,4 +326,15 @@ export const HEAT_POINTS: HeatPoint[] = [
   { position: [54.6510, 24.4430], weight: 0.55 }, { position: [54.64,   24.44  ], weight: 0.45 },
   // Day 2: Doha industrial district
   { position: [51.5320, 25.2610], weight: 0.45 },
+  // Day 3: RAF Akrotiri Cyprus
+  { position: [34.5833, 32.9889], weight: 0.6 },
+  // Day 3: Ras Tanura refinery
+  { position: [50.1644, 26.6398], weight: 0.7 }, { position: [50.17, 26.64], weight: 0.6 },
+  // Day 3: Dahieh Beirut (Hezbollah strikes)
+  { position: [35.5184, 33.8706], weight: 0.75 }, { position: [35.52, 33.87], weight: 0.65 },
+  { position: [35.51, 33.86], weight: 0.6 },
+  // Day 3: South Lebanon
+  { position: [35.5, 33.2], weight: 0.55 }, { position: [35.48, 33.18], weight: 0.5 },
+  // Day 3: Kuwait City / Embassy area
+  { position: [47.9742, 29.3759], weight: 0.5 },
 ];

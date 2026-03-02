@@ -29,6 +29,14 @@ export const CONFLICT = {
     'Iran forms interim leadership council: Pezeshkian, Mohseni-Ejei, Arafi',
     'Starmer/Macron/Merz joint statement: "Iran pursuing scorched earth strategy"',
     'Houthis resumed Red Sea attacks; first rockets from Lebanon (late March 1)',
+    'Day 3: Hezbollah enters war — IDF launches offensive, 31 killed in Lebanon',
+    'Day 3: Iranian drone strikes RAF Akrotiri (UK Cyprus) — first strike on NATO territory',
+    'Day 3: Saudi Ras Tanura refinery (550K bbl/day) shut after drone strike',
+    'Day 3: Several US warplanes crashed in Kuwait — all crew survived',
+    'Day 3: Larijani rejects negotiations — "We will not negotiate with the US"',
+    'Day 3: Iran death toll rises to 555 across 131 cities (Red Crescent)',
+    'Day 3: IAEA Grossi warns mass evacuations may be necessary if reactors hit',
+    'Day 3: Trump tells Daily Mail operation could take "four weeks or less"',
   ],
 
   objectives: {
@@ -45,7 +53,7 @@ export const CONFLICT = {
   casualties: {
     us:       { kia: 3,   wounded: 5,    civilians: 0 },
     israel:   { kia: 0,   wounded: 0,    civilians: 10, injured: 40 },  // 9 in Beit Shemesh, 1 elsewhere
-    iran:     { killed: 200, injured: 'unknown' },  // IRCS figures; 165 students at Minab school alone
+    iran:     { killed: 555, injured: 'unknown' },  // IRCS figures as of Day 3; 165 students at Minab school; 131 cities affected
     regional: 'UAE 2 killed, multiple injured; Kuwait 3 US KIA; Bahrain/Qatar civilian impacts',
   },
 };
