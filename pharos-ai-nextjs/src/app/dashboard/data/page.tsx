@@ -12,6 +12,14 @@ const DATA_SOURCES = [
     color: '#ef4444',
   },
   {
+    href: '/dashboard/data/predictions',
+    label: 'PREDICTION MARKETS',
+    description: 'Live Polymarket prediction markets on Iran conflict outcomes — regime change, military ops, Hormuz, nuclear deals, ceasefire, economic impact.',
+    count: '~60 markets',
+    status: 'LIVE',
+    color: '#a78bfa',
+  },
+  {
     href: '/dashboard/data/economics',
     label: 'ECONOMIC INDICATORS',
     description: '15 conflict-relevant market indexes — oil, gold, VIX, defense, currencies, shipping. Live charts via Yahoo Finance.',

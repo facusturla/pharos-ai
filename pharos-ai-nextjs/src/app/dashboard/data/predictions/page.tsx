@@ -1,0 +1,284 @@
+'use client';
+
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import Link from 'next/link';
+import type { PredictionMarket } from '@/app/api/polymarket/route';
+import { MARKET_GROUPS, UNCATEGORIZED_GROUP, assignGroup } from '@/data/predictionGroups';
+import { fmtVol, getLeadProb } from '@/components/predictions/utils';
+import { MarketCard } from '@/components/predictions/MarketCard';
+import { FocusedMarket } from '@/components/predictions/FocusedMarket';
+
+const ALL_GROUPS = [...MARKET_GROUPS, UNCATEGORIZED_GROUP];
+
+const SORT_OPTS = [
+  { key: 'volume',      label: 'TOTAL VOL'  },
+  { key: 'volume24hr',  label: '24H VOL'    },
+  { key: 'probability', label: 'PROBABILITY' },
+  { key: 'spread',      label: 'SPREAD'      },
+] as const;
+
+type SortKey = typeof SORT_OPTS[number]['key'];
+
+export default function PredictionsDataPage() {
+  const [markets,      setMarkets]      = useState<PredictionMarket[]>([]);
+  const [loading,      setLoading]      = useState(true);
+  const [refreshing,   setRefreshing]   = useState(false);
+  const [error,        setError]        = useState<string | null>(null);
+  const [fetchedAt,    setFetchedAt]    = useState(0);
+  const [sortBy,       setSortBy]       = useState<SortKey>('volume');
+  const [liveOnly,     setLiveOnly]     = useState(true);
+  const [groupFilter,  setGroupFilter]  = useState<string>('ALL');
+  const [focusedId,    setFocusedId]    = useState<string | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  const fetch_ = useCallback(async () => {
+    setRefreshing(true);
+    setError(null);
+    try {
+      const res  = await fetch('/api/polymarket');
+      const data = await res.json() as { markets: PredictionMarket[]; fetchedAt: string; error?: string };
+      if (data.error) throw new Error(data.error);
+      setMarkets(data.markets);
+      setFetchedAt(Date.now());
+    } catch (e) {
+      setError(e instanceof Error ? e.message : String(e));
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
+
+  useEffect(() => { fetch_(); }, [fetch_]);
+
+  // Auto-refresh every 3 min
+  useEffect(() => {
+    intervalRef.current = setInterval(() => fetch_(), 3 * 60 * 1000);
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [fetch_]);
+
+  // Filtered + sorted markets
+  const processed = useMemo(() => {
+    let m = markets;
+    if (liveOnly) m = m.filter(x => x.active && !x.closed);
+    if (groupFilter !== 'ALL') m = m.filter(x => assignGroup(x.title).id === groupFilter);
+
+    return [...m].sort((a, b) => {
+      switch (sortBy) {
+        case 'volume24hr':  return b.volume24hr - a.volume24hr;
+        case 'probability': return getLeadProb(b) - getLeadProb(a);
+        case 'spread':      return a.spread - b.spread; // tightest first
+        default:            return b.volume - a.volume;
+      }
+    });
+  }, [markets, liveOnly, groupFilter, sortBy]);
+
+  // Group counts for tab badges
+  const groupCounts = useMemo(() => {
+    const counts: Record<string, number> = { ALL: markets.filter(m => !liveOnly || (m.active && !m.closed)).length };
+    for (const g of ALL_GROUPS) {
+      counts[g.id] = markets.filter(m => {
+        if (liveOnly && (!m.active || m.closed)) return false;
+        return assignGroup(m.title).id === g.id;
+      }).length;
+    }
+    return counts;
+  }, [markets, liveOnly]);
+
+  const totalVol   = markets.reduce((s, m) => s + m.volume, 0);
+  const totalVol24 = markets.reduce((s, m) => s + m.volume24hr, 0);
+  const liveCount  = markets.filter(m => m.active && !m.closed).length;
+  const timeSince  = fetchedAt ? `${Math.floor((Date.now() - fetchedAt) / 1000)}s ago` : 'loading…';
+
+  const focusedMarket = focusedId ? markets.find(m => m.id === focusedId) ?? null : null;
+  const focusedGroup  = focusedMarket ? assignGroup(focusedMarket.title) : null;
+
+  return (
+    <div className="flex flex-col w-full h-full min-h-0">
+
+      {/* ── Top bar ── */}
+      <div className="flex items-center justify-between px-5 py-2 border-b border-[var(--bd)] bg-[var(--bg-app)] shrink-0">
+        <div className="flex items-center gap-3">
+          <Link
+            href="/dashboard/data"
+            className="mono text-[10px] text-[var(--t4)] hover:text-[var(--t2)] no-underline transition-colors"
+          >
+            ← DATA
+          </Link>
+          <div className="w-px h-4 bg-[var(--bd)]" />
+          <span className="mono text-[10px] font-bold text-[var(--t1)] tracking-wider">PREDICTION MARKETS</span>
+          <span className="mono text-[9px] text-[var(--t4)]">via Polymarket</span>
+        </div>
+
+        <div className="flex items-center gap-5">
+          {/* Stats */}
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-2">
+              <span className="mono text-[8px] text-[var(--t4)] tracking-widest">MARKETS</span>
+              <span className="mono text-[11px] font-bold text-[var(--t1)]">{markets.length}</span>
+              <span className="mono text-[9px]" style={{ color: 'var(--success)' }}>({liveCount} LIVE)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="mono text-[8px] text-[var(--t4)] tracking-widest">TOTAL VOL</span>
+              <span className="mono text-[11px] font-bold text-[var(--t1)]">{fmtVol(totalVol)}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="mono text-[8px] text-[var(--t4)] tracking-widest">24H VOL</span>
+              <span className="mono text-[11px] font-bold" style={{ color: 'var(--success)' }}>{fmtVol(totalVol24)}</span>
+            </div>
+          </div>
+
+          <div className="w-px h-4 bg-[var(--bd)]" />
+
+          {/* Refresh */}
+          <button
+            onClick={() => fetch_()}
+            disabled={refreshing}
+            className="flex items-center gap-2 px-2 py-1 rounded text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] transition-colors disabled:opacity-40"
+          >
+            <svg
+              width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
+              className={refreshing ? 'animate-spin' : ''}
+            >
+              <path d="M1 6a5 5 0 0 1 9-3M11 6a5 5 0 0 1-9 3" />
+              <path d="M1 1v4h4M11 11v-4h-4" />
+            </svg>
+            REFRESH
+          </button>
+
+          <div className="flex items-center gap-2">
+            <div className={`dot ${refreshing ? 'dot-warn' : 'dot-live'}`} />
+            <span className="mono text-[9px] text-[var(--t4)]">{refreshing ? 'refreshing…' : timeSince}</span>
+          </div>
+        </div>
+      </div>
+
+      {/* ── Filter bar ── */}
+      <div className="flex items-center gap-3 px-5 py-2 border-b border-[var(--bd)] bg-[var(--bg-2)] shrink-0 overflow-x-auto">
+
+        {/* Group filter tabs */}
+        <span className="mono text-[8px] text-[var(--t4)] shrink-0">GROUP:</span>
+        <div className="flex gap-1">
+          <button
+            onClick={() => setGroupFilter('ALL')}
+            className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+              groupFilter === 'ALL'
+                ? 'bg-white/10 text-white border border-white/20'
+                : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
+            }`}
+          >
+            ALL <span className="opacity-60">({groupCounts['ALL'] ?? 0})</span>
+          </button>
+          {ALL_GROUPS.map(g => (
+            <button
+              key={g.id}
+              onClick={() => setGroupFilter(g.id)}
+              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+                groupFilter === g.id
+                  ? 'border'
+                  : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
+              }`}
+              style={groupFilter === g.id
+                ? { color: g.color, background: g.bg, borderColor: g.border }
+                : undefined}
+            >
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: g.color }} />
+                {g.label} <span className="opacity-60">({groupCounts[g.id] ?? 0})</span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        <div className="w-px h-4 bg-[var(--bd)]" />
+
+        {/* Sort */}
+        <span className="mono text-[8px] text-[var(--t4)] shrink-0">SORT:</span>
+        <div className="flex gap-1">
+          {SORT_OPTS.map(s => (
+            <button
+              key={s.key}
+              onClick={() => setSortBy(s.key)}
+              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+                sortBy === s.key
+                  ? 'bg-white/10 text-white border border-white/20'
+                  : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
+        <div className="w-px h-4 bg-[var(--bd)]" />
+
+        {/* Live only toggle */}
+        <button
+          onClick={() => setLiveOnly(v => !v)}
+          className={`flex items-center gap-1.5 px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 border ${
+            liveOnly
+              ? 'text-[var(--success)] bg-[var(--success-dim)] border-[rgba(35,162,109,0.3)]'
+              : 'text-[var(--t4)] border-transparent hover:text-[var(--t2)]'
+          }`}
+        >
+          <div className={`w-1.5 h-1.5 rounded-full ${liveOnly ? 'animate-pulse' : ''}`}
+               style={{ backgroundColor: liveOnly ? 'var(--success)' : 'var(--t4)' }} />
+          LIVE ONLY
+        </button>
+
+        <span className="mono text-[8px] text-[var(--t4)] ml-auto shrink-0">{processed.length} shown</span>
+      </div>
+
+      {/* ── Grid ── */}
+      <div className="flex-1 overflow-y-auto p-4">
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="h-[220px] bg-[var(--bg-1)] border border-[var(--bd)] animate-pulse" />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="flex items-center justify-center py-20">
+            <div className="text-center">
+              <div className="mono text-[11px] text-[var(--danger)] mb-2">FETCH ERROR</div>
+              <div className="mono text-[9px] text-[var(--t4)]">{error}</div>
+              <button
+                onClick={() => fetch_()}
+                className="mt-4 mono text-[9px] px-3 py-1.5 border border-[var(--bd)] text-[var(--t3)] hover:text-[var(--t1)] hover:border-white/20 transition-colors"
+              >
+                RETRY
+              </button>
+            </div>
+          </div>
+        ) : processed.length === 0 ? (
+          <div className="flex items-center justify-center py-20">
+            <span className="mono text-[11px] text-[var(--t4)]">No markets match current filters</span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+            {processed.map((market, i) => {
+              const group = assignGroup(market.title);
+              return (
+                <MarketCard
+                  key={market.id}
+                  market={market}
+                  group={group}
+                  rank={i + 1}
+                  onFocus={() => setFocusedId(market.id)}
+                />
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* ── Focus overlay ── */}
+      {focusedMarket && focusedGroup && (
+        <FocusedMarket
+          market={focusedMarket}
+          group={focusedGroup}
+          onClose={() => setFocusedId(null)}
+        />
+      )}
+    </div>
+  );
+}
