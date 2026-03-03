@@ -90,7 +90,7 @@ async function fetchFeed(id: string, url: string): Promise<FeedResult> {
         link: item.link ?? '',
         pubDate: item.pubDate ?? item.isoDate ?? '',
         contentSnippet: (item.contentSnippet ?? '').slice(0, 300),
-        creator: item.creator ?? item['dc:creator'] ?? undefined,
+        creator: item.creator ?? (item as any)['dc:creator'] ?? undefined,
         categories: item.categories ?? [],
         isoDate: item.isoDate ?? undefined,
         imageUrl: extractImage(item as unknown as Record<string, unknown>),
@@ -159,7 +159,7 @@ export async function POST(req: NextRequest) {
   const results = await Promise.allSettled(
     ids.map(id => {
       const feed = RSS_FEEDS.find((f: { id: string }) => f.id === id);
-      if (!feed) return Promise.resolve({ feedId: id, items: [], error: 'unknown feed' } as FeedResult);
+      if (!feed) return Promise.resolve({ feedId: id, feedTitle: id, items: [], error: 'unknown feed' } as FeedResult);
       return getFeedCached(feed.id, feed.url);
     })
   );
