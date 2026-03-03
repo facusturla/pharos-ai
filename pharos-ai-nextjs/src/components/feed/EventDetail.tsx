@@ -7,10 +7,7 @@ import { SectionDivider } from '@/components/shared/SectionDivider';
 import XPostCard from '@/components/shared/XPostCard';
 import { getPostsForEvent } from '@/data/iranXPosts';
 import type { IntelEvent } from '@/data/iranEvents';
-
-const SEV_C: Record<string, string> = {
-  CRITICAL: 'var(--danger)', HIGH: 'var(--warning)', STANDARD: 'var(--info)',
-};
+import { SEV_C } from '@/lib/severity-colors';
 const TIER_C: Record<number, string> = { 1: 'var(--success)', 2: 'var(--warning)', 3: 'var(--t4)' };
 const TIER_L: Record<number, string> = { 1: 'T1', 2: 'T2', 3: 'T3' };
 const STANCE_C: Record<string, string> = {

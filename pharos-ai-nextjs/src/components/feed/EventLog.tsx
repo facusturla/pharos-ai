@@ -6,10 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import type { IntelEvent } from '@/data/iranEvents';
 import { getPostsForEvent } from '@/data/iranXPosts';
-
-const SEV_C: Record<string, string> = {
-  CRITICAL: 'var(--danger)', HIGH: 'var(--warning)', STANDARD: 'var(--info)',
-};
+import { SEV_C } from '@/lib/severity-colors';
 const SEV_BG: Record<string, string> = {
   CRITICAL: 'var(--danger-dim)', HIGH: 'var(--warning-dim)', STANDARD: 'var(--info-dim)',
 };

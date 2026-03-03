@@ -4,16 +4,9 @@ import { FilterBlock, CheckboxRow } from '@/components/shared/FilterControls';
 import { DaySelector } from '@/components/shared/DaySelector';
 import type { Severity, EventType } from '@/data/iranEvents';
 import type { ConflictDay } from '@/types/domain';
+import { SEV_C, TYPE_C } from '@/lib/severity-colors';
 
 export const ALL_TYPES: EventType[] = ['MILITARY', 'DIPLOMATIC', 'INTELLIGENCE', 'ECONOMIC', 'HUMANITARIAN', 'POLITICAL'];
-
-const SEV_C: Record<Severity, string> = {
-  CRITICAL: 'var(--danger)', HIGH: 'var(--warning)', STANDARD: 'var(--info)',
-};
-const TYPE_C: Record<EventType, string> = {
-  MILITARY: 'var(--danger)', DIPLOMATIC: 'var(--info)', INTELLIGENCE: 'var(--cyber)',
-  ECONOMIC: 'var(--warning)', HUMANITARIAN: 'var(--success)', POLITICAL: 'var(--t2)',
-};
 
 type Props = {
   sevFilter: Record<Severity, boolean>;
