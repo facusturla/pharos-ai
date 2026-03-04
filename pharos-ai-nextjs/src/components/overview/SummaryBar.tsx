@@ -29,7 +29,7 @@ export function SummaryBar() {
 
   return (
     <div
-      className="flex items-center gap-1.5 px-4 shrink-0 overflow-x-auto h-9 bg-[var(--bg-app)] border-b border-[var(--bd)]"
+      className="flex items-center gap-1.5 px-4 shrink-0 overflow-x-auto touch-scroll hide-scrollbar h-9 bg-[var(--bg-app)] border-b border-[var(--bd)]"
     >
       <span className="label shrink-0 text-[8px] text-[var(--t4)]">KEY FACTS</span>
       <div className="shrink-0 w-px h-3.5 bg-[var(--bd)]" />
@@ -43,7 +43,7 @@ export function SummaryBar() {
           </span>
         </div>
       ))}
-      <div className="ml-auto shrink-0">
+      <div className="shrink-0">
         <span className="mono text-[9px] text-[var(--t4)]">
           {fmtDate(conflict.startDate)} – {endDateStr} · OPERATIONS {conflict.status}
         </span>

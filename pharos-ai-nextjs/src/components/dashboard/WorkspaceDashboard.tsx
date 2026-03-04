@@ -3,17 +3,17 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { ArrowRight, ArrowLeft, X as XIcon, Plus } from 'lucide-react';
+import { ArrowRight, ArrowLeft, X as XIcon, Plus, Map as MapIcon } from 'lucide-react';
 
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { fmtDate, fmtTimeZ } from '@/lib/format';
+import { fmtTimeZ } from '@/lib/format';
 import { ACT_C, STA_C } from '@/data/iran-actors';
 import XPostCard from '@/components/shared/XPostCard';
 import Flag from '@/components/shared/Flag';
 import { CasChip } from '@/app/dashboard/overview/CasChip';
 import { DaySelector } from '@/components/shared/DaySelector';
 import { getConflictForDay, getActorForDay, getEventsForDay, getPostsForDay } from '@/lib/day-filter';
-import type { ConflictDaySnapshot, IntelEvent, Actor, XPost } from '@/types/domain';
+import type { ConflictDaySnapshot, IntelEvent, Actor, XPost, Conflict } from '@/types/domain';
 
 import { useAppSelector, useAppDispatch } from '@/store';
 import {
@@ -27,7 +27,7 @@ import {
   setColumnSizes,
   setRowSizes,
 } from '@/store/workspace-slice';
-import { ALL_WIDGET_KEYS, WIDGET_LABELS, PRESETS, type WidgetKey, type PresetId } from '@/store/presets';
+import { ALL_WIDGET_KEYS, WIDGET_LABELS, PRESETS, type WidgetKey } from '@/store/presets';
 
 import { useBootstrap } from '@/api/bootstrap';
 import { useIsMobile } from '@/hooks/use-is-mobile';
@@ -39,7 +39,7 @@ import { useXPosts } from '@/api/x-posts';
 // Dashboard context — provides day + API data to all widgets
 interface DashData {
   day: string;
-  conflict: any;
+  conflict: Conflict | null;
   snapshots: ConflictDaySnapshot[];
   events: IntelEvent[];
   actors: Actor[];
@@ -499,19 +499,12 @@ function widgetComponents(): Record<WidgetKey, () => React.ReactNode> {
 export function WorkspaceDashboard() {
   const dispatch = useAppDispatch();
   const { columns, activePreset, editing, columnSizes, rowSizes } = useAppSelector(s => s.workspace);
-  const [mounted, setMounted] = useState(false);
   const isMobile = useIsMobile();
 
   const { data: bootstrap } = useBootstrap();
   const allDays = bootstrap?.days ?? [];
   const [dashDay, setDashDay] = useState<string>('');
-
-  // Set initial day once bootstrap data arrives
-  useEffect(() => {
-    if (allDays.length > 0 && !dashDay) {
-      setDashDay(allDays[allDays.length - 1]);
-    }
-  }, [allDays, dashDay]);
+  const effectiveDashDay = dashDay || allDays[allDays.length - 1] || '';
 
   const { data: conflict } = useConflict();
   const { data: snapshots } = useConflictDays();
@@ -519,18 +512,14 @@ export function WorkspaceDashboard() {
   const { data: actors } = useActors();
   const { data: xPosts } = useXPosts();
 
-  useEffect(() => { setMounted(true); }, []);
-
   // All widgets not yet placed anywhere
   const usedWidgets = columns.flatMap(c => c.widgets);
   const availableWidgets = ALL_WIDGET_KEYS.filter(k => !usedWidgets.includes(k));
 
-  if (!mounted) return null;
-
   const colSize = `${(100 / columns.length).toFixed(1)}%`;
 
   const dashData: DashData = {
-    day: dashDay,
+    day: effectiveDashDay,
     conflict: conflict ?? null,
     snapshots: snapshots ?? [],
     events: events ?? [],
@@ -543,7 +532,7 @@ export function WorkspaceDashboard() {
     <div className="flex flex-col flex-1 min-h-0 overflow-hidden bg-[var(--bg-1)]">
 
       {/* ── toolbar ── */}
-      <div className="shrink-0 flex items-center gap-2 px-3 py-[5px] border-b border-[var(--bd)] bg-[var(--bg-2)]">
+      <div className="shrink-0 flex items-center gap-2 px-3 py-[5px] border-b border-[var(--bd)] bg-[var(--bg-2)] overflow-x-auto touch-scroll hide-scrollbar">
         <button
           onClick={() => dispatch(toggleEditing())}
           className={`text-[10px] px-[10px] py-[4px] border font-semibold tracking-wide transition-colors ${
@@ -576,7 +565,7 @@ export function WorkspaceDashboard() {
         </div>
 
         <div className="ml-1">
-          <DaySelector currentDay={dashDay} onDayChange={setDashDay} />
+          <DaySelector currentDay={effectiveDashDay} onDayChange={setDashDay} />
         </div>
 
         {editing && (
@@ -642,9 +631,19 @@ export function WorkspaceDashboard() {
       {/* ── mobile stacked layout ── */}
       {isMobile && (
         <DashCtx.Provider value={dashData}>
-          <div className="flex-1 overflow-y-auto">
-            {columns.flatMap(c => c.widgets).map(widget => (
-              <div key={widget} className="flex flex-col border-b border-[var(--bd)]" style={{ minHeight: 240, maxHeight: 420 }}>
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <Link href="/dashboard/map" className="no-underline">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--bd)] bg-[var(--bg-2)]">
+                <div className="flex items-center gap-2">
+                  <MapIcon size={14} strokeWidth={2} className="text-[var(--blue-l)]" />
+                  <span className="mono text-[10px] font-bold text-[var(--t1)] tracking-[0.08em]">OPEN FULL MAP</span>
+                </div>
+                <span className="mono text-[10px] text-[var(--blue-l)] font-bold">→</span>
+              </div>
+            </Link>
+
+            {columns.flatMap(c => c.widgets).filter(widget => widget !== 'map').map(widget => (
+              <div key={widget} className="flex flex-col border-b border-[var(--bd)]" style={{ minHeight: 240 }}>
                 <div className="panel-header shrink-0">
                   <span className="section-title">{WIDGET_LABELS[widget]}</span>
                 </div>
