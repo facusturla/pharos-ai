@@ -24,7 +24,7 @@ export function IntelTabBar<T extends string>({
     >
       <TabsList
         variant="line"
-        className="h-[38px] w-full rounded-none border-b border-[var(--bd)] bg-[var(--bg-2)] flex gap-0 p-0 justify-start"
+        className="h-[38px] w-full rounded-none border-b border-[var(--bd)] bg-[var(--bg-2)] flex gap-0 p-0 justify-start overflow-x-auto touch-scroll hide-scrollbar"
       >
         {tabs.map(tab => (
           <TabsTrigger

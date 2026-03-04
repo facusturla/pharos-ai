@@ -1,11 +1,13 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { FileText } from 'lucide-react';
+import { FileText, ArrowLeft } from 'lucide-react';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { Button } from '@/components/ui/button';
 import { usePanelLayout } from '@/hooks/use-panel-layout';
 import { useConflictDay } from '@/hooks/use-conflict-day';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import type { Severity, EventType } from '@/types/domain';
 import { useEvents } from '@/api/events';
 import { FeedFilterRail, ALL_TYPES } from '@/components/feed/FeedFilterRail';
@@ -17,6 +19,7 @@ import { getEventsForDay } from '@/lib/day-filter';
 export function FeedContent() {
   const searchParams = useSearchParams();
   const initEvent    = searchParams.get('event');
+  const isMobile = useIsMobile(1024);
   const { currentDay, setDay, allDays } = useConflictDay();
   const { data: allEvents } = useEvents();
   const [showAllDays, setShowAllDays] = useState(true);
@@ -26,11 +29,9 @@ export function FeedContent() {
     Object.fromEntries(ALL_TYPES.map(t => [t, true])) as Record<EventType, boolean>,
   );
   const [verOnly, setVerOnly] = useState(false);
-  const [selId,   setSelId]   = useState<string | null>(initEvent);
+  const [selId,   setSelId]   = useState<string | null>(() => initEvent);
   const [tab,     setTab]     = useState<'report' | 'signals'>('report');
   const { defaultLayout, onLayoutChanged } = usePanelLayout({ id: 'feed', panelIds: ['filters', 'log', 'detail'] });
-
-  useEffect(() => { if (initEvent) setSelId(initEvent); }, [initEvent]);
 
   const filtered = useMemo(() => {
     const events = allEvents ?? [];
@@ -44,6 +45,54 @@ export function FeedContent() {
   }, [sevFilter, typeFilter, verOnly, currentDay, showAllDays, allEvents, allDays]);
 
   const selected = allEvents?.find(e => e.id === selId) ?? null;
+
+  if (isMobile) {
+    return (
+      <div className="flex flex-col flex-1 min-h-0 min-w-0 overflow-hidden">
+        {selected ? (
+          <>
+            <div className="panel-header">
+              <Button
+                variant="ghost"
+                size="xs"
+                onClick={() => setSelId(null)}
+                className="mono h-7 px-2 text-[9px] font-bold tracking-[0.06em]"
+              >
+                <ArrowLeft size={12} />
+                BACK TO FEED
+              </Button>
+            </div>
+            <EventDetail event={selected} tab={tab} onTabChange={setTab} />
+          </>
+        ) : (
+          <>
+            <div className="max-h-[45%] min-h-[180px] border-b border-[var(--bd)]">
+              <FeedFilterRail
+                sevFilter={sevFilter}
+                typeFilter={typeFilter}
+                verOnly={verOnly}
+                totalFiltered={filtered.length}
+                onSevChange={(s, v) => setSevFilter(p => ({ ...p, [s]: v }))}
+                onTypeChange={(t, v) => setTypeFilter(p => ({ ...p, [t]: v }))}
+                onVerChange={setVerOnly}
+                currentDay={currentDay}
+                onDayChange={(day) => { setDay(day); setShowAllDays(false); }}
+                showAll={showAllDays}
+                onAllClick={() => setShowAllDays(true)}
+              />
+            </div>
+            <div className="flex-1 min-h-0">
+              <EventLog
+                events={filtered}
+                selectedId={selId}
+                onSelect={id => { setSelId(id); if (id) setTab('report'); }}
+              />
+            </div>
+          </>
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col flex-1 min-h-0 min-w-0 overflow-hidden">

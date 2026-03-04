@@ -80,7 +80,7 @@ export function ActorDossier({ actor, tab, onTabChange, currentDay }: Props) {
         </div>
 
         {/* Stance timeline */}
-        <div className="flex items-center gap-1 mt-1">
+        <div className="flex items-center gap-1 mt-1 overflow-x-auto touch-scroll hide-scrollbar">
           <span className="label text-[7px] text-[var(--t4)] mr-1">STANCE</span>
           {allDays.map(day => {
             const ds = getActorForDay(actor, day);

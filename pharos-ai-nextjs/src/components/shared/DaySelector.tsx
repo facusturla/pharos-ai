@@ -34,13 +34,13 @@ export function DaySelector({ currentDay, onDayChange, showAll, allSelected, onA
   }
 
   return (
-    <div className="flex items-center gap-[5px]">
+    <div className="flex items-center gap-[5px] overflow-x-auto touch-scroll hide-scrollbar">
       {showAll && (
         <Button
           variant="outline"
           size="xs"
           onClick={onAllClick}
-          className="mono text-[9px] font-bold tracking-[0.06em] rounded-none"
+          className="mono text-[9px] font-bold tracking-[0.06em] rounded-none shrink-0"
           style={{
             borderColor: allSelected ? 'var(--blue)' : 'var(--bd)',
             background: allSelected ? 'var(--blue-dim)' : undefined,
@@ -56,7 +56,7 @@ export function DaySelector({ currentDay, onDayChange, showAll, allSelected, onA
         size="icon-xs"
         onClick={() => canPrev && onDayChange(allDays[idx - 1])}
         disabled={!canPrev}
-        className="rounded-none"
+        className="rounded-none shrink-0"
         style={{ borderColor: 'var(--bd)' }}
       >
         <ChevronLeft size={12} strokeWidth={2} className="text-[var(--t3)]" />
@@ -67,7 +67,7 @@ export function DaySelector({ currentDay, onDayChange, showAll, allSelected, onA
           <Button
             variant="outline"
             size="xs"
-            className="flex items-center gap-1.5 min-w-[130px] justify-center rounded-none"
+            className="flex items-center gap-1.5 min-w-[112px] justify-center rounded-none shrink-0"
             style={{
               borderColor: allSelected ? 'var(--bd)' : 'var(--danger)',
               background: allSelected ? undefined : 'var(--danger-dim)',
@@ -114,7 +114,7 @@ export function DaySelector({ currentDay, onDayChange, showAll, allSelected, onA
         size="icon-xs"
         onClick={() => canNext && onDayChange(allDays[idx + 1])}
         disabled={!canNext}
-        className="rounded-none"
+        className="rounded-none shrink-0"
         style={{ borderColor: 'var(--bd)' }}
       >
         <ChevronRight size={12} strokeWidth={2} className="text-[var(--t3)]" />

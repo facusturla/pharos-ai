@@ -5,6 +5,12 @@
 ───────────────────────────────────────────── */
 
 :root {
+  --app-height: 100vh;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+
   /* ── Background layers ── */
   --bg-app:    #1C2127;
   --bg-1:      #252A31;
@@ -77,6 +83,10 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; overflow: hidden; }
 
+  @supports (height: 100dvh) {
+    :root { --app-height: 100dvh; }
+  }
+
   body {
     font-family: -apple-system, 'Segoe UI', system-ui, sans-serif;
     background: var(--bg-app);
@@ -85,6 +95,8 @@
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overscroll-behavior: none;
+    touch-action: manipulation;
   }
 
   :focus-visible { outline: 2px solid var(--blue); outline-offset: -2px; }
@@ -100,6 +112,19 @@
   .timeline-scroll::-webkit-scrollbar-thumb    { background: rgba(255,255,255,0.15); border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
   .timeline-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.25); border-radius: 5px; border: 2px solid transparent; background-clip: padding-box; }
   .timeline-scroll { scrollbar-width: auto; scrollbar-color: rgba(255,255,255,0.15) rgba(255,255,255,0.03); }
+
+  .touch-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  .hide-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* ── Components — design system primitives ──────────────────────────────────
@@ -284,4 +309,17 @@
   .maplibregl-ctrl-bottom-left,
   .mapboxgl-ctrl-attrib,
   .mapboxgl-ctrl-bottom-right { display: none !important; }
+
+  @media (max-width: 1024px) {
+    .nav-item {
+      padding: 0 12px;
+      font-size: 11px;
+      letter-spacing: 0.03em;
+    }
+    .panel-header {
+      padding: 0 10px;
+      height: 40px;
+      min-height: 40px;
+    }
+  }
 }

@@ -1,29 +1,64 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { Users } from 'lucide-react';
+import { Users, ArrowLeft } from 'lucide-react';
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { Button } from '@/components/ui/button';
 import { usePanelLayout } from '@/hooks/use-panel-layout';
 import { useConflictDay } from '@/hooks/use-conflict-day';
 import { useActors } from '@/api/actors';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 import { ActorList } from '@/components/actors/ActorList';
 import { ActorDossier } from '@/components/actors/ActorDossier';
 import { EmptyState } from '@/components/shared/EmptyState';
+import { DaySelector } from '@/components/shared/DaySelector';
 
 export function ActorsContent() {
   const searchParams = useSearchParams();
   const initActor    = searchParams.get('actor');
   const { currentDay, setDay } = useConflictDay();
+  const isMobile = useIsMobile(1024);
 
-  const [selId, setSelId] = useState<string | null>(initActor);
+  const [selId, setSelId] = useState<string | null>(() => initActor);
   const [tab,   setTab]   = useState<'intel' | 'signals' | 'military'>('intel');
   const { defaultLayout, onLayoutChanged } = usePanelLayout({ id: 'actors' });
 
-  useEffect(() => { if (initActor) setSelId(initActor); }, [initActor]);
-
   const { data: actors } = useActors();
   const selected = actors?.find(a => a.id === selId) ?? null;
+
+  if (isMobile) {
+    return (
+      <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
+        {selected ? (
+          <>
+            <div className="panel-header justify-between gap-2">
+              <Button
+                variant="ghost"
+                size="xs"
+                onClick={() => setSelId(null)}
+                className="mono h-7 px-2 text-[9px] font-bold tracking-[0.06em]"
+              >
+                <ArrowLeft size={12} />
+                BACK
+              </Button>
+              <div className="overflow-x-auto touch-scroll hide-scrollbar">
+                <DaySelector currentDay={currentDay} onDayChange={setDay} />
+              </div>
+            </div>
+            <ActorDossier actor={selected} tab={tab} onTabChange={setTab} currentDay={currentDay} />
+          </>
+        ) : (
+          <ActorList
+            selectedId={selId}
+            onSelect={id => { setSelId(id); if (id) setTab('intel'); }}
+            currentDay={currentDay}
+            onDayChange={setDay}
+          />
+        )}
+      </div>
+    );
+  }
 
   return (
     <ResizablePanelGroup orientation="horizontal" defaultLayout={defaultLayout} onLayoutChanged={onLayoutChanged} className="flex-1 min-w-0">

@@ -11,7 +11,10 @@ import { Separator } from '@/components/ui/separator';
 import type { PredictionMarket } from '@/types/domain';
 import { assignGroup, MARKET_GROUPS, UNCATEGORIZED_GROUP } from '@/data/prediction-groups';
 import { GroupSection } from '@/components/predictions/GroupSection';
+import { MarketCard } from '@/components/predictions/MarketCard';
+import { FocusedMarket } from '@/components/predictions/FocusedMarket';
 import { fmtVol, getLeadProb, COL } from '@/components/predictions/utils';
+import { useIsMobile } from '@/hooks/use-is-mobile';
 
 const SORT_OPTS = [
   { key: 'volume',      label: 'TOTAL VOL' },
@@ -30,6 +33,8 @@ export default function PredictionsPage() {
   const [fetchedAt,      setFetchedAt]      = useState('');
   const [isRefreshing,   setIsRefreshing]   = useState(false);
   const [expandedId,     setExpandedId]     = useState<string | null>(null);
+  const [focusedId,      setFocusedId]      = useState<string | null>(null);
+  const isMobile = useIsMobile(1024);
 
   const fetchMarkets = async (isManual = false) => {
     setLoading(true); setIsRefreshing(true); setError(null);
@@ -78,6 +83,14 @@ export default function PredictionsPage() {
     return offsets;
   }, [grouped]);
 
+  const mobileSorted = useMemo(() => {
+    return [...filtered].sort((a, b) => {
+      if (sortBy === 'volume24hr') return b.volume24hr - a.volume24hr;
+      if (sortBy === 'probability') return getLeadProb(b) - getLeadProb(a);
+      return b.volume - a.volume;
+    });
+  }, [filtered, sortBy]);
+
   const totalVolume = markets.reduce((s, m) => s + m.volume, 0);
   const totalVol24h = markets.reduce((s, m) => s + m.volume24hr, 0);
   const activeCount = markets.filter(m => m.active && !m.closed).length;
@@ -89,7 +102,7 @@ export default function PredictionsPage() {
     <div className="flex flex-col flex-1 min-w-0 overflow-hidden h-full bg-[var(--bg-1)]">
 
       {/* ── Top bar ── */}
-      <div className="flex items-center gap-4 shrink-0 px-4 h-[44px] bg-[var(--bg-app)] border-b border-[var(--bd)]">
+      <div className="flex items-center gap-4 shrink-0 px-3 md:px-4 h-[44px] bg-[var(--bg-app)] border-b border-[var(--bd)]">
         <div className="flex items-center gap-2">
           <TrendingUp size={14} strokeWidth={2.5} className="text-[var(--blue-l)] shrink-0" />
           <span className="section-title">PREDICTION MARKETS</span>
@@ -99,7 +112,7 @@ export default function PredictionsPage() {
         <Separator orientation="vertical" className="h-5 bg-[var(--bd)]" />
 
         {/* Stats */}
-        <div className="flex gap-5 items-center">
+        <div className="hidden md:flex gap-5 items-center">
           <div>
             <span className="label text-[var(--t4)]">MARKETS </span>
             <span className="mono font-bold text-[var(--t1)]">{markets.length}</span>
@@ -125,33 +138,53 @@ export default function PredictionsPage() {
       </div>
 
       {/* ── Column header ── */}
-      <div
-        className="shrink-0 grid items-center h-[30px] bg-[var(--bg-app)] border-b border-[var(--bd)]"
-        style={{ gridTemplateColumns: COL }}
-      >
-        <div />
-        <div className="label pl-0.5 text-[8px]">MARKET</div>
+      {!isMobile ? (
+        <div
+          className="shrink-0 grid items-center h-[30px] bg-[var(--bg-app)] border-b border-[var(--bd)]"
+          style={{ gridTemplateColumns: COL }}
+        >
+          <div />
+          <div className="label pl-0.5 text-[8px]">MARKET</div>
 
-        <ToggleGroup type="single" value={sortBy} onValueChange={v => v && setSortBy(v as SortBy)} className="contents">
-          {SORT_OPTS.map(col => (
-            <ToggleGroupItem
-              key={col.key}
-              value={col.key}
-              className={`mono bg-transparent border-none h-[30px] rounded-none p-0 flex items-center text-[8px] tracking-[0.08em] ${col.key === 'probability' ? 'justify-start pr-0' : 'justify-end pr-3'} ${sortBy === col.key ? 'font-bold text-[var(--blue-l)]' : 'font-normal text-[var(--t4)]'}`}
-            >
-              {col.label}{sortBy === col.key ? ' ▼' : ''}
-            </ToggleGroupItem>
-          ))}
-        </ToggleGroup>
+          <ToggleGroup type="single" value={sortBy} onValueChange={v => v && setSortBy(v as SortBy)} className="contents">
+            {SORT_OPTS.map(col => (
+              <ToggleGroupItem
+                key={col.key}
+                value={col.key}
+                className={`mono bg-transparent border-none h-[30px] rounded-none p-0 flex items-center text-[8px] tracking-[0.08em] ${col.key === 'probability' ? 'justify-start pr-0' : 'justify-end pr-3'} ${sortBy === col.key ? 'font-bold text-[var(--blue-l)]' : 'font-normal text-[var(--t4)]'}`}
+              >
+                {col.label}{sortBy === col.key ? ' ▼' : ''}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
 
-        <div className="label text-right pr-3 text-[8px]">ENDS</div>
+          <div className="label text-right pr-3 text-[8px]">ENDS</div>
 
-        <div className="flex justify-end items-center gap-1.5 pr-2">
-          <span className="label text-[7px] font-bold" style={{ color: showActiveOnly ? 'var(--success)' : 'var(--t4)' }}>LIVE</span>
-          <Switch checked={showActiveOnly} onCheckedChange={setShowActiveOnly} className="scale-75 origin-right" />
+          <div className="flex justify-end items-center gap-1.5 pr-2">
+            <span className="label text-[7px] font-bold" style={{ color: showActiveOnly ? 'var(--success)' : 'var(--t4)' }}>LIVE</span>
+            <Switch checked={showActiveOnly} onCheckedChange={setShowActiveOnly} className="scale-75 origin-right" />
+          </div>
+          <div />
         </div>
-        <div />
-      </div>
+      ) : (
+        <div className="shrink-0 flex items-center gap-2 px-3 py-2 bg-[var(--bg-app)] border-b border-[var(--bd)] overflow-x-auto touch-scroll">
+          <ToggleGroup type="single" value={sortBy} onValueChange={v => v && setSortBy(v as SortBy)} className="flex gap-1">
+            {SORT_OPTS.map(col => (
+              <ToggleGroupItem
+                key={col.key}
+                value={col.key}
+                className={`mono px-2 h-7 rounded text-[9px] border ${sortBy === col.key ? 'text-[var(--t1)] border-white/25 bg-white/10' : 'text-[var(--t4)] border-transparent bg-transparent'}`}
+              >
+                {col.label}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+          <div className="ml-auto flex items-center gap-2 pr-1">
+            <span className="label text-[8px]" style={{ color: showActiveOnly ? 'var(--success)' : 'var(--t4)' }}>LIVE</span>
+            <Switch checked={showActiveOnly} onCheckedChange={setShowActiveOnly} className="scale-80 origin-right" />
+          </div>
+        </div>
+      )}
 
       {/* ── Content ── */}
       <div className="flex-1 overflow-y-auto">
@@ -183,6 +216,21 @@ export default function PredictionsPage() {
           <div className="flex items-center justify-center h-[200px] text-[var(--t4)]">
             <span className="label">NO MARKETS FOUND</span>
           </div>
+        ) : isMobile ? (
+          <div className="grid grid-cols-1 gap-2 p-2">
+            {mobileSorted.map((market, i) => {
+              const group = assignGroup(market.title);
+              return (
+                <MarketCard
+                  key={market.id}
+                  market={market}
+                  group={group}
+                  rank={i + 1}
+                  onFocus={() => setFocusedId(market.id)}
+                />
+              );
+            })}
+          </div>
         ) : (
           [...MARKET_GROUPS, UNCATEGORIZED_GROUP].map(group => (
             <GroupSection
@@ -197,6 +245,18 @@ export default function PredictionsPage() {
           ))
         )}
       </div>
+
+      {isMobile && focusedId && (() => {
+        const market = markets.find(m => m.id === focusedId);
+        if (!market) return null;
+        return (
+          <FocusedMarket
+            market={market}
+            group={assignGroup(market.title)}
+            onClose={() => setFocusedId(null)}
+          />
+        );
+      })()}
     </div>
   );
 }
