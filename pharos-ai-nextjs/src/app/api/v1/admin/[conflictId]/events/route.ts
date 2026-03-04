@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, assertEnum, parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertRequired, assertEnum, parseISODate, safeJson } from '@/lib/admin-validate';
+import { checkEventEnforcement } from '@/lib/enforcement';
+import { isEnforcementMode, enforcementResponse } from '@/lib/enforcement-utils';
 import { Severity, EventType } from '@/generated/prisma/client';
 
 const SEVERITIES = Object.values(Severity);
@@ -37,6 +39,19 @@ export async function POST(
   // Check conflict exists
   const conflict = await prisma.conflict.findUnique({ where: { id: conflictId } });
   if (!conflict) return err('NOT_FOUND', `Conflict ${conflictId} not found`, 404);
+
+  // Enforcement dry-run — quality checks, no DB write
+  if (isEnforcementMode(req)) {
+    const twoDaysAgo = new Date(Date.now() - 48 * 60 * 60 * 1000);
+    const recentEvents = await prisma.intelEvent.findMany({
+      where: { conflictId, timestamp: { gte: twoDaysAgo } },
+      select: { title: true, timestamp: true },
+    });
+    const issues = checkEventEnforcement(body, {
+      recentEvents: recentEvents.map(e => ({ title: e.title, timestamp: e.timestamp.toISOString() })),
+    });
+    return enforcementResponse(body, issues);
+  }
 
   // Check for duplicate
   const existing = await prisma.intelEvent.findUnique({ where: { id: body.id } });

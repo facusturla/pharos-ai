@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertRequired, assertEnum, parseISODate, safeJson, MAP_ACTOR_KEYS, MAP_PRIORITIES, ZONE_TYPES } from '@/lib/admin-validate';
 
 export async function POST(
   req: NextRequest,
@@ -17,6 +17,15 @@ export async function POST(
 
   const missing = assertRequired(body, ['id', 'actor', 'priority', 'category', 'type']);
   if (missing) return err('VALIDATION', missing);
+
+  const actorErr = assertEnum(body.actor, MAP_ACTOR_KEYS, 'actor');
+  if (actorErr) return err('VALIDATION', actorErr);
+
+  const priorityErr = assertEnum(body.priority, MAP_PRIORITIES, 'priority');
+  if (priorityErr) return err('VALIDATION', priorityErr);
+
+  const typeErr = assertEnum(body.type, ZONE_TYPES, 'type');
+  if (typeErr) return err('VALIDATION', typeErr);
 
   // Threat zone needs coordinates (polygon)
   if (!body.geometry?.coordinates) {

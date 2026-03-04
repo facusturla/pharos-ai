@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, assertIntRange , safeJson } from '@/lib/admin-validate';
+import { assertRequired, assertIntRange, safeJson } from '@/lib/admin-validate';
+import { checkDaySnapshotEnforcement } from '@/lib/enforcement';
+import { isEnforcementMode, enforcementResponse } from '@/lib/enforcement-utils';
 
 export async function POST(
   req: NextRequest,
@@ -27,6 +29,12 @@ export async function POST(
   const day = new Date(body.day + 'T00:00:00Z');
   if (isNaN(day.getTime())) return err('VALIDATION', 'Invalid day format');
 
+  // Enforcement dry-run
+  if (isEnforcementMode(req)) {
+    const issues = checkDaySnapshotEnforcement(body);
+    return enforcementResponse(body, issues);
+  }
+
   // Check for duplicate
   const existing = await prisma.conflictDaySnapshot.findUnique({
     where: { conflictId_day: { conflictId, day } },
@@ -50,12 +58,12 @@ export async function POST(
     if (body.casualties?.length) {
       await tx.casualtySummary.createMany({
         data: body.casualties.map(
-          (c: { faction: string; killed?: number; wounded?: number; civilians?: number; injured?: number }) => ({
+          (c: { faction: string; killed?: number; wounded?: number; civilians?: number | boolean; injured?: number }) => ({
             snapshotId: snap.id,
             faction: c.faction,
             killed: c.killed ?? 0,
             wounded: c.wounded ?? 0,
-            civilians: c.civilians ?? 0,
+            civilians: typeof c.civilians === 'boolean' ? (c.civilians ? 1 : 0) : (c.civilians ?? 0),
             injured: c.injured ?? 0,
           }),
         ),

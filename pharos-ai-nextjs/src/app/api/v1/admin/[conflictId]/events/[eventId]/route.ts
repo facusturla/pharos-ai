@@ -24,6 +24,14 @@ export async function PUT(
   });
   if (!event) return err('NOT_FOUND', `Event ${eventId} not found`, 404);
 
+  // Guard: reject fields that look like they should be nested but aren't handled here
+  if (body.sources !== undefined) {
+    return err('VALIDATION', 'Cannot update sources via PUT /events/{id}. Use POST /events/{id}/sources to add sources.');
+  }
+  if (body.actorResponses !== undefined) {
+    return err('VALIDATION', 'Cannot update actorResponses via PUT /events/{id}. Use POST /actors/{actorId}/responses to record responses.');
+  }
+
   const data: Record<string, unknown> = {};
 
   if (body.severity !== undefined) {

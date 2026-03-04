@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertEnum, parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertEnum, parseISODate, safeJson, STORY_ICON_NAMES } from '@/lib/admin-validate';
 import { StoryCategory } from '@/generated/prisma/client';
 
 const CATEGORIES = Object.values(StoryCategory);
@@ -23,10 +23,20 @@ export async function PUT(
 
   const data: Record<string, unknown> = {};
 
+  // Guard: events are not updated via this endpoint
+  if (body.events !== undefined) {
+    return err('VALIDATION', 'Cannot update story events via PUT /map/stories/{id}. Use PUT /map/stories/{id}/events to replace all events, or POST /map/stories/{id}/events to append.');
+  }
+
   if (body.category !== undefined) {
     const e = assertEnum(body.category, CATEGORIES, 'category');
     if (e) return err('VALIDATION', e);
     data.category = body.category;
+  }
+  if (body.iconName !== undefined) {
+    const e = assertEnum(body.iconName, STORY_ICON_NAMES, 'iconName');
+    if (e) return err('VALIDATION', e);
+    data.iconName = body.iconName;
   }
   if (body.timestamp !== undefined) {
     const ts = parseISODate(body.timestamp, 'timestamp');
@@ -35,7 +45,6 @@ export async function PUT(
   }
   if (body.title !== undefined) data.title = body.title;
   if (body.tagline !== undefined) data.tagline = body.tagline;
-  if (body.iconName !== undefined) data.iconName = body.iconName;
   if (body.narrative !== undefined) data.narrative = body.narrative;
   if (body.highlightStrikeIds !== undefined) data.highlightStrikeIds = body.highlightStrikeIds;
   if (body.highlightMissileIds !== undefined) data.highlightMissileIds = body.highlightMissileIds;

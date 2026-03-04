@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, assertEnum, parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertRequired, assertEnum, parseISODate, safeJson, STORY_ICON_NAMES } from '@/lib/admin-validate';
+import { checkStoryEnforcement } from '@/lib/enforcement';
+import { isEnforcementMode, enforcementResponse } from '@/lib/enforcement-utils';
 import { StoryCategory } from '@/generated/prisma/client';
 
 const CATEGORIES = Object.values(StoryCategory);
@@ -26,11 +28,32 @@ export async function POST(
   const catErr = assertEnum(body.category, CATEGORIES, 'category');
   if (catErr) return err('VALIDATION', catErr);
 
+  const iconErr = assertEnum(body.iconName, STORY_ICON_NAMES, 'iconName');
+  if (iconErr) return err('VALIDATION', iconErr);
+
   const ts = parseISODate(body.timestamp, 'timestamp');
   if (typeof ts === 'string') return err('VALIDATION', ts);
 
+  // Validate inline event time fields are ISO 8601
+  if (Array.isArray(body.events)) {
+    for (let i = 0; i < body.events.length; i++) {
+      const e = body.events[i];
+      const timeCheck = parseISODate(e.time, `events[${i}].time`);
+      if (typeof timeCheck === 'string') return err('VALIDATION', timeCheck);
+    }
+  }
+
   const conflict = await prisma.conflict.findUnique({ where: { id: conflictId } });
   if (!conflict) return err('NOT_FOUND', `Conflict ${conflictId} not found`, 404);
+
+  // Enforcement dry-run — quality checks, no DB write
+  if (isEnforcementMode(req)) {
+    const existingTitles = (
+      await prisma.mapStory.findMany({ where: { conflictId }, select: { title: true } })
+    ).map(s => s.title);
+    const issues = checkStoryEnforcement(body, { existingTitles });
+    return enforcementResponse(body, issues);
+  }
 
   const existing = await prisma.mapStory.findUnique({ where: { id: body.id } });
   if (existing) return err('DUPLICATE', `Map story ${body.id} already exists`, 409);

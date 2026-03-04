@@ -1,6 +1,30 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { err } from './api-utils';
 
+// ─── Map feature enums ────────────────────────────────────────────────────────
+
+/** Valid actor values for map features — must match Actor.mapKey, always UPPERCASE */
+export const MAP_ACTOR_KEYS = [
+  'US', 'ISRAEL', 'IRAN', 'IRGC', 'HOUTHI', 'NATO', 'USIL', 'HEZBOLLAH', 'PMF',
+] as const;
+
+export const MAP_PRIORITIES = ['P1', 'P2', 'P3'] as const;
+
+export const KINETIC_TYPES = ['AIRSTRIKE', 'NAVAL_STRIKE', 'BALLISTIC', 'CRUISE', 'DRONE'] as const;
+export const INSTALLATION_TYPES = ['CARRIER', 'AIR_BASE', 'NAVAL_BASE', 'ARMY_BASE', 'NUCLEAR_SITE', 'COMMAND', 'INFRASTRUCTURE'] as const;
+export const ZONE_TYPES = ['CLOSURE', 'PATROL', 'NFZ', 'THREAT_CORRIDOR'] as const;
+
+export const KINETIC_STATUSES = ['COMPLETE', 'INTERCEPTED', 'IMPACTED'] as const;
+export const INSTALLATION_STATUSES = ['ACTIVE', 'DEGRADED', 'STRUCK', 'DAMAGED', 'DESTROYED'] as const;
+
+// ─── Story enums ──────────────────────────────────────────────────────────────
+
+/** Valid iconName values — must exactly match StoryIcon.tsx ICON_MAP keys */
+export const STORY_ICON_NAMES = [
+  'Plane', 'Radiation', 'Anchor', 'Crosshair', 'Ship', 'Skull',
+  'Zap', 'Target', 'Swords', 'Shield', 'Flame', 'AlertTriangle', 'Building2',
+] as const;
+
 /**
  * Validation helpers for admin API request bodies.
  * Each returns an error string on failure or null on success.

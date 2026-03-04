@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, parseISODate , safeJson } from '@/lib/admin-validate';
+import { checkMapFeatureEnforcement } from '@/lib/enforcement';
+import { isEnforcementMode, enforcementResponse } from '@/lib/enforcement-utils';
+import { assertRequired, assertEnum, parseISODate, safeJson, MAP_ACTOR_KEYS, MAP_PRIORITIES, INSTALLATION_TYPES, INSTALLATION_STATUSES } from '@/lib/admin-validate';
 
 export async function POST(
   req: NextRequest,
@@ -18,6 +20,20 @@ export async function POST(
   const missing = assertRequired(body, ['id', 'actor', 'priority', 'category', 'type']);
   if (missing) return err('VALIDATION', missing);
 
+  const actorErr = assertEnum(body.actor, MAP_ACTOR_KEYS, 'actor');
+  if (actorErr) return err('VALIDATION', actorErr);
+
+  const priorityErr = assertEnum(body.priority, MAP_PRIORITIES, 'priority');
+  if (priorityErr) return err('VALIDATION', priorityErr);
+
+  const typeErr = assertEnum(body.type, INSTALLATION_TYPES, 'type');
+  if (typeErr) return err('VALIDATION', typeErr);
+
+  if (body.status !== undefined && body.status !== null) {
+    const statusErr = assertEnum(body.status, INSTALLATION_STATUSES, 'status');
+    if (statusErr) return err('VALIDATION', statusErr);
+  }
+
   // Asset needs position
   if (!body.geometry?.position) {
     return err('VALIDATION', 'Asset geometry requires position [lng, lat]');
@@ -25,6 +41,14 @@ export async function POST(
 
   const conflict = await prisma.conflict.findUnique({ where: { id: conflictId } });
   if (!conflict) return err('NOT_FOUND', `Conflict ${conflictId} not found`, 404);
+
+  // Enforcement dry-run
+  if (isEnforcementMode(req)) {
+    const issues = checkMapFeatureEnforcement(body, 'ASSET');
+    return enforcementResponse(body, issues);
+  }
+
+
 
   const existing = await prisma.mapFeature.findUnique({ where: { id: body.id } });
   if (existing) return err('DUPLICATE', `Map feature ${body.id} already exists`, 409);

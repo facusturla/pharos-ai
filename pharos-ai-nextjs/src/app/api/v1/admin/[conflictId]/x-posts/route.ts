@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { assertRequired, assertEnum, parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertRequired, assertEnum, parseISODate, safeJson } from '@/lib/admin-validate';
+import { checkXPostEnforcement } from '@/lib/enforcement';
+import { isEnforcementMode, enforcementResponse } from '@/lib/enforcement-utils';
 import { SignificanceLevel, AccountType } from '@/generated/prisma/client';
 
 const SIGNIFICANCE_LEVELS = Object.values(SignificanceLevel);
@@ -35,6 +37,12 @@ export async function POST(
 
   const conflict = await prisma.conflict.findUnique({ where: { id: conflictId } });
   if (!conflict) return err('NOT_FOUND', `Conflict ${conflictId} not found`, 404);
+
+  // Enforcement dry-run
+  if (isEnforcementMode(req)) {
+    const issues = checkXPostEnforcement(body);
+    return enforcementResponse(body, issues);
+  }
 
   const existing = await prisma.xPost.findUnique({ where: { id: body.id } });
   if (existing) return err('DUPLICATE', `X post ${body.id} already exists`, 409);

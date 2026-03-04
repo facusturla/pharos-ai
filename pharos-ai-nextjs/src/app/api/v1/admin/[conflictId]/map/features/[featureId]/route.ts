@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
-import { parseISODate , safeJson } from '@/lib/admin-validate';
+import { assertEnum, parseISODate, safeJson, MAP_ACTOR_KEYS, MAP_PRIORITIES, KINETIC_TYPES, INSTALLATION_TYPES, ZONE_TYPES, KINETIC_STATUSES, INSTALLATION_STATUSES } from '@/lib/admin-validate';
 
 export async function PUT(
   req: NextRequest,
@@ -19,6 +19,29 @@ export async function PUT(
     where: { id: featureId, conflictId },
   });
   if (!feature) return err('NOT_FOUND', `Map feature ${featureId} not found`, 404);
+
+  // Determine valid type/status enums from the feature's existing featureType
+  const isKinetic = feature.featureType === 'STRIKE_ARC' || feature.featureType === 'MISSILE_TRACK';
+  const isZone = feature.featureType === 'THREAT_ZONE';
+  const validTypes = isKinetic ? KINETIC_TYPES : isZone ? ZONE_TYPES : INSTALLATION_TYPES;
+  const validStatuses = isKinetic ? KINETIC_STATUSES : INSTALLATION_STATUSES;
+
+  if (body.actor !== undefined) {
+    const e = assertEnum(body.actor, MAP_ACTOR_KEYS, 'actor');
+    if (e) return err('VALIDATION', e);
+  }
+  if (body.priority !== undefined) {
+    const e = assertEnum(body.priority, MAP_PRIORITIES, 'priority');
+    if (e) return err('VALIDATION', e);
+  }
+  if (body.type !== undefined) {
+    const e = assertEnum(body.type, validTypes, 'type');
+    if (e) return err('VALIDATION', e);
+  }
+  if (body.status !== undefined && body.status !== null && !isZone) {
+    const e = assertEnum(body.status, validStatuses, 'status');
+    if (e) return err('VALIDATION', e);
+  }
 
   const data: Record<string, unknown> = {};
 

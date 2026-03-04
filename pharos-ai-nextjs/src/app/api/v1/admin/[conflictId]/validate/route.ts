@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server';
 import { prisma } from '@/lib/db';
 import { ok, err } from '@/lib/api-utils';
 import { requireAdmin } from '@/lib/admin-auth';
+import { MAP_ACTOR_KEYS, MAP_PRIORITIES } from '@/lib/admin-validate';
 
 export async function GET(
   req: NextRequest,
@@ -26,6 +27,8 @@ export async function GET(
     actorsWithoutSnapshot,
     todaySnapshot,
     orphanedXPosts,
+    allMapFeatures,
+    allMapStories,
   ] = await Promise.all([
     // Events with no sources
     prisma.intelEvent.findMany({
@@ -70,7 +73,47 @@ export async function GET(
         AND xp."eventId" IS NOT NULL
         AND ie.id IS NULL
     `,
+    // All map features — for actor/priority integrity check
+    prisma.mapFeature.findMany({
+      where: { conflictId },
+      select: { id: true, actor: true, priority: true, type: true },
+    }),
+    // All map stories — for highlight ref integrity check
+    prisma.mapStory.findMany({
+      where: { conflictId },
+      select: {
+        id: true,
+        title: true,
+        highlightStrikeIds: true,
+        highlightMissileIds: true,
+        highlightTargetIds: true,
+        highlightAssetIds: true,
+      },
+    }),
   ]);
+
+  // Map feature integrity: check for invalid actor or priority values
+  const featureIdSet = new Set(allMapFeatures.map(f => f.id));
+  const invalidActorFeatures = allMapFeatures.filter(f => !(MAP_ACTOR_KEYS as readonly string[]).includes(f.actor));
+  const invalidPriorityFeatures = allMapFeatures.filter(f => !(MAP_PRIORITIES as readonly string[]).includes(f.priority));
+
+  // Story highlight ref integrity: check each highlight ID exists as a MapFeature
+  const brokenStoryHighlights: { storyId: string; storyTitle: string; field: string; missingId: string }[] = [];
+  for (const story of allMapStories) {
+    const checks: [string, string[]][] = [
+      ['highlightStrikeIds',  story.highlightStrikeIds],
+      ['highlightMissileIds', story.highlightMissileIds],
+      ['highlightTargetIds',  story.highlightTargetIds],
+      ['highlightAssetIds',   story.highlightAssetIds],
+    ];
+    for (const [field, ids] of checks) {
+      for (const id of ids) {
+        if (!featureIdSet.has(id)) {
+          brokenStoryHighlights.push({ storyId: story.id, storyTitle: story.title, field, missingId: id });
+        }
+      }
+    }
+  }
 
   return ok({
     today,
@@ -107,6 +150,18 @@ export async function GET(
       orphanedXPostEventRefs: {
         count: orphanedXPosts.length,
         items: orphanedXPosts,
+      },
+      invalidActorOnMapFeatures: {
+        count: invalidActorFeatures.length,
+        items: invalidActorFeatures.map(f => ({ id: f.id, actor: f.actor, validActors: MAP_ACTOR_KEYS })),
+      },
+      invalidPriorityOnMapFeatures: {
+        count: invalidPriorityFeatures.length,
+        items: invalidPriorityFeatures.map(f => ({ id: f.id, priority: f.priority })),
+      },
+      brokenStoryHighlightRefs: {
+        count: brokenStoryHighlights.length,
+        items: brokenStoryHighlights,
       },
     },
   });

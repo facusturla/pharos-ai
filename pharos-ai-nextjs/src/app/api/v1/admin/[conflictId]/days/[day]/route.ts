@@ -46,12 +46,12 @@ export async function PUT(
       if (body.casualties.length) {
         await tx.casualtySummary.createMany({
           data: body.casualties.map(
-            (c: { faction: string; killed?: number; wounded?: number; civilians?: number; injured?: number }) => ({
+            (c: { faction: string; killed?: number; wounded?: number; civilians?: number | boolean; injured?: number }) => ({
               snapshotId: snapshot.id,
               faction: c.faction,
               killed: c.killed ?? 0,
               wounded: c.wounded ?? 0,
-              civilians: c.civilians ?? 0,
+              civilians: typeof c.civilians === 'boolean' ? (c.civilians ? 1 : 0) : (c.civilians ?? 0),
               injured: c.injured ?? 0,
             }),
           ),
