@@ -33,32 +33,41 @@ export type PresetId = 'analyst' | 'commander' | 'executive';
 
 export type WorkspaceLayout = { columns: Column[] };
 
-export const PRESETS: Record<PresetId, { label: string; description: string; columns: Column[] }> = {
+type PresetDefinition = {
+  label: string;
+  description: string;
+  columns: Column[];
+  columnSizes: Record<string, number>;
+};
+
+export const PRESETS: Record<PresetId, PresetDefinition> = {
   analyst: {
-    label: 'ANALYST',
-    description: 'Balanced intelligence view with signals and actors',
+    label: 'DEFAULT',
+    description: 'Map-first layout with live event stream',
     columns: [
-      { id: 'col-a', widgets: ['situation', 'latest'] },
-      { id: 'col-b', widgets: ['actors', 'signals'] },
-      { id: 'col-c', widgets: ['predictions'] },
+      { id: 'col-a', widgets: ['map'] },
+      { id: 'col-b', widgets: ['latest'] },
     ],
+    columnSizes: { 'col-a': 70, 'col-b': 30 },
   },
   commander: {
-    label: 'COMMANDER',
+    label: 'PRESET 2',
     description: 'Operational focus with map, casualties, and key leaders',
     columns: [
       { id: 'col-a', widgets: ['map'] },
       { id: 'col-b', widgets: ['latest', 'casualties'] },
       { id: 'col-c', widgets: ['commanders', 'keyfacts'] },
     ],
+    columnSizes: { 'col-a': 33.3, 'col-b': 33.3, 'col-c': 33.4 },
   },
   executive: {
-    label: 'EXECUTIVE',
+    label: 'PRESET 3',
     description: 'High-level brief with predictions and key facts',
     columns: [
       { id: 'col-a', widgets: ['brief'] },
       { id: 'col-b', widgets: ['predictions', 'keyfacts'] },
       { id: 'col-c', widgets: ['situation'] },
     ],
+    columnSizes: { 'col-a': 33.3, 'col-b': 33.3, 'col-c': 33.4 },
   },
 };

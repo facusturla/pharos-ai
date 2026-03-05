@@ -21,7 +21,7 @@ const initialState: WorkspaceState = {
   columns: PRESETS.analyst.columns,
   activePreset: 'analyst',
   editing: false,
-  columnSizes: {},
+  columnSizes: { ...PRESETS.analyst.columnSizes },
   rowSizes: {},
 };
 
@@ -35,7 +35,7 @@ const workspaceSlice = createSlice({
       const preset = PRESETS[action.payload];
       state.columns = preset.columns;
       state.activePreset = action.payload;
-      state.columnSizes = {};
+      state.columnSizes = { ...preset.columnSizes };
       state.rowSizes = {};
     },
 
@@ -97,7 +97,7 @@ const workspaceSlice = createSlice({
       const preset = PRESETS.analyst;
       state.columns = preset.columns;
       state.activePreset = 'analyst';
-      state.columnSizes = {};
+      state.columnSizes = { ...preset.columnSizes };
       state.rowSizes = {};
     },
 
