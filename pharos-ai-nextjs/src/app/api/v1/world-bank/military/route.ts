@@ -94,8 +94,9 @@ export async function GET(req: NextRequest) {
     return err('BAD_REQUEST', 'countries query param required (comma-separated ISO3 codes)');
   }
 
-  // Build cache key from sorted country list
-  const cacheKey = [...countries].sort().join(',');
+  // Normalize + deduplicate country codes
+  const normalized = [...new Set(countries.map(c => c.toUpperCase()))].sort();
+  const cacheKey = normalized.join(',');
   const cached = cache.get(cacheKey);
   if (cached && Date.now() - cached.ts < TTL) {
     return ok(cached.data);
@@ -105,8 +106,7 @@ export async function GET(req: NextRequest) {
   const results: Record<string, CountryWorldBankData> = {};
 
   await Promise.all(
-    countries.map(async (rawIso3) => {
-      const iso3 = rawIso3.toUpperCase();
+    normalized.map(async (iso3) => {
       const settled = await Promise.allSettled([
         fetchIndicator(iso3, INDICATORS.spending),
         fetchIndicator(iso3, INDICATORS.gdpPct),
@@ -131,7 +131,13 @@ export async function GET(req: NextRequest) {
     }),
   );
 
-  cache.set(cacheKey, { data: results, ts: Date.now() });
+  // Only cache if at least one country returned data (avoid caching timeout failures)
+  const hasData = Object.values(results).some(c =>
+    Object.values(c).some(arr => arr.length > 0),
+  );
+  if (hasData) {
+    cache.set(cacheKey, { data: results, ts: Date.now() });
+  }
 
   return ok(results);
 }
