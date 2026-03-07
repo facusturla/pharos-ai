@@ -2,7 +2,7 @@
 
 import type { MilSpendPoint } from '@/features/actors/queries/world-bank';
 
-// ─── Pure helpers ────────────────────────────────────────────────────────────
+// Pure helpers
 
 export function latestPoint(points: MilSpendPoint[]): MilSpendPoint | null {
   return points.length > 0 ? points[points.length - 1] : null;
@@ -37,7 +37,7 @@ export function yoyChange(pts: MilSpendPoint[]): { delta: number; pct: number } 
   return { delta: curr - prev, pct: ((curr - prev) / prev) * 100 };
 }
 
-// ─── Tiny components ─────────────────────────────────────────────────────────
+// Tiny components
 
 export function Sparkline({ data, color }: { data: MilSpendPoint[]; color: string }) {
   if (data.length < 2) return null;

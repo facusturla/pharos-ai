@@ -7,7 +7,7 @@ import { StoryIcon } from './StoryIcon';
 
 import type { MapStory } from '@/types/domain';
 
-// ─── Back button ──────────────────────────────────────────────────────────────
+// Back button
 
 function BackButton({ isMobile = false, safeTop = false }: { isMobile?: boolean; safeTop?: boolean }) {
   return (
@@ -35,7 +35,7 @@ function BackButton({ isMobile = false, safeTop = false }: { isMobile?: boolean;
   );
 }
 
-// ─── Active story pill ────────────────────────────────────────────────────────
+// Active story pill
 
 type StoryPillProps = {
   story:   MapStory;
@@ -72,7 +72,7 @@ function ActiveStoryPill({ story, onClear, isMobile = false, safeTop = false }: 
   );
 }
 
-// ─── Main export ──────────────────────────────────────────────────────────────
+// Main export
 
 type Props = {
   activeStory:  MapStory | null;

@@ -12,7 +12,7 @@ import {
   proxyImg,
 } from './timeline-constants';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   article: TimelineArticle;
@@ -23,7 +23,7 @@ type Props = {
   defocus: () => void;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function ExpandedCard({ article, x, cardTop, color, defocus }: Props) {
   const EXP_W = CARD_W + 160;

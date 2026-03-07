@@ -13,7 +13,7 @@ import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone } from '@/data/
 import type { MapStory } from '@/types/domain';
 import type { SelectedItem } from './types';
 
-// ─── Fallback for unknown actors ────────────────────────────────────────────
+// Fallback for unknown actors
 
 const FALLBACK_META: ActorMeta = {
   label: '??', cssVar: 'var(--t3)', rgb: [143, 153, 168],
@@ -24,8 +24,6 @@ function am(key: string, meta: Record<string, ActorMeta>): ActorMeta {
   return meta[key] ?? FALLBACK_META;
 }
 
-// ─── Hook for cross-reference data ───────────────────────────────────────────
-
 function useMapCrossRefData() {
   const { data: rawData } = useMapData();
   const { data: stories = [] } = useMapStories();
@@ -33,7 +31,7 @@ function useMapCrossRefData() {
   return { rawData, stories, actorMeta };
 }
 
-// ─── Atoms ────────────────────────────────────────────────────────────────────
+// Atoms
 
 export function Row({ label, value, color }: { label: string; value: string; color?: string }) {
   return (
@@ -65,7 +63,7 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
   return <p className="label" style={{ color: 'var(--t4)', marginBottom: 8 }}>{children}</p>;
 }
 
-// ─── Hierarchy breadcrumb ─────────────────────────────────────────────────────
+// Hierarchy breadcrumb
 
 export function HierarchyBreadcrumb({ actor, category, type, actorMeta }: { actor: string; category: string; type: string; actorMeta: Record<string, ActorMeta> }) {
   const m = am(actor, actorMeta);
@@ -81,7 +79,7 @@ export function HierarchyBreadcrumb({ actor, category, type, actorMeta }: { acto
   );
 }
 
-// ─── Cross-link helpers (accept data as parameters) ──────────────────────────
+// Cross-link helpers
 
 function strikesForTarget(t: Target, strikes: StrikeArc[]): StrikeArc[] {
   return strikes.filter(s =>
@@ -98,8 +96,6 @@ function targetForStrike(s: StrikeArc, targets: Target[]): Target | null {
 function storiesFor(ids: string[], field: keyof MapStory, stories: MapStory[]): MapStory[] {
   return stories.filter(s => (s[field] as string[]).some(id => ids.includes(id)));
 }
-
-// ─── Related stories ──────────────────────────────────────────────────────────
 
 export function RelatedStories({ stories, onActivate }: { stories: MapStory[]; onActivate: (s: MapStory) => void }) {
   if (!stories.length) return null;
@@ -125,7 +121,7 @@ export function RelatedStories({ stories, onActivate }: { stories: MapStory[]; o
   );
 }
 
-// ─── Content renderers ────────────────────────────────────────────────────────
+// Content renderers
 
 export function StrikeContent({ d, onSelectItem, onActivateStory }: {
   d: StrikeArc;

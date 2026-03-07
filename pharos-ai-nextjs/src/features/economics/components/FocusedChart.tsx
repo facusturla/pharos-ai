@@ -40,7 +40,6 @@ export function FocusedChart({ index, data: initialData, initialRangeKey = '5d',
   const periodLow  = prices.length ? Math.min(...prices) : data.price;
   const periodOpen = prices.length ? prices[0] : data.previousClose;
 
-  // Animate in on mount
   useEffect(() => {
     const raf = requestAnimationFrame(() => setOpen(true));
     return () => cancelAnimationFrame(raf);
@@ -53,7 +52,6 @@ export function FocusedChart({ index, data: initialData, initialRangeKey = '5d',
     return () => window.removeEventListener('keydown', handler);
   }, [handleClose]);
 
-  // Fetch data for the selected range
   const fetchRange = useCallback(async (idx: number) => {
     const r = RANGES[idx];
     setFetching(true);
@@ -70,7 +68,6 @@ export function FocusedChart({ index, data: initialData, initialRangeKey = '5d',
     finally { setFetching(false); }
   }, [index.ticker]);
 
-  // When range tab changes, fetch fresh data
   useEffect(() => {
     if (rangeIdx === (RANGES.findIndex(r => r.key === initialRangeKey) >= 0 ? RANGES.findIndex(r => r.key === initialRangeKey) : 1)) return;
     fetchRange(rangeIdx);

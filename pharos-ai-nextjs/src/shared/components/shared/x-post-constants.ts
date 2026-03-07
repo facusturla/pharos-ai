@@ -1,6 +1,6 @@
 import type { XPost } from '@/types/domain';
 
-// ── Account type styles ───────────────────────────────────────────────────────
+// Account type styles
 // Uses CSS tokens — no hex literals (CODEX §1.2)
 export const ACCT: Record<string, { bg: string; text: string; label: string }> = {
   military:   { bg: 'var(--danger-dim)',  text: 'var(--danger)',  label: 'MILITARY' },
@@ -10,14 +10,14 @@ export const ACCT: Record<string, { bg: string; text: string; label: string }> =
   analyst:    { bg: 'var(--info-dim)',    text: 'var(--info)',    label: 'ANALYST'  },
 };
 
-// ── Left border by significance ───────────────────────────────────────────────
+// Left border by significance
 export const SIG_BORDER: Record<string, string> = {
   BREAKING: 'var(--danger)',
   HIGH:     'var(--warning)',
   STANDARD: 'var(--bd)',
 };
 
-// ── Image placeholder backgrounds (unique dark tints, no token equivalent) ───
+// Image placeholder backgrounds (unique dark tints, no token equivalent)
 export const IMG_BG: Record<string, string> = {
   'strike-aerial-1':           '#0e1a0e',
   'osint-thermal-1':           '#1a0e0e',
@@ -41,7 +41,7 @@ export const IMG_LBL: Record<string, string> = {
 
 export const DEFAULT_AVATAR_COLOR = '#6B7280';
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
+// Helpers
 
 /** Build the X post URL from handle + tweetId */
 export function xUrl(handle: string, tweetId?: string): string | null {

@@ -13,7 +13,7 @@ import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
 import { NormalCard } from './NormalCard';
 import { ExpandedCard } from './ExpandedCard';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   article: TimelineArticle;
@@ -27,7 +27,7 @@ type Props = {
   defocus: () => void;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function TimelineCard({
   article,

@@ -5,7 +5,7 @@ import type { MapViewState } from '@deck.gl/core';
 import type { MapStory } from '@/types/domain';
 import type { SelectedItem } from '@/features/map/components/types';
 
-// ─── Types ───────────────────────────────────────────────────────────────────
+// Types
 
 export type SerializableFilterState = {
   datasets:   string[];
@@ -39,7 +39,7 @@ export type MapState = {
   _filtersFingerprint: string | null;
 };
 
-// ─── localStorage persistence ────────────────────────────────────────────────
+// localStorage persistence
 
 const MAP_STORAGE_KEY = 'pharos:map:v1';
 
@@ -68,7 +68,7 @@ export function persistMapPrefs(state: MapState): void {
   } catch { /* quota exceeded */ }
 }
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
+// Helpers
 
 export function toSerializable(fs: ReturnType<typeof extractInitialState>): SerializableFilterState {
   return {
@@ -89,14 +89,14 @@ function toggleArr(arr: string[], item: string): string[] {
   return next.length === 0 ? arr : next;
 }
 
-// ─── Empty defaults ──────────────────────────────────────────────────────────
+// Empty defaults
 
 const EMPTY_FILTERS: SerializableFilterState = {
   datasets: [], types: [], actors: [], statuses: [], priorities: [],
   heat: true, timeRange: null,
 };
 
-// ─── Initial state ───────────────────────────────────────────────────────────
+// Initial state
 
 const INITIAL_VIEW: MapViewState = { longitude: 51.0, latitude: 30.0, zoom: 4.5, pitch: 0, bearing: 0 };
 
@@ -118,7 +118,7 @@ function buildInitialState(): MapState {
 
 const initialState: MapState = buildInitialState();
 
-// ─── Slice ───────────────────────────────────────────────────────────────────
+// Slice
 
 const mapSlice = createSlice({
   name: 'map',

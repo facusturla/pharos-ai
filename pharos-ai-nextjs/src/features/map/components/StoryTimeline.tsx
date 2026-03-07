@@ -8,7 +8,7 @@ import { groupByDay } from './story-utils';
 
 import type { MapStory } from '@/types/domain';
 
-// ─── Types ──────────────────────────────────────────────────────────────────────
+// Types
 
 type Props = {
   stories:    MapStory[];
@@ -18,7 +18,7 @@ type Props = {
 
 const DAY_W = 80; // px per day column
 
-// ─── Component ──────────────────────────────────────────────────────────────────
+// Component
 
 export function StoryTimeline({ stories, activeId, onActivate }: Props) {
   const days = useMemo(

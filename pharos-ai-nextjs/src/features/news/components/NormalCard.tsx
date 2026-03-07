@@ -13,7 +13,7 @@ import {
 
 import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   article: TimelineArticle;
@@ -25,7 +25,7 @@ type Props = {
   onClick: () => void;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function NormalCard({ article, x, cardTop, isHovered, onMouseEnter, onMouseLeave, onClick }: Props) {
   const color = PERSPECTIVE_COLORS[article.feed.perspective] ?? '#6b7280';

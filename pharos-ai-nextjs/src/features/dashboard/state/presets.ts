@@ -1,4 +1,4 @@
-// ─── Widget & layout types ──────────────────────────────────────────────────
+// Widget & layout types
 
 export type WidgetKey =
   | 'situation' | 'latest' | 'actors' | 'signals' | 'map'
@@ -27,7 +27,7 @@ export const WIDGET_LABELS: Record<WidgetKey, string> = {
   brief:       'Daily Brief',
 };
 
-// ─── Presets ────────────────────────────────────────────────────────────────
+// Presets
 
 export type PresetId = 'analyst' | 'commander' | 'executive';
 

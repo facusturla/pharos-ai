@@ -10,7 +10,7 @@ import { useMapData } from '@/features/map/queries';
 import type { StrikeArc, MissileTrack, Target, Asset } from '@/data/map-data';
 import type { MapStory, StoryEvent } from '@/types/domain';
 
-// ─── Constants ────────────────────────────────────────────────────────────────
+// Constants
 
 const CATEGORY_COLORS: Record<MapStory['category'], { bg: string; text: string }> = {
   STRIKE:      { bg: 'var(--danger-dim)',  text: 'var(--danger)'  },
@@ -28,7 +28,7 @@ const EVENT_COLORS: Record<StoryEvent['type'], string> = {
   POLITICAL:   'var(--t3)',
 };
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// Sub-components
 
 function EventLog({ events }: { events: StoryEvent[] }) {
   return (
@@ -57,7 +57,7 @@ function EventLog({ events }: { events: StoryEvent[] }) {
   );
 }
 
-// ─── Story map features ───────────────────────────────────────────────────────
+// Story map features
 
 type FeatureItem =
   | { kind: 'strike';  data: StrikeArc   }
@@ -88,7 +88,6 @@ function StoryFeatures({ story }: { story: MapStory }) {
     for (const id of story.highlightMissileIds) { const d = data.missiles.find(x => x.id === id); if (d) out.push({ kind: 'missile', data: d }); }
     for (const id of story.highlightTargetIds)  { const d = data.targets.find(x => x.id === id);  if (d) out.push({ kind: 'target',  data: d }); }
     for (const id of story.highlightAssetIds)   { const d = data.assets.find(x => x.id === id);   if (d) out.push({ kind: 'asset',   data: d }); }
-    // sort by timestamp if available
     out.sort((a, b) => {
       const ta = ('timestamp' in a.data ? a.data.timestamp : '') ?? '';
       const tb = ('timestamp' in b.data ? b.data.timestamp : '') ?? '';
@@ -132,7 +131,7 @@ function StoryFeatures({ story }: { story: MapStory }) {
   );
 }
 
-// ─── Main component ───────────────────────────────────────────────────────────
+// Main component
 
 type Props = {
   story:    MapStory;

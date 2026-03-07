@@ -11,7 +11,7 @@ import { groupByDay } from './story-utils';
 
 import type { MapStory } from '@/types/domain';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// Types
 
 type Props = {
   isOpen:          boolean;
@@ -24,7 +24,7 @@ type Props = {
   onToggleExpand?: () => void;
 };
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// Component
 
 export function MapSidebar({ isOpen, stories, activeStory, onToggle, onActivateStory, onClearStory, expanded, onToggleExpand }: Props) {
   const [openStoryId, setOpenStoryId] = useState<string | null>(null);

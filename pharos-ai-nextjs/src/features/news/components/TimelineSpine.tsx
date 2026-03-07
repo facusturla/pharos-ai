@@ -2,13 +2,13 @@
 
 import { SPINE_Y, formatHour } from './timeline-constants';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   hourMarkers: { hour: Date; x: number }[];
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function TimelineSpine({ hourMarkers }: Props) {
   return (

@@ -9,7 +9,7 @@ import { useTimelineDrag } from '@/features/map/hooks/use-timeline-drag';
 
 import type { DataArrays } from '@/features/map/lib/map-filter-engine';
 
-// ─── Types ──────────────────────────────────────────────────────────────────────
+// Types
 
 type Props = {
   rawData?:     DataArrays;
@@ -21,7 +21,7 @@ type Props = {
   isMobile?:    boolean;
 };
 
-// ─── Constants ──────────────────────────────────────────────────────────────────
+// Constants
 
 const BUCKETS = 80;
 const DAY = 86400_000;
@@ -42,7 +42,7 @@ function fmt(ms: number) {
   return `${mon} ${d.getUTCDate()} ${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
 }
 
-// ─── Component ──────────────────────────────────────────────────────────────────
+// Component
 
 export function MapTimeline({ rawData, dataExtent, viewExtent, onViewExtent, timeRange, onTimeRange, isMobile = false }: Props) {
 

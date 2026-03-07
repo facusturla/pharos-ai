@@ -9,7 +9,7 @@ import { getInitials, resolveAvatarColor, IMG_BG, IMG_LBL } from './x-post-const
 import { EngStat, EmbedSkeleton, VerificationBadge, PharosNote } from './x-post-subcomponents';
 import type { XPost } from '@/types/domain';
 
-// ── Pharos intel view (reused in both layouts) ──────────────────────────────
+// Pharos intel view (reused in both layouts)
 
 type Props = {
   post: XPost;

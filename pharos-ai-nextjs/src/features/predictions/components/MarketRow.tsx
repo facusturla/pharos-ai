@@ -178,7 +178,7 @@ export function MarketRow({ market, rank, isExpanded, onToggle }: Props) {
   );
 }
 
-// ── Private sub-components ────────────────────────────────────────────────────
+// Private sub-components
 
 function OutcomeList({ outcomes, prices }: { outcomes: string[]; prices: number[] }) {
   return (

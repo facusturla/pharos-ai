@@ -11,7 +11,7 @@ import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone, HeatPoint } fr
 import type { FilteredData } from './use-map-filters';
 import type { MapStory } from '@/types/domain';
 
-// ─── Types ────────────────────────────────────────────────────────────────────
+// Types
 
 const FALLBACK_META: ActorMeta = {
   label: '??', cssVar: 'var(--t3)', rgb: [143, 153, 168],
@@ -28,7 +28,7 @@ type Props = {
 
 type RGBA = [number, number, number, number];
 
-// ─── Helpers ──────────────────────────────────────────────────────────────────
+// Helpers
 
 const activeAlpha = (isSatellite: boolean) => (isSatellite ? 255 : 220);
 
@@ -59,7 +59,7 @@ function statusFill(status: Target['status'] | Asset['status']): [number, number
   }
 }
 
-// ─── Hook ─────────────────────────────────────────────────────────────────────
+// Hook
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, isMobile = false }: Props): any[] {
@@ -75,7 +75,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
     const labelBg: RGBA = isSatellite ? [10, 14, 22, 230] : [28, 33, 39, 200];
     const strokeWidth  = isSatellite ? 2 : 1;
 
-    // ── Heat map ────────────────────────────────────────────────────────────
+    // Heat map
     const heatLayer = filtered.heat.length > 0 && new HeatmapLayer<HeatPoint>({
       id: 'heat',
       data: filtered.heat,
@@ -90,7 +90,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       ],
     });
 
-    // ── Threat zones ────────────────────────────────────────────────────────
+    // Threat zones
     const zoneLayer = filtered.zones.length > 0 && new PolygonLayer<ThreatZone>({
       id: 'zones',
       data: filtered.zones,
@@ -107,7 +107,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       updateTriggers: { getFillColor: [dimActive], getLineColor: [dimActive] },
     });
 
-    // ── Strike arcs ─────────────────────────────────────────────────────────
+    // Strike arcs
     const strikeLayer = filtered.strikes.length > 0 && new ArcLayer<StrikeArc>({
       id: 'strikes',
       data: filtered.strikes,
@@ -135,7 +135,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       },
     });
 
-    // ── Missile arcs ────────────────────────────────────────────────────────
+    // Missile arcs
     const missileLayer = filtered.missiles.length > 0 && new ArcLayer<MissileTrack>({
       id: 'missiles',
       data: filtered.missiles,
@@ -159,7 +159,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       },
     });
 
-    // ── Target scatter ───────────────────────────────────────────────────────
+    // Target scatter
     const targetLayer = filtered.targets.length > 0 && new ScatterplotLayer<Target>({
       id: 'targets',
       data: filtered.targets,
@@ -182,7 +182,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       },
     });
 
-    // ── Asset scatter ────────────────────────────────────────────────────────
+    // Asset scatter
     const assetLayer = filtered.assets.length > 0 && new ScatterplotLayer<Asset>({
       id: 'assets',
       data: filtered.assets,
@@ -201,7 +201,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       },
     });
 
-    // ── Target labels ────────────────────────────────────────────────────────
+    // Target labels
     const targetLabels = !isMobile && filtered.targets.length > 0 && new TextLayer<Target>({
       id: 'target-labels',
       data: filtered.targets,
@@ -220,7 +220,7 @@ export function useMapLayers({ filtered, actorMeta, activeStory, isSatellite, is
       updateTriggers:    { getColor: [isSatellite], getBackgroundColor: [isSatellite] },
     });
 
-    // ── Asset labels ─────────────────────────────────────────────────────────
+    // Asset labels
     const assetLabels = !isMobile && filtered.assets.length > 0 && new TextLayer<Asset>({
       id: 'asset-labels',
       data: filtered.assets,

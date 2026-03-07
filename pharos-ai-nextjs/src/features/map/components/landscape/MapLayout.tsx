@@ -10,7 +10,7 @@ import type { MapPageContext } from '@/features/map/components/use-map-page';
 import type { SelectedItem } from '@/features/map/components/types';
 import type { MapStory } from '@/types/domain';
 
-// ─── Screen stack types ───────────────────────────────────────────────────────
+// Screen stack types
 
 type Screen =
   | { id: 'map' }
@@ -18,7 +18,7 @@ type Screen =
   | { id: 'story'; story: MapStory }
   | { id: 'detail'; item: SelectedItem };
 
-// ─── Component ────────────────────────────────────────────────────────────────
+// Component
 
 type Props = {
   ctx: MapPageContext;
@@ -49,7 +49,7 @@ export function LandscapeMapLayout({ ctx }: Props) {
     });
   }, []);
 
-  // ── Handlers ──
+  // Handlers
 
   const handleOpenStories = useCallback(() => {
     push({ id: 'stories' });
@@ -91,7 +91,7 @@ export function LandscapeMapLayout({ ctx }: Props) {
     setStack(prev => [...prev.slice(0, -1), { id: 'story', story }]);
   }, [activateStory]);
 
-  // ── Render current screen ──
+  // Render current screen
 
   return (
     <div className="w-full h-full bg-[var(--bg-app)] overflow-hidden">

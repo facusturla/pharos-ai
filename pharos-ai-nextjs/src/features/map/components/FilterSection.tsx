@@ -6,7 +6,7 @@ import { FilterRow } from '@/features/map/components/FilterRow';
 
 import type { FacetOption } from '@/features/map/lib/map-filter-engine';
 
-// ─── Types ──────────────────────────────────────────────────────────────────────
+// Types
 
 type Props = {
   title:      string;
@@ -16,7 +16,7 @@ type Props = {
   isGrouped?: boolean;
 };
 
-// ─── Component ──────────────────────────────────────────────────────────────────
+// Component
 
 export function FilterSection({ title, options, activeKeys, onToggle, isGrouped }: Props) {
   if (options.length === 0) return null;

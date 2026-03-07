@@ -11,7 +11,7 @@ import {
 import { TimelineCard } from './TimelineCard';
 import { TimelineSpine } from './TimelineSpine';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   layout: {
@@ -33,7 +33,7 @@ type Props = {
   filteredCount: number;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function TimelineCanvas({
   layout,

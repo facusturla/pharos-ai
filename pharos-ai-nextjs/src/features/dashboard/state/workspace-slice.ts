@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import { PRESETS, type Column, type PresetId, type WidgetKey } from './presets';
 
-// ─── State ──────────────────────────────────────────────────────────────────
+// State
 
 export type WorkspaceState = {
   columns: Column[];
@@ -25,7 +25,7 @@ const initialState: WorkspaceState = {
   rowSizes: {},
 };
 
-// ─── Slice ──────────────────────────────────────────────────────────────────
+// Slice
 
 const workspaceSlice = createSlice({
   name: 'workspace',

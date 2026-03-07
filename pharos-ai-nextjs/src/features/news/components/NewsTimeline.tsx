@@ -13,13 +13,13 @@ import { useTimelineTransform } from './use-timeline-transform';
 import { useTimelineLayout } from './use-timeline-layout';
 import { useTimelineFocus } from './use-timeline-focus';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type NewsTimelineProps = {
   feedData: Map<string, FeedItem[]>;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function NewsTimeline({ feedData }: NewsTimelineProps) {
   const { data: allFeeds } = useRssFeeds();
@@ -30,7 +30,6 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
 
   const { viewportRef, zoom, pan, isDragging, zoomRef, panRef, commitTransform } = useTimelineTransform();
 
-  // ─── Viewport width tracking ───────────────────────────────
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
@@ -42,7 +41,6 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
     return () => observer.disconnect();
   }, [viewportRef]);
 
-  // ─── Articles ───────────────────────────────────────────────
   const articles = useMemo(() => {
     const items: TimelineArticle[] = [];
     feedData.forEach((feedItems, feedId) => {
@@ -90,7 +88,7 @@ export function NewsTimeline({ feedData }: NewsTimelineProps) {
 
   const zoomPct = Math.round(zoom * 100);
 
-  // ─── Viewport culling for performance ───────────────────────
+  // Viewport culling for performance
   const visibleCards = useMemo(() => {
     if (viewportWidth <= 0) return layout.positioned;
     const viewLeft = -pan.x / zoom - 200;

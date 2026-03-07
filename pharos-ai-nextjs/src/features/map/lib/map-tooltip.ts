@@ -12,7 +12,7 @@ import type { ActorMeta } from '@/data/map-tokens';
 import type { PickingInfo } from '@deck.gl/core';
 import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone } from '@/data/map-data';
 
-// ─── Inline timestamp formatter (no import to keep file pure .ts) ────────────
+// Inline timestamp formatter (no import to keep file pure .ts)
 
 function fmtTs(ts: string | undefined): string {
   if (!ts) return '';
@@ -28,7 +28,7 @@ const FALLBACK_META: ActorMeta = {
   affiliation: 'NEUTRAL', group: 'Unknown',
 };
 
-// ─── Shared wrapper ───────────────────────────────────────────────────────────
+// Shared wrapper
 
 function wrap(inner: string) {
   return {
@@ -41,7 +41,7 @@ function pill(label: string, color: string) {
   return `<span style="background:color-mix(in srgb,${color} 14%,transparent);border:1px solid color-mix(in srgb,${color} 35%,transparent);color:${color};font-size:8px;padding:1px 5px;border-radius:2px;margin-right:3px">${label}</span>`;
 }
 
-// ─── Factory ─────────────────────────────────────────────────────────────────
+// Factory
 
 export function createBuildTooltip(am: Record<string, ActorMeta>) {
   const meta = (key: string) => am[key] ?? FALLBACK_META;

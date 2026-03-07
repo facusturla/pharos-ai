@@ -3,7 +3,7 @@ import { TYPE_META, STATUS_META, PRIORITY_META } from '@/data/map-tokens';
 import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone, HeatPoint } from '@/data/map-data';
 import type { ActorMeta } from '@/data/map-tokens';
 
-// ─── Types ──────────────────────────────────────────────────────────────────────
+// Types
 
 export type DataArrays = {
   strikes:  StrikeArc[];
@@ -63,7 +63,7 @@ export type FilteredData = {
 
 type DataItem = { actor: string; priority: string; type: string; status?: string; timestamp?: string };
 
-// ─── Helpers ────────────────────────────────────────────────────────────────────
+// Helpers
 
 const DATASET_KEYS = ['strikes', 'missiles', 'targets', 'assets', 'zones'] as const;
 
@@ -87,7 +87,7 @@ function actorMeta(key: string, meta: Record<string, ActorMeta>) {
   return { label: m?.label ?? key, color: m?.cssVar, group: m?.group };
 }
 
-// ─── Extract initial state ──────────────────────────────────────────────────────
+// Extract initial state
 
 export function extractInitialState(data: DataArrays): FilterState {
   const datasets = new Set<string>();
@@ -135,7 +135,7 @@ export function extractTimeExtent(data: DataArrays): [number, number] {
   return [min, max];
 }
 
-// ─── Apply filters ──────────────────────────────────────────────────────────────
+// Apply filters
 
 export function applyFilters(
   data: DataArrays,
@@ -157,7 +157,6 @@ export function applyFilters(
     (!item.status || state.statuses.has(item.status)) &&
     inTime(item);
 
-  // Filter each dataset
   const filtered: FilteredData = {
     strikes:  state.datasets.has('strikes')  ? data.strikes.filter(passes)  : [],
     missiles: state.datasets.has('missiles') ? data.missiles.filter(passes) : [],
@@ -170,7 +169,6 @@ export function applyFilters(
   let totalVisible = 0;
   let totalAll = 0;
 
-  // Build per-dataset facets
   const perDataset: Record<string, DatasetFacets> = {};
 
   for (const dk of DATASET_KEYS) {
@@ -181,7 +179,7 @@ export function applyFilters(
     const dsVisible = state.datasets.has(dk) ? items.filter(passes).length : 0;
     totalVisible += dsVisible;
 
-    // Build facets scoped to THIS dataset only
+    // Facets scoped to this dataset
     const tMap = new Map<string, { t: number; c: number }>();
     const aMap = new Map<string, { t: number; c: number }>();
     const sMap = new Map<string, { t: number; c: number }>();
@@ -240,7 +238,6 @@ export function applyFilters(
     };
   }
 
-  // Top-level dataset facets
   const datasets: FacetOption[] = DATASET_KEYS
     .filter(k => perDataset[k])
     .map(k => ({

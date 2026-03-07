@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 import { TIER_LABELS, MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from './timeline-constants';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 type Props = {
   isLandscapePhone: boolean;
@@ -20,7 +20,7 @@ type Props = {
   filteredCount: number;
 };
 
-// ─── Component ────────────────────────────────────────────────
+// Component
 
 export function TimelineHeader({
   isLandscapePhone,

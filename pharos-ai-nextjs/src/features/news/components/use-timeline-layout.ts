@@ -12,7 +12,7 @@ import {
   formatHour,
 } from './timeline-constants';
 
-// ─── Hook ─────────────────────────────────────────────────────
+// Hook
 
 export function useTimelineLayout(filtered: TimelineArticle[]) {
   return useMemo(() => {

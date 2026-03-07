@@ -2,7 +2,7 @@ import type { RssFeed } from '@/types/domain';
 
 import { ago } from '@/shared/lib/format';
 
-// ─── Types ────────────────────────────────────────────────────
+// Types
 
 export type TimelineArticle = {
   id: string;
@@ -14,7 +14,7 @@ export type TimelineArticle = {
   imageUrl?: string;
 };
 
-// ─── Tier → vertical distance from spine ──────────────────────
+// Tier → vertical distance from spine
 
 export const TIER_Y_OFFSET: Record<number, number> = {
   1: 16,
@@ -47,7 +47,7 @@ export const MAX_ZOOM = 1.2;
 export const ZOOM_STEP = 0.06;
 export const DEFAULT_ZOOM = 0.65;
 
-// ─── Helpers ──────────────────────────────────────────────────
+// Helpers
 
 export function formatHour(d: Date): string {
   return d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false });

@@ -3,12 +3,12 @@ import { createSelector } from '@reduxjs/toolkit';
 import type { RootState } from '@/shared/state';
 import type { FilterState } from '@/features/map/lib/map-filter-engine';
 
-// ─── Base selectors ──────────────────────────────────────────────────────────
+// Base selectors
 
 const selectSerializableFilters = (state: RootState) => state.map.filters;
 const selectInitialFilters      = (state: RootState) => state.map.initialFilters;
 
-// ─── Convert serializable arrays → Set-based FilterState ─────────────────────
+// Convert serializable arrays → Set-based FilterState
 
 export const selectFilterState = createSelector(
   [selectSerializableFilters],
@@ -23,7 +23,7 @@ export const selectFilterState = createSelector(
   }),
 );
 
-// ─── Derived boolean: are any filters active? ────────────────────────────────
+// Derived boolean: are any filters active?
 
 export const selectIsFiltered = createSelector(
   [selectSerializableFilters, selectInitialFilters],
