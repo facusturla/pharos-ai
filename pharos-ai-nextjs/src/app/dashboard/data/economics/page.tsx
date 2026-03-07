@@ -2,14 +2,14 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import { ECON_CATEGORIES } from '@/data/economic-indexes';
-import type { EconCategory, EconomicIndex } from '@/types/domain';
-import { useEconomicIndexes } from '@/api/economics';
-import type { MarketResult } from '@/types/domain';
+import { Button } from '@/components/ui/button';
 import { IndexCard } from '@/components/economics/IndexCard';
 import { FocusedChart } from '@/components/economics/FocusedChart';
+import { ECON_CATEGORIES } from '@/data/economic-indexes';
+import { useEconomicIndexes } from '@/api/economics';
 import { useIsLandscapePhone } from '@/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/hooks/use-landscape-scroll-emitter';
+import type { EconCategory, EconomicIndex, MarketResult } from '@/types/domain';
 
 const RANGES = [
   { key: '1d',  label: '1D',  interval: '5m'  },
@@ -106,27 +106,31 @@ export default function EconomicsPage() {
           {/* Range selector */}
           <div className="flex gap-1">
             {RANGES.map((r, i) => (
-              <button
+              <Button
                 key={r.key}
+                variant="ghost"
+                size="sm"
                 onClick={() => setRangeIdx(i)}
-                className={`px-2 py-1 rounded text-[9px] mono font-bold tracking-wider transition-colors ${
+                className={`px-2 py-1 h-auto rounded text-[9px] mono font-bold tracking-wider shrink-0 ${
                   i === rangeIdx
                     ? 'bg-white/10 text-white border border-white/20'
                     : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
                 }`}
               >
                 {r.label}
-              </button>
+              </Button>
             ))}
           </div>
 
           <div className="w-px h-4 bg-[var(--bd)]" />
 
           {/* Refresh */}
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => fetchAll()}
             disabled={refreshing}
-            className="flex items-center gap-2 px-2 py-1 rounded text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] transition-colors disabled:opacity-40"
+            className="flex items-center gap-2 h-auto px-2 py-1 text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] disabled:opacity-40"
           >
             <svg
               width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
@@ -136,7 +140,7 @@ export default function EconomicsPage() {
               <path d="M1 1v4h4M11 11v-4h-4" />
             </svg>
             REFRESH
-          </button>
+          </Button>
 
           <div className="flex items-center gap-2">
             <div className={`dot ${refreshing ? 'dot-warn' : 'dot-live'}`} />
@@ -153,17 +157,19 @@ export default function EconomicsPage() {
         <span className="mono text-[8px] text-[var(--t4)] shrink-0">TIER:</span>
         <div className="flex gap-1">
           {TIER_FILTERS.map(t => (
-            <button
+            <Button
               key={t.key}
+              variant="ghost"
+              size="sm"
               onClick={() => setTierFilter(t.key)}
-              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+              className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
                 tierFilter === t.key
                   ? 'bg-white/10 text-white border border-white/20'
                   : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
               }`}
             >
               {t.label}
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -172,21 +178,25 @@ export default function EconomicsPage() {
         {/* Category filters */}
         <span className="mono text-[8px] text-[var(--t4)] shrink-0">SECTOR:</span>
         <div className="flex gap-1">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setCatFilter('ALL')}
-            className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+            className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
               catFilter === 'ALL'
                 ? 'bg-white/10 text-white border border-white/20'
                 : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
             }`}
           >
             ALL
-          </button>
+          </Button>
           {ECON_CATEGORIES.map(c => (
-            <button
+            <Button
               key={c.key}
+              variant="ghost"
+              size="sm"
               onClick={() => setCatFilter(c.key)}
-              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+              className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
                 catFilter === c.key
                   ? 'border'
                   : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
@@ -197,7 +207,7 @@ export default function EconomicsPage() {
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: c.color }} />
                 {c.label}
               </div>
-            </button>
+            </Button>
           ))}
         </div>
 

@@ -2,16 +2,17 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Image from 'next/image';
-import { useRssFeeds } from '@/api/rss';
-import { NewsTimeline } from '@/components/news/NewsTimeline';
 import Link from 'next/link';
-import type { FeedItem } from '@/types/domain';
+import { Button } from '@/components/ui/button';
+import { NewsTimeline } from '@/components/news/NewsTimeline';
+import { useRssFeeds } from '@/api/rss';
 import { PERSPECTIVE_COLORS } from '@/lib/news-colors';
 import { timeAgo } from '@/lib/format';
 import { clientCache, CLIENT_FRESH_TTL } from '@/lib/client-cache';
 import { useIsLandscapePhone } from '@/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/hooks/use-landscape-scroll-emitter';
 import { useIsMobile } from '@/hooks/use-is-mobile';
+import type { FeedItem } from '@/types/domain';
 
 type ViewMode = 'feed' | 'timeline';
 
@@ -119,40 +120,46 @@ export default function TimelinePage() {
           <div className="flex items-center gap-3">
           {/* View toggle */}
           <div className="flex border border-[var(--bd)] overflow-hidden">
-            <button
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setView('feed')}
-              className={`px-3 py-1 mono text-[9px] font-bold tracking-wider transition-colors ${
+              className={`px-3 py-1 h-auto rounded-none mono text-[9px] font-bold tracking-wider ${
                 view === 'feed' ? 'bg-white/10 text-white' : 'text-[var(--t4)] hover:text-[var(--t2)]'
               }`}
             >
               ☰ FEED
-            </button>
+            </Button>
             {!isMobile && (
               <>
                 <div className="w-px bg-[var(--bd)]" />
-                <button
+                <Button
+                  variant="ghost"
+                  size="sm"
                   onClick={() => setView('timeline')}
-                  className={`px-3 py-1 mono text-[9px] font-bold tracking-wider transition-colors ${
+                  className={`px-3 py-1 h-auto rounded-none mono text-[9px] font-bold tracking-wider ${
                     view === 'timeline' ? 'bg-white/10 text-white' : 'text-[var(--t4)] hover:text-[var(--t2)]'
                   }`}
                 >
                   ↔ TIMELINE
-                </button>
+                </Button>
               </>
             )}
           </div>
 
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => fetchFeeds()}
             disabled={refreshing}
-            className="flex items-center gap-2 px-2 py-1 mono text-[9px] text-[var(--t4)] hover:text-[var(--t2)] transition-colors disabled:opacity-40"
+            className="flex items-center gap-2 h-auto px-2 py-1 mono text-[9px] text-[var(--t4)] hover:text-[var(--t2)] disabled:opacity-40"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" className={refreshing ? 'animate-spin' : ''}>
               <path d="M1 6a5 5 0 0 1 9-3M11 6a5 5 0 0 1-9 3" />
               <path d="M1 1v4h4M11 11v-4h-4" />
             </svg>
             REFRESH
-          </button>
+          </Button>
 
           <div className="flex items-center gap-2">
             <div className={`dot ${refreshing ? 'dot-warn' : 'dot-live'}`} />

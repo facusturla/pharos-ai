@@ -2,14 +2,15 @@
 
 import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import Link from 'next/link';
-import type { FeedItem } from '@/types/domain';
-import { useRssFeeds, useRssCollections } from '@/api/rss';
-import { clientCache, CLIENT_FRESH_TTL } from '@/lib/client-cache';
+import { Button } from '@/components/ui/button';
 import { ConflictBanner } from '@/components/news/ConflictBanner';
 import { ChannelView } from '@/components/news/ChannelView';
 import { AllFeedsView } from '@/components/news/AllFeedsView';
+import { useRssFeeds, useRssCollections } from '@/api/rss';
+import { clientCache, CLIENT_FRESH_TTL } from '@/lib/client-cache';
 import { useIsLandscapePhone } from '@/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/hooks/use-landscape-scroll-emitter';
+import type { FeedItem } from '@/types/domain';
 
 type ViewMode = 'conflict' | 'all';
 
@@ -128,26 +129,30 @@ export default function NewsPage() {
             </span>
             <div className="w-px h-4 bg-[var(--bd)]" />
             <div className="flex gap-1">
-              <button
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setViewMode('conflict')}
-                className={`px-3 py-1 rounded text-[9px] mono font-bold tracking-wider transition-colors ${
+                className={`px-3 py-1 h-auto rounded text-[9px] mono font-bold tracking-wider ${
                   viewMode === 'conflict'
                     ? 'bg-[var(--danger-dim)] text-[var(--danger)] border border-[var(--danger-bd)]'
                     : 'text-[var(--t4)] hover:text-[var(--t2)]'
                 }`}
               >
                 CONFLICTS
-              </button>
-              <button
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
                 onClick={() => setViewMode('all')}
-                className={`px-3 py-1 rounded text-[9px] mono font-bold tracking-wider transition-colors ${
+                className={`px-3 py-1 h-auto rounded text-[9px] mono font-bold tracking-wider ${
                   viewMode === 'all'
                     ? 'bg-white/10 text-white border border-white/20'
                     : 'text-[var(--t4)] hover:text-[var(--t2)]'
                 }`}
               >
                 ALL FEEDS
-              </button>
+              </Button>
               <Link
                 href="/dashboard/data/news/timeline"
                 className="px-3 py-1 rounded text-[9px] mono font-bold tracking-wider text-[var(--t4)] hover:text-[var(--t2)] no-underline transition-colors"
@@ -159,12 +164,14 @@ export default function NewsPage() {
 
           <div className="flex items-center gap-4">
           {/* Image toggle */}
-          <button
+          <Button
+            variant="outline"
+            size="sm"
             onClick={() => setShowImages(v => !v)}
-            className={`flex items-center gap-2 px-2.5 py-1 rounded text-[9px] mono tracking-wider transition-colors ${
+            className={`flex items-center gap-2 h-auto px-2.5 py-1 text-[9px] mono tracking-wider ${
               showImages
-                ? 'bg-blue-500/15 text-blue-300 border border-blue-500/30'
-                : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
+                ? 'bg-[var(--blue-dim)] text-[var(--blue-l)] border-[var(--blue)]'
+                : 'text-[var(--t4)] hover:text-[var(--t2)] border-transparent'
             }`}
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.2">
@@ -173,13 +180,15 @@ export default function NewsPage() {
               <path d="M1 9 L4 6 L6 8 L8 5 L11 9" />
             </svg>
             {showImages ? 'ON' : 'OFF'}
-          </button>
+          </Button>
 
           {/* Manual refresh */}
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => fetchFeeds()}
             disabled={refreshing}
-            className="flex items-center gap-2 px-2 py-1 rounded text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] transition-colors disabled:opacity-40"
+            className="flex items-center gap-2 h-auto px-2 py-1 text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] disabled:opacity-40"
           >
             <svg
               width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
@@ -189,7 +198,7 @@ export default function NewsPage() {
               <path d="M1 1v4h4M11 11v-4h-4" />
             </svg>
             REFRESH
-          </button>
+          </Button>
 
           <div className="flex items-center gap-2">
             <div className={`dot ${refreshing ? 'dot-warn' : 'dot-live'}`} />

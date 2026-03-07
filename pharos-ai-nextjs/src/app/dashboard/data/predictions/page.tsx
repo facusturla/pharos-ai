@@ -2,13 +2,14 @@
 
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import Link from 'next/link';
-import type { PredictionMarket } from '@/types/domain';
-import { MARKET_GROUPS, UNCATEGORIZED_GROUP, assignGroup } from '@/data/prediction-groups';
-import { fmtVol, getLeadProb } from '@/components/predictions/utils';
+import { Button } from '@/components/ui/button';
 import { MarketCard } from '@/components/predictions/MarketCard';
 import { FocusedMarket } from '@/components/predictions/FocusedMarket';
+import { MARKET_GROUPS, UNCATEGORIZED_GROUP, assignGroup } from '@/data/prediction-groups';
+import { fmtVol, getLeadProb } from '@/components/predictions/utils';
 import { useIsLandscapePhone } from '@/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/hooks/use-landscape-scroll-emitter';
+import type { PredictionMarket } from '@/types/domain';
 
 const ALL_GROUPS = [...MARKET_GROUPS, UNCATEGORIZED_GROUP];
 
@@ -137,10 +138,12 @@ export default function PredictionsDataPage() {
           <div className="w-px h-4 bg-[var(--bd)]" />
 
           {/* Refresh */}
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => fetch_()}
             disabled={refreshing}
-            className="flex items-center gap-2 px-2 py-1 rounded text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] transition-colors disabled:opacity-40"
+            className="flex items-center gap-2 h-auto px-2 py-1 text-[9px] mono text-[var(--t4)] hover:text-[var(--t2)] disabled:opacity-40"
           >
             <svg
               width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
@@ -150,7 +153,7 @@ export default function PredictionsDataPage() {
               <path d="M1 1v4h4M11 11v-4h-4" />
             </svg>
             REFRESH
-          </button>
+          </Button>
 
           <div className="flex items-center gap-2">
             <div className={`dot ${refreshing ? 'dot-warn' : 'dot-live'}`} />
@@ -165,21 +168,25 @@ export default function PredictionsDataPage() {
         {/* Group filter tabs */}
         <span className="mono text-[8px] text-[var(--t4)] shrink-0">GROUP:</span>
         <div className="flex gap-1">
-          <button
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setGroupFilter('ALL')}
-            className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+            className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
               groupFilter === 'ALL'
                 ? 'bg-white/10 text-white border border-white/20'
                 : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
             }`}
           >
             ALL <span className="opacity-60">({groupCounts['ALL'] ?? 0})</span>
-          </button>
+          </Button>
           {ALL_GROUPS.map(g => (
-            <button
+            <Button
               key={g.id}
+              variant="ghost"
+              size="sm"
               onClick={() => setGroupFilter(g.id)}
-              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+              className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
                 groupFilter === g.id
                   ? 'border'
                   : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
@@ -192,7 +199,7 @@ export default function PredictionsDataPage() {
                 <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: g.color }} />
                 {g.label} <span className="opacity-60">({groupCounts[g.id] ?? 0})</span>
               </div>
-            </button>
+            </Button>
           ))}
         </div>
 
@@ -202,26 +209,30 @@ export default function PredictionsDataPage() {
         <span className="mono text-[8px] text-[var(--t4)] shrink-0">SORT:</span>
         <div className="flex gap-1">
           {SORT_OPTS.map(s => (
-            <button
+            <Button
               key={s.key}
+              variant="ghost"
+              size="sm"
               onClick={() => setSortBy(s.key)}
-              className={`px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 ${
+              className={`px-2 py-1 h-auto rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
                 sortBy === s.key
                   ? 'bg-white/10 text-white border border-white/20'
                   : 'text-[var(--t4)] hover:text-[var(--t2)] border border-transparent'
               }`}
             >
               {s.label}
-            </button>
+            </Button>
           ))}
         </div>
 
         <div className="w-px h-4 bg-[var(--bd)]" />
 
         {/* Live only toggle */}
-        <button
+        <Button
+          variant="outline"
+          size="sm"
           onClick={() => setLiveOnly(v => !v)}
-          className={`flex items-center gap-1.5 px-2 py-1 rounded text-[8px] mono font-bold tracking-wider transition-colors shrink-0 border ${
+          className={`flex items-center gap-1.5 h-auto px-2 py-1 rounded text-[8px] mono font-bold tracking-wider shrink-0 ${
             liveOnly
               ? 'text-[var(--success)] bg-[var(--success-dim)] border-[rgba(35,162,109,0.3)]'
               : 'text-[var(--t4)] border-transparent hover:text-[var(--t2)]'
@@ -230,7 +241,7 @@ export default function PredictionsDataPage() {
           <div className={`w-1.5 h-1.5 rounded-full ${liveOnly ? 'animate-pulse' : ''}`}
                style={{ backgroundColor: liveOnly ? 'var(--success)' : 'var(--t4)' }} />
           LIVE ONLY
-        </button>
+        </Button>
 
         <span className="mono text-[8px] text-[var(--t4)] ml-auto shrink-0">{processed.length} shown</span>
       </div>
@@ -248,12 +259,14 @@ export default function PredictionsDataPage() {
             <div className="text-center">
               <div className="mono text-[11px] text-[var(--danger)] mb-2">FETCH ERROR</div>
               <div className="mono text-[9px] text-[var(--t4)]">{error}</div>
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => fetch_()}
-                className="mt-4 mono text-[9px] px-3 py-1.5 border border-[var(--bd)] text-[var(--t3)] hover:text-[var(--t1)] hover:border-white/20 transition-colors"
+                className="mt-4 mono text-[9px] h-auto px-3 py-1.5 border-[var(--bd)] text-[var(--t3)] hover:text-[var(--t1)] hover:border-white/20"
               >
                 RETRY
-              </button>
+              </Button>
             </div>
           </div>
         ) : processed.length === 0 ? (
