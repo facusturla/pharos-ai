@@ -32,7 +32,6 @@ export type ActorSummary = {
 export type LiveContext = {
   conflictId: string;
   baseUrl: string;
-  adminToken: string;
   actors: ActorSummary[];
   currentState: {
     eventCount: number;
@@ -47,7 +46,7 @@ export type LiveContext = {
 };
 
 export function buildAgentManual(ctx: LiveContext): string {
-  const { conflictId, baseUrl, adminToken, actors } = ctx;
+  const { conflictId, baseUrl, actors } = ctx;
   const base = `${baseUrl}/api/v1/admin`;
   const scope = `${base}/${conflictId}`;
 
@@ -112,7 +111,7 @@ All data is scoped to a **conflict** (current: \`${conflictId}\`).
 Every request must include:
 
 \`\`\`
-Authorization: Bearer ${adminToken}
+Authorization: Bearer <PHAROS_ADMIN_API_KEY>
 \`\`\`
 
 | Status | Code | Meaning |

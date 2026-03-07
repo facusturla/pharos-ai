@@ -55,13 +55,9 @@ export async function GET(
   const reqUrl = new URL(req.url);
   const baseUrl = `${reqUrl.protocol}//${reqUrl.host}`;
 
-  // The admin token from the request header (so the manual always shows the correct key)
-  const adminToken = req.headers.get('authorization')?.replace('Bearer ', '') ?? '<your-admin-token>';
-
   const markdown = buildAgentManual({
     conflictId,
     baseUrl,
-    adminToken,
     actors: actors.map(a => ({ id: a.id, name: a.name, mapKey: a.mapKey ?? a.id.toUpperCase() })),
     currentState: {
       eventCount,
