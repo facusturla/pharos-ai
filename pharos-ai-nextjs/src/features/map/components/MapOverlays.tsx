@@ -1,11 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { X, PanelLeft } from 'lucide-react';
+
+import { PanelLeft,X } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { StoryIcon } from './StoryIcon';
 
 import type { MapStory } from '@/types/domain';
+
+import { StoryIcon } from './StoryIcon';
 
 // Back button
 

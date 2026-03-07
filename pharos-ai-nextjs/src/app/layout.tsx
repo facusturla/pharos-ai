@@ -1,13 +1,15 @@
-import './globals.css';
-
 import { Analytics } from '@vercel/analytics/next';
+import type { Metadata, Viewport } from 'next';
+
+import { Toaster } from '@/components/ui/sonner';
+
 import { Header } from '@/shared/components/layout/Header';
 import { ViewportHeightSync } from '@/shared/components/layout/ViewportHeightSync';
-import { Toaster } from '@/components/ui/sonner';
-import { ReduxProvider } from '@/shared/state/redux-provider';
-import { QueryProvider } from '@/shared/lib/query-provider';
 
-import type { Metadata, Viewport } from 'next';
+import { QueryProvider } from '@/shared/lib/query-provider';
+import { ReduxProvider } from '@/shared/state/redux-provider';
+
+import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.conflicts.today'),

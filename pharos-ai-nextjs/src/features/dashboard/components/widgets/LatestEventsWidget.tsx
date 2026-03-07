@@ -1,12 +1,15 @@
 'use client';
 
 import { useContext, useMemo } from 'react';
+
 import Link from 'next/link';
+
 import { ArrowRight } from 'lucide-react';
 
+import { getEventsForDay } from '@/shared/lib/day-filter';
 import { fmtTimeZ } from '@/shared/lib/format';
 import { SEV_C } from '@/shared/lib/severity-colors';
-import { getEventsForDay } from '@/shared/lib/day-filter';
+
 import { DashCtx } from '../DashCtx';
 
 const SEV_CLS: Record<string, string> = {

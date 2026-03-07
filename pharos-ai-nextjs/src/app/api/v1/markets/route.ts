@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import type { MarketResult } from '@/types/domain';
 
 type CacheEntry = { data: unknown; ts: number };

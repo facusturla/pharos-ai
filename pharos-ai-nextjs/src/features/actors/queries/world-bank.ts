@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { api, buildUrl } from '@/shared/lib/query/client';
 import { queryKeys, STALE } from '@/shared/lib/query/keys';
 

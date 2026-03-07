@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import type { TimePoint } from '@/types/domain';
 
 const CLOB = 'https://clob.polymarket.com';

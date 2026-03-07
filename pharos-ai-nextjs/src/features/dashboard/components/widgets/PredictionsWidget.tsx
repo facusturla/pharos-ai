@@ -2,8 +2,9 @@
 
 import { useMemo } from 'react';
 
-import { getLeadProb, probColor, fmtVol, spreadColor, statusLabel } from '@/features/predictions/components/utils';
+import { fmtVol, getLeadProb, probColor, spreadColor, statusLabel } from '@/features/predictions/components/utils';
 import { usePredictionMarkets } from '@/features/predictions/queries';
+
 import { assignGroup } from '@/data/prediction-groups';
 
 export function PredictionsWidget() {

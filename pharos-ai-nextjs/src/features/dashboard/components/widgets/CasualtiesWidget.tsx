@@ -3,6 +3,7 @@
 import { useContext } from 'react';
 
 import { getConflictForDay } from '@/shared/lib/day-filter';
+
 import { DashCtx } from '../DashCtx';
 
 export function CasualtiesWidget() {

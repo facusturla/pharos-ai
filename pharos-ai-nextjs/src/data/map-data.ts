@@ -1,11 +1,11 @@
 import type {
   ActorKey,
-  Priority,
-  MarkerCategory,
-  KineticType,
-  KineticStatus,
-  InstallationType,
   InstallationStatus,
+  InstallationType,
+  KineticStatus,
+  KineticType,
+  MarkerCategory,
+  Priority,
   ZoneType,
 } from './map-tokens';
 

@@ -1,11 +1,14 @@
 'use client';
 
-import dynamic from 'next/dynamic';
 import { useEffect, useRef } from 'react';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
-import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+
+import dynamic from 'next/dynamic';
+
 import { useMapPage } from '@/features/map/components/use-map-page';
 import { MapScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+
+import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
 
 const LandscapeMapLayout = dynamic(() => import('@/features/map/components/landscape/MapLayout').then(m => ({ default: m.LandscapeMapLayout })), { ssr: false });
 const MobileMapLayout    = dynamic(() => import('@/features/map/components/mobile/MapLayout').then(m => ({ default: m.MobileMapLayout })),       { ssr: false });

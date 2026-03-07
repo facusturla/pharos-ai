@@ -3,13 +3,13 @@
 import { useMemo } from 'react';
 
 import {
-  type TimelineArticle,
-  CARD_W,
   CARD_GAP,
-  TIME_SLOT_W,
+  CARD_W,
+  formatHour,
   PADDING_X,
   TIER_Y_OFFSET,
-  formatHour,
+  TIME_SLOT_W,
+  type TimelineArticle,
 } from './timeline-constants';
 
 // Hook

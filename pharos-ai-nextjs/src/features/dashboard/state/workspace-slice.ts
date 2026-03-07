@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { PRESETS, type Column, type PresetId, type WidgetKey } from './presets';
+
+import { type Column, type PresetId, PRESETS, type WidgetKey } from './presets';
 
 // State
 

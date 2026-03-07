@@ -1,10 +1,14 @@
 'use client';
 import Link from 'next/link';
+
 import { ArrowRight } from 'lucide-react';
+
 import { SectionDivider } from '@/shared/components/shared/SectionDivider';
-import type { IntelEvent } from '@/types/domain';
+
 import { SEV_C } from '@/shared/lib/severity-colors';
 import { cn } from '@/shared/lib/utils';
+
+import type { IntelEvent } from '@/types/domain';
 
 const TIER_C: Record<number, string> = { 1: 'var(--success)', 2: 'var(--warning)', 3: 'var(--t4)' };
 const TIER_L: Record<number, string> = { 1: 'T1', 2: 'T2', 3: 'T3' };

@@ -5,11 +5,11 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 
 import {
-  type TimelineArticle,
   CARD_W,
   formatHour,
   formatTimeAgo,
   proxyImg,
+  type TimelineArticle,
 } from './timeline-constants';
 
 // Types

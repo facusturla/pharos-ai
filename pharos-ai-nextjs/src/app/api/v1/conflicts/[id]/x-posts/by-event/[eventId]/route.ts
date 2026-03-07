@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/server/lib/db';
+
 import { ok } from '@/server/lib/api-utils';
+import { prisma } from '@/server/lib/db';
 
 export async function GET(_req: NextRequest, { params }: { params: Promise<{ id: string; eventId: string }> }) {
   const { id, eventId } = await params;

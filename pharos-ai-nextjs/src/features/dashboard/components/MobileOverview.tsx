@@ -1,21 +1,23 @@
 'use client';
 
 import { useMemo } from 'react';
+
 import Link from 'next/link';
-import { Map as MapIcon, ArrowRight, Zap, Users, BookOpen, TrendingUp } from 'lucide-react';
 
-import { fmtTimeZ } from '@/shared/lib/format';
-import { SEV_C } from '@/shared/lib/severity-colors';
-import { getConflictForDay, getEventsForDay, getPostsForDay } from '@/shared/lib/day-filter';
+import { ArrowRight, BookOpen, Map as MapIcon, TrendingUp,Users, Zap } from 'lucide-react';
+
+import { useActors } from '@/features/actors/queries';
 import { CasChip } from '@/features/dashboard/components/CasChip';
-import { XPostCard } from '@/shared/components/shared/XPostCard';
-
 import { useBootstrap } from '@/features/dashboard/queries';
 import { useConflictDays } from '@/features/dashboard/queries/conflicts';
 import { useEvents } from '@/features/events/queries';
-import { useActors } from '@/features/actors/queries';
 import { useXPosts } from '@/features/events/queries/x-posts';
 import { useMapStories } from '@/features/map/queries';
+import { XPostCard } from '@/shared/components/shared/XPostCard';
+
+import { getConflictForDay, getEventsForDay, getPostsForDay } from '@/shared/lib/day-filter';
+import { fmtTimeZ } from '@/shared/lib/format';
+import { SEV_C } from '@/shared/lib/severity-colors';
 
 import type { XPost } from '@/types/domain';
 

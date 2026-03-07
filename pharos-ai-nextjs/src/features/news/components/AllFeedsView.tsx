@@ -1,12 +1,17 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo,useState } from 'react';
+
 import { Button } from '@/components/ui/button';
-import { NewsFeedColumn } from './NewsFeedColumn';
-import { useRssFeeds } from '@/features/news/queries';
+
 import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
+import { useRssFeeds } from '@/features/news/queries';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+
 import type { FeedItem } from '@/types/domain';
+
+import { NewsFeedColumn } from './NewsFeedColumn';
 
 const PERSPECTIVES = ['ALL', 'WESTERN', 'US_GOV', 'ISRAELI', 'IRANIAN', 'ARAB', 'RUSSIAN', 'CHINESE', 'INDEPENDENT'] as const;
 

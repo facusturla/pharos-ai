@@ -1,10 +1,12 @@
 'use client';
 
-import { fmtDate }  from '@/shared/lib/format';
+import { Skeleton } from '@/components/ui/skeleton';
+
 import { useConflict } from '@/features/dashboard/queries/conflicts';
 import { useEvents } from '@/features/events/queries';
+
+import { fmtDate }  from '@/shared/lib/format';
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { Skeleton } from '@/components/ui/skeleton';
 
 export function SummaryBar() {
   const { data: conflict, isLoading: conflictLoading } = useConflict();

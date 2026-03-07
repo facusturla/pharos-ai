@@ -1,23 +1,28 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { RefreshCw, TrendingUp, AlertCircle } from 'lucide-react';
+import { useMemo,useState } from 'react';
+
+import { AlertCircle,RefreshCw, TrendingUp } from 'lucide-react';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
+
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
-import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Switch } from '@/components/ui/switch';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+
+import { FocusedMarket } from '@/features/predictions/components/FocusedMarket';
 import { GroupSection } from '@/features/predictions/components/GroupSection';
 import { MarketCard } from '@/features/predictions/components/MarketCard';
-import { FocusedMarket } from '@/features/predictions/components/FocusedMarket';
+import { COL,fmtVol, getLeadProb } from '@/features/predictions/components/utils';
 import { usePredictionMarkets } from '@/features/predictions/queries';
-import { assignGroup, MARKET_GROUPS, UNCATEGORIZED_GROUP } from '@/data/prediction-groups';
-import { fmtVol, getLeadProb, COL } from '@/features/predictions/components/utils';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
+import { assignGroup, MARKET_GROUPS, UNCATEGORIZED_GROUP } from '@/data/prediction-groups';
 import type { PredictionMarket } from '@/types/domain';
 
 const SORT_OPTS = [

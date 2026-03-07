@@ -1,11 +1,13 @@
 'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { FilterBlock, CheckboxRow, ToggleRow } from '@/shared/components/shared/FilterControls';
+
 import { DaySelector } from '@/shared/components/shared/DaySelector';
+import { CheckboxRow, FilterBlock, ToggleRow } from '@/shared/components/shared/FilterControls';
+
 import { cn } from '@/shared/lib/utils';
 
-import type { Significance, AccountType, ConflictDay, VerificationStatus } from '@/types/domain';
-export type { Significance, AccountType, VerificationStatus };
+import type { AccountType, ConflictDay, Significance, VerificationStatus } from '@/types/domain';
+export type { AccountType, Significance, VerificationStatus };
 
 const SIG_LABELS: Significance[] = ['BREAKING', 'HIGH', 'STANDARD'];
 const ACCT_LABELS: AccountType[] = ['military', 'government', 'journalist', 'analyst'];

@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { Layers, Eye, EyeOff } from 'lucide-react';
+
+import { Eye, EyeOff,Layers } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 
 export type OverlayVisibility = {

@@ -1,8 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import type { ConflictCollection } from '@/types/domain';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+
+import type { ConflictCollection } from '@/types/domain';
 
 type ConflictBannerProps = {
   collection: ConflictCollection;

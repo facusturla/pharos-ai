@@ -2,8 +2,10 @@
 
 import { Button } from '@/components/ui/button';
 import { PopoverContent } from '@/components/ui/popover';
-import { dayLabel, getEventsForDay, getConflictForDay } from '@/shared/lib/day-filter';
-import type { IntelEvent, ConflictDaySnapshot } from '@/types/domain';
+
+import { dayLabel, getConflictForDay,getEventsForDay } from '@/shared/lib/day-filter';
+
+import type { ConflictDaySnapshot,IntelEvent } from '@/types/domain';
 
 type Props = {
   currentDay: string;

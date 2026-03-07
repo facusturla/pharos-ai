@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { publicConflictId } from '@/shared/lib/env';
-import type { RssFeed, ConflictCollection, FeedResult } from '@/types/domain';
-
 import { api, buildUrl } from '@/shared/lib/query/client';
 import { queryKeys, STALE } from '@/shared/lib/query/keys';
+
+import type { ConflictCollection, FeedResult,RssFeed } from '@/types/domain';
 
 const CONFLICT_ID = publicConflictId;
 

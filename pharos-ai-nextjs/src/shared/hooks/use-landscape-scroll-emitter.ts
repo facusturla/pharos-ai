@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
+
 import type { UIEvent } from 'react';
 
 const EVT = 'pharos:landscape-scroll';

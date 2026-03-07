@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+
 import { Button } from '@/components/ui/button';
 
 type LegendItem = { shape: 'rect' | 'circle' | 'zone'; color: string; label: string };

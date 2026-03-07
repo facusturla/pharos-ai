@@ -1,7 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { RANGES, fmtPrice } from '@/features/economics/components/focused-chart-constants';
+
+import { fmtPrice,RANGES } from '@/features/economics/components/focused-chart-constants';
+
 import { ECON_CATEGORY_MAP } from '@/data/economic-indexes';
 import type { EconomicIndex, MarketResult } from '@/types/domain';
 

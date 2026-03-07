@@ -1,7 +1,6 @@
-import { TYPE_META, STATUS_META, PRIORITY_META } from '@/data/map-tokens';
-
-import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone, HeatPoint } from '@/data/map-data';
+import type { Asset, HeatPoint,MissileTrack, StrikeArc, Target, ThreatZone } from '@/data/map-data';
 import type { ActorMeta } from '@/data/map-tokens';
+import { PRIORITY_META,STATUS_META, TYPE_META } from '@/data/map-tokens';
 
 // Types
 

@@ -1,22 +1,26 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
-import { useConflictDay } from '@/shared/hooks/use-conflict-day';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
-import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { useMemo,useState } from 'react';
+
 import { Button } from '@/components/ui/button';
+import { ResizableHandle,ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import type { XPost } from '@/types/domain';
+
 import { useXPosts } from '@/features/events/queries/x-posts';
-import { XPostCard } from '@/shared/components/shared/XPostCard';
-import { SignalFilterRail, type Significance, type AccountType } from '@/features/signals/components/SignalFilterRail';
 import { SectionHeader } from '@/features/signals/components/SectionHeader';
+import { type AccountType,SignalFilterRail, type Significance } from '@/features/signals/components/SignalFilterRail';
+import { ListDetailScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+import { XPostCard } from '@/shared/components/shared/XPostCard';
+
 import { getPostsForDay } from '@/shared/lib/day-filter';
 import { timeAgo } from '@/shared/lib/format';
-import { ListDetailScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+import { useConflictDay } from '@/shared/hooks/use-conflict-day';
+import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
+
+import type { XPost } from '@/types/domain';
 
 export function SignalsContent() {
   const isMobile = useIsMobile(1024);

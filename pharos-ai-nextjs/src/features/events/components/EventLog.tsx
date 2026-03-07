@@ -1,14 +1,19 @@
 'use client';
 import { useMemo, useState } from 'react';
-import { fmtTime } from '@/shared/lib/format';
-import { CheckCircle, ArrowRight, ChevronRight, ChevronDown } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
+import { ArrowRight, CheckCircle, ChevronDown,ChevronRight } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/shared/lib/utils';
-import type { IntelEvent } from '@/types/domain';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { useXPosts } from '@/features/events/queries/x-posts';
+
+import { fmtTime } from '@/shared/lib/format';
 import { SEV_C } from '@/shared/lib/severity-colors';
+import { cn } from '@/shared/lib/utils';
+
+import type { IntelEvent } from '@/types/domain';
 const SEV_BG: Record<string, string> = {
   CRITICAL: 'var(--danger-dim)', HIGH: 'var(--warning-dim)', STANDARD: 'var(--info-dim)',
 };

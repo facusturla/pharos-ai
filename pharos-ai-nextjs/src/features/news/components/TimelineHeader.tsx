@@ -4,7 +4,7 @@ import { type MutableRefObject } from 'react';
 
 import { Button } from '@/components/ui/button';
 
-import { TIER_LABELS, MIN_ZOOM, MAX_ZOOM, ZOOM_STEP } from './timeline-constants';
+import { MAX_ZOOM, MIN_ZOOM, TIER_LABELS, ZOOM_STEP } from './timeline-constants';
 
 // Types
 

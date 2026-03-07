@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
+
+import { err, ok, reassembleCasualties } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
-import { ok, err, reassembleCasualties } from '@/server/lib/api-utils';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

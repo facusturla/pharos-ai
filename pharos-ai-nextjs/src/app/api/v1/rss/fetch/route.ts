@@ -1,6 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import Parser from 'rss-parser';
+
 import { prisma } from '@/server/lib/db';
+
 import type { FeedResult } from '@/types/domain';
 
 const parser = new Parser({

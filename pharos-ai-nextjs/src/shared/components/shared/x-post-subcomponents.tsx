@@ -1,6 +1,8 @@
 'use client';
 import React from 'react';
+
 import { AlertTriangle, CheckCircle, HelpCircle, ShieldAlert, ShieldCheck, ShieldQuestion } from 'lucide-react';
+
 import type { VerificationStatus } from '@/types/domain';
 
 // Sub-components shared by PharosView

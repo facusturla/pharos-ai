@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
-import { prisma } from '@/server/lib/db';
+
 import { ok } from '@/server/lib/api-utils';
+import { prisma } from '@/server/lib/db';
 
 export async function GET(req: NextRequest) {
   const conflictId = req.nextUrl.searchParams.get('conflictId');

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
 

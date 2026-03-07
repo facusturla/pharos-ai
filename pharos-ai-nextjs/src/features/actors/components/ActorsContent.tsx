@@ -1,20 +1,24 @@
 'use client';
 
 import { useMemo, useState } from 'react';
-import { Users, ArrowLeft } from 'lucide-react';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+
+import { ArrowLeft,Users } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
-import { useConflictDay } from '@/shared/hooks/use-conflict-day';
-import { useActor, useActors } from '@/features/actors/queries';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
-import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
-import { ActorList } from '@/features/actors/components/ActorList';
+import { ResizableHandle,ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+
 import { ActorDossier } from '@/features/actors/components/ActorDossier';
-import { EmptyState } from '@/shared/components/shared/EmptyState';
-import { DaySelector } from '@/shared/components/shared/DaySelector';
+import { ActorList } from '@/features/actors/components/ActorList';
+import { useActor, useActors } from '@/features/actors/queries';
 import { ListDetailScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+import { DaySelector } from '@/shared/components/shared/DaySelector';
+import { EmptyState } from '@/shared/components/shared/EmptyState';
+
+import { useConflictDay } from '@/shared/hooks/use-conflict-day';
+import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
 
 export function ActorsContent() {
   const initActor = useMemo(() => {

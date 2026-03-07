@@ -2,25 +2,24 @@
 
 import { useState } from 'react';
 
-import '@/features/map/lib/deckgl-device';
+import type { MapViewState } from '@deck.gl/core';
+import { FlyToInterpolator } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import Map from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
 
 import { MAP_STYLE_DARK, MAP_STYLE_SAT } from '@/features/map/components/map-styles';
-
-import { MapSidebar }    from '@/features/map/components/MapSidebar';
 import { MapControls }   from '@/features/map/components/MapControls';
-import { MapOverlays }   from '@/features/map/components/MapOverlays';
-import { MapLegend }     from '@/features/map/components/MapLegend';
 import { MapFilterPanel } from '@/features/map/components/MapFilterPanel';
+import { MapLegend }     from '@/features/map/components/MapLegend';
+import { MapOverlays }   from '@/features/map/components/MapOverlays';
+import { MapSidebar }    from '@/features/map/components/MapSidebar';
 import { MapTimeline }   from '@/features/map/components/MapTimeline';
 import { MapVisibilityMenu } from '@/features/map/components/MapVisibilityMenu';
 import { MobileDetailPanel } from '@/features/map/components/mobile/MapDetailPanel';
-
 import type { MapPageContext } from '@/features/map/components/use-map-page';
-import { FlyToInterpolator } from '@deck.gl/core';
-import type { MapViewState } from '@deck.gl/core';
+
+import '@/features/map/lib/deckgl-device';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 type Props = {
   ctx: MapPageContext;

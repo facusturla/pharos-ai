@@ -1,17 +1,22 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useMemo,useRef, useState } from 'react';
+
 import Image from 'next/image';
 import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
+
 import { NewsTimeline } from '@/features/news/components/NewsTimeline';
-import { useRssFeeds, fetchFeedItems } from '@/features/news/queries';
+import { CLIENT_FRESH_TTL,clientCache } from '@/features/news/lib/client-cache';
 import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
+import { fetchFeedItems,useRssFeeds } from '@/features/news/queries';
+
 import { timeAgo } from '@/shared/lib/format';
-import { clientCache, CLIENT_FRESH_TTL } from '@/features/news/lib/client-cache';
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
 import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
 import type { FeedItem } from '@/types/domain';
 
 type ViewMode = 'feed' | 'timeline';

@@ -1,14 +1,19 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo,useState } from 'react';
+
 import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
-import { IndexCard } from '@/features/economics/components/IndexCard';
+
 import { FocusedChart } from '@/features/economics/components/FocusedChart';
-import { ECON_CATEGORIES } from '@/data/economic-indexes';
+import { IndexCard } from '@/features/economics/components/IndexCard';
 import { useEconomicIndexes, useMarketData } from '@/features/economics/queries';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
+import { ECON_CATEGORIES } from '@/data/economic-indexes';
 import type { EconCategory, EconomicIndex, MarketResult } from '@/types/domain';
 
 const RANGES = [

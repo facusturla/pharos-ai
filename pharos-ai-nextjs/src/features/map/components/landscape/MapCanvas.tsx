@@ -1,23 +1,24 @@
 'use client';
-import { ArrowLeft, Clock, BookOpen, Map as MapIcon } from 'lucide-react';
 import Link from 'next/link';
 
-import '@/features/map/lib/deckgl-device';
-import DeckGL from '@deck.gl/react';
-import Map from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
-
+import type { MapViewState } from '@deck.gl/core';
 import { FlyToInterpolator } from '@deck.gl/core';
-import { MAP_STYLE_DARK, MAP_STYLE_SAT } from '@/features/map/components/map-styles';
-import { MapLegend }     from '@/features/map/components/MapLegend';
-import { MapFilterPanel } from '@/features/map/components/MapFilterPanel';
-import { MapTimeline }   from '@/features/map/components/MapTimeline';
-import { MapVisibilityMenu } from '@/features/map/components/MapVisibilityMenu';
+import DeckGL from '@deck.gl/react';
+import { ArrowLeft, BookOpen, Clock, Map as MapIcon } from 'lucide-react';
+import Map from 'react-map-gl/maplibre';
+
 import { Button } from '@/components/ui/button';
 
-import type { MapPageContext } from '@/features/map/components/use-map-page';
-import type { MapViewState } from '@deck.gl/core';
+import { MAP_STYLE_DARK, MAP_STYLE_SAT } from '@/features/map/components/map-styles';
+import { MapFilterPanel } from '@/features/map/components/MapFilterPanel';
+import { MapLegend }     from '@/features/map/components/MapLegend';
+import { MapTimeline }   from '@/features/map/components/MapTimeline';
+import { MapVisibilityMenu } from '@/features/map/components/MapVisibilityMenu';
 import type { SelectedItem } from '@/features/map/components/types';
+import type { MapPageContext } from '@/features/map/components/use-map-page';
+
+import '@/features/map/lib/deckgl-device';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 type Props = {
   ctx: MapPageContext;

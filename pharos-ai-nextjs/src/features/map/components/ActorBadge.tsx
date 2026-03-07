@@ -1,6 +1,6 @@
 'use client';
 
-import type { ActorMeta, ActorKey } from '@/data/map-tokens';
+import type { ActorKey,ActorMeta } from '@/data/map-tokens';
 
 const FALLBACK_META: ActorMeta = {
   label: '??', cssVar: 'var(--t3)', rgb: [143, 153, 168],

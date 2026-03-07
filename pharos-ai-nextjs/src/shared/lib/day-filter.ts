@@ -1,4 +1,4 @@
-import type { ActorDaySnapshot, ConflictDaySnapshot, IntelEvent, XPost, Actor } from '@/types/domain';
+import type { Actor,ActorDaySnapshot, ConflictDaySnapshot, IntelEvent, XPost } from '@/types/domain';
 
 /** Get the day (YYYY-MM-DD) a timestamp falls on (defaults to last day). */
 export function getDayFromTimestamp(ts: string, allDays: string[]): string {

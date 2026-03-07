@@ -1,6 +1,8 @@
 'use client';
-import { useState, useRef, useCallback } from 'react';
+import { useCallback,useRef, useState } from 'react';
+
 import { usePredictionChart } from '@/features/predictions/queries';
+
 import { probColor } from './utils';
 
 const MIN_W = 220, MIN_H = 80, MAX_W = 900, MAX_H = 400;

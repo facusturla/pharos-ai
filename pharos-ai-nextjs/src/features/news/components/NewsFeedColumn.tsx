@@ -1,12 +1,16 @@
 'use client';
 
-import { useEffect, useState, useRef, useCallback } from 'react';
+import { useCallback,useEffect, useRef, useState } from 'react';
+
 import Image from 'next/image';
-import type { RssFeed, FeedItem, FeedResult } from '@/types/domain';
+
 import { fetchSingleFeed } from '@/features/news/queries';
+
 import { timeAgo } from '@/shared/lib/format';
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
+import type { FeedItem, FeedResult,RssFeed } from '@/types/domain';
 
 type NewsFeedColumnProps = {
   feed: RssFeed;

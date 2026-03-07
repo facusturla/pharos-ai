@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useCallback,useEffect, useRef, useState } from 'react';
 
-import { MIN_ZOOM, MAX_ZOOM, ZOOM_STEP, DEFAULT_ZOOM } from './timeline-constants';
+import { DEFAULT_ZOOM,MAX_ZOOM, MIN_ZOOM, ZOOM_STEP } from './timeline-constants';
 
 export function useTimelineTransform() {
   const viewportRef = useRef<HTMLDivElement>(null);

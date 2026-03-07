@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import type { SubMarket, PredictionMarket } from '@/types/domain';
+
+import type { PredictionMarket,SubMarket } from '@/types/domain';
 
 const GAMMA = 'https://gamma-api.polymarket.com';
 

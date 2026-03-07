@@ -1,21 +1,26 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { FileText, ArrowLeft } from 'lucide-react';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import { useMemo,useState } from 'react';
+
+import { ArrowLeft,FileText } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
-import { useConflictDay } from '@/shared/hooks/use-conflict-day';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
-import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
-import type { Severity, EventType } from '@/types/domain';
-import { useEvent, useEvents } from '@/features/events/queries';
-import { FeedFilterRail, ALL_TYPES } from '@/features/events/components/FeedFilterRail';
-import { EventLog } from '@/features/events/components/EventLog';
+import { ResizableHandle,ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
+
 import { EventDetail } from '@/features/events/components/EventDetail';
-import { EmptyState } from '@/shared/components/shared/EmptyState';
+import { EventLog } from '@/features/events/components/EventLog';
+import { ALL_TYPES,FeedFilterRail } from '@/features/events/components/FeedFilterRail';
+import { useEvent, useEvents } from '@/features/events/queries';
 import { ListDetailScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+import { EmptyState } from '@/shared/components/shared/EmptyState';
+
+import { useConflictDay } from '@/shared/hooks/use-conflict-day';
+import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
+
+import type { EventType,Severity } from '@/types/domain';
 
 export function FeedContent() {
   const initEvent = useMemo(() => {

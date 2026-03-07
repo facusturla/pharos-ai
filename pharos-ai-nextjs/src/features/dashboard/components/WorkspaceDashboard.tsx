@@ -1,40 +1,43 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import Link from 'next/link';
-import { ArrowRight, ArrowLeft, X as XIcon, Plus } from 'lucide-react';
+
+import { ArrowLeft, ArrowRight, Plus,X as XIcon } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
-import { DaySelector } from '@/shared/components/shared/DaySelector';
+import { ResizableHandle,ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
-import { useAppSelector, useAppDispatch } from '@/shared/state';
+import { useActors } from '@/features/actors/queries';
+import { useBootstrap } from '@/features/dashboard/queries';
+import { useConflict, useConflictDays } from '@/features/dashboard/queries/conflicts';
+import { ALL_WIDGET_KEYS, PRESETS, WIDGET_LABELS, type WidgetKey } from '@/features/dashboard/state/presets';
 import {
-  applyPreset,
-  addWidget as addWidgetAction,
-  removeWidget as removeWidgetAction,
-  moveWidget as moveWidgetAction,
   addColumn as addColumnAction,
-  toggleEditing,
+  addWidget as addWidgetAction,
+  applyPreset,
+  moveWidget as moveWidgetAction,
+  removeWidget as removeWidgetAction,
   resetToPreset,
   setColumnSizes,
   setRowSizes,
+  toggleEditing,
 } from '@/features/dashboard/state/workspace-slice';
-import { ALL_WIDGET_KEYS, WIDGET_LABELS, PRESETS, type WidgetKey } from '@/features/dashboard/state/presets';
-
-import { useBootstrap } from '@/features/dashboard/queries';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
-import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
-import { useConflict, useConflictDays } from '@/features/dashboard/queries/conflicts';
 import { useEvents } from '@/features/events/queries';
-import { useActors } from '@/features/actors/queries';
 import { useXPosts } from '@/features/events/queries/x-posts';
 import { MobileOverviewSkeleton, OverviewScreenSkeleton } from '@/shared/components/loading/screen-skeletons';
+import { DaySelector } from '@/shared/components/shared/DaySelector';
 
-import { MobileOverview } from './MobileOverview';
-import { DashCtx } from './DashCtx';
+import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+
 import type { DashData } from './DashCtx';
+import { DashCtx } from './DashCtx';
+import { MobileOverview } from './MobileOverview';
 import { widgetComponents } from './widgets';
+
+import { useAppDispatch,useAppSelector } from '@/shared/state';
 
 const WIDGET_LINKS: Partial<Record<WidgetKey, { href: string; label: string }>> = {
   latest:      { href: '/dashboard/feed',        label: 'View All' },

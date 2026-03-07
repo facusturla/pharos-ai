@@ -3,11 +3,10 @@
 import { type RefObject } from 'react';
 
 import {
-  type TimelineArticle,
-  SPINE_Y,
   CANVAS_H,
+  SPINE_Y,
+  type TimelineArticle,
 } from './timeline-constants';
-
 import { TimelineCard } from './TimelineCard';
 import { TimelineSpine } from './TimelineSpine';
 

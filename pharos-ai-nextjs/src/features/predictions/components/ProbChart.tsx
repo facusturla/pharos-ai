@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { createChart, type IChartApi, type UTCTimestamp, ColorType, LineStyle, AreaSeries } from 'lightweight-charts';
+
+import { AreaSeries,ColorType, createChart, type IChartApi, LineStyle, type UTCTimestamp } from 'lightweight-charts';
+
 import type { TimePoint } from '@/types/domain';
 
 type ProbChartProps = {

@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
+
+import { err, mapActorTypeToApi,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
-import { ok, err, mapActorTypeToApi } from '@/server/lib/api-utils';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string; actorId: string }> }) {
   const { id, actorId } = await params;

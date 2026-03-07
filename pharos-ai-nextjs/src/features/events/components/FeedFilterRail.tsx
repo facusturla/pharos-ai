@@ -1,11 +1,14 @@
 'use client';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { FilterBlock, CheckboxRow } from '@/shared/components/shared/FilterControls';
+
 import { DaySelector } from '@/shared/components/shared/DaySelector';
-import type { Severity, EventType } from '@/types/domain';
-import type { ConflictDay } from '@/types/domain';
+import { CheckboxRow,FilterBlock } from '@/shared/components/shared/FilterControls';
+
 import { SEV_C, TYPE_C } from '@/shared/lib/severity-colors';
 import { cn } from '@/shared/lib/utils';
+
+import type { EventType,Severity } from '@/types/domain';
+import type { ConflictDay } from '@/types/domain';
 
 export const ALL_TYPES: EventType[] = ['MILITARY', 'DIPLOMATIC', 'INTELLIGENCE', 'ECONOMIC', 'HUMANITARIAN', 'POLITICAL'];
 

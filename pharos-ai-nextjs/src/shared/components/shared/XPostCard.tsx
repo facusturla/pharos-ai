@@ -1,9 +1,12 @@
 'use client';
 import { Suspense } from 'react';
+
 import { Tweet } from 'react-tweet';
-import { PharosView, EmbedSkeleton } from './PharosView';
-import { ACCT, SIG_BORDER, xUrl } from './x-post-constants';
+
 import type { XPost } from '@/types/domain';
+
+import { EmbedSkeleton,PharosView } from './PharosView';
+import { ACCT, SIG_BORDER, xUrl } from './x-post-constants';
 
 type Props = { post: XPost; compact?: boolean };
 

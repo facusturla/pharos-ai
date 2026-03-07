@@ -1,8 +1,11 @@
 'use client';
 
 import { useContext } from 'react';
+
 import { CasChip } from '@/features/dashboard/components/CasChip';
+
 import { getConflictForDay } from '@/shared/lib/day-filter';
+
 import { DashCtx } from '../DashCtx';
 
 export function SituationWidget() {

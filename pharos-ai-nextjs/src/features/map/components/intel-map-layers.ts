@@ -1,19 +1,20 @@
 'use client';
 
 import { useMemo } from 'react';
-import { ArcLayer, ScatterplotLayer, TextLayer, PolygonLayer } from '@deck.gl/layers';
-import { HeatmapLayer } from '@deck.gl/aggregation-layers';
 
-import type {
-  StrikeArc,
-  MissileTrack,
-  Target,
-  Asset,
-  ThreatZone,
-  HeatPoint,
-} from '@/data/map-data';
+import { HeatmapLayer } from '@deck.gl/aggregation-layers';
+import { ArcLayer, PolygonLayer,ScatterplotLayer, TextLayer } from '@deck.gl/layers';
 
 import type { MapDataResult } from '@/features/map/queries';
+
+import type {
+  Asset,
+  HeatPoint,
+  MissileTrack,
+  StrikeArc,
+  Target,
+  ThreatZone,
+} from '@/data/map-data';
 
 export type LayerVisibility = {
   strikes: boolean;

@@ -1,11 +1,15 @@
 'use client';
 
 import { CheckCircle } from 'lucide-react';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { SectionDivider } from '@/shared/components/shared/SectionDivider';
-import type { Actor } from '@/types/domain';
-import type { ConflictDay, ActorDaySnapshot, RecentAction } from '@/types/domain';
+
 import { TYPE_C } from '@/shared/lib/severity-colors';
+
+import type { Actor } from '@/types/domain';
+import type { ActorDaySnapshot, ConflictDay, RecentAction } from '@/types/domain';
 
 type Props = {
   actor: Actor;

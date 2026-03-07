@@ -1,26 +1,27 @@
 'use client';
 
-import '@/features/map/lib/deckgl-device';
+import type { MapViewState } from '@deck.gl/core';
+import { FlyToInterpolator } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import Map from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
 
-import { MAP_STYLE_DARK, MAP_STYLE_SAT } from '@/features/map/components/map-styles';
+import { ResizableHandle,ResizablePanel, ResizablePanelGroup } from '@/components/ui/resizable';
 
-import { MapSidebar }    from '@/features/map/components/MapSidebar';
-import { MapControls }   from '@/features/map/components/MapControls';
-import { MapOverlays }   from '@/features/map/components/MapOverlays';
 import { DesktopDetailPanel } from '@/features/map/components/desktop/MapDetailPanel';
-import { MapLegend }     from '@/features/map/components/MapLegend';
+import { MAP_STYLE_DARK, MAP_STYLE_SAT } from '@/features/map/components/map-styles';
+import { MapControls }   from '@/features/map/components/MapControls';
 import { MapFilterPanel } from '@/features/map/components/MapFilterPanel';
+import { MapLegend }     from '@/features/map/components/MapLegend';
+import { MapOverlays }   from '@/features/map/components/MapOverlays';
+import { MapSidebar }    from '@/features/map/components/MapSidebar';
 import { MapTimeline }   from '@/features/map/components/MapTimeline';
 import { MapVisibilityMenu } from '@/features/map/components/MapVisibilityMenu';
-import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from '@/components/ui/resizable';
+import type { MapPageContext } from '@/features/map/components/use-map-page';
+
 import { usePanelLayout } from '@/shared/hooks/use-panel-layout';
 
-import type { MapPageContext } from '@/features/map/components/use-map-page';
-import { FlyToInterpolator } from '@deck.gl/core';
-import type { MapViewState } from '@deck.gl/core';
+import '@/features/map/lib/deckgl-device';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 type Props = {
   ctx: MapPageContext;

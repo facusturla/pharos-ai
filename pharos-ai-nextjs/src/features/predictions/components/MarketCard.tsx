@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
+
 import { usePredictionHistory } from '@/features/predictions/queries';
-import { getLeadProb, probColor, fmtVol, fmtMarketDate, statusLabel } from './utils';
+
+import type { MarketGroup,PredictionMarket } from '@/types/domain';
+
 import { ProbChart } from './ProbChart';
-import type { PredictionMarket, MarketGroup } from '@/types/domain';
+import { fmtMarketDate, fmtVol, getLeadProb, probColor, statusLabel } from './utils';
 
 type MarketCardProps = {
   market: PredictionMarket;

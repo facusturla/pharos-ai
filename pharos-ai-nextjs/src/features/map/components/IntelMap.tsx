@@ -1,18 +1,23 @@
 'use client';
 
-import '@/features/map/lib/deckgl-device';
-import { useState, useCallback } from 'react';
+import { useCallback,useState } from 'react';
+
 import Link from 'next/link';
+
+import type { MapViewState,PickingInfo } from '@deck.gl/core';
 import DeckGL from '@deck.gl/react';
 import Map from 'react-map-gl/maplibre';
-import 'maplibre-gl/dist/maplibre-gl.css';
-import type { PickingInfo, MapViewState } from '@deck.gl/core';
 
 import { Button } from '@/components/ui/button';
-import { IntelMapLegend } from './IntelMapLegend';
+
 import { useMapData } from '@/features/map/queries';
-import { useMapLayers, type LayerVisibility, type TooltipObject } from './intel-map-layers';
+
+import { type LayerVisibility, type TooltipObject,useMapLayers } from './intel-map-layers';
 import { getMapTooltip } from './intel-map-tooltip';
+import { IntelMapLegend } from './IntelMapLegend';
+
+import '@/features/map/lib/deckgl-device';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 const MAP_STYLE = 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json';
 

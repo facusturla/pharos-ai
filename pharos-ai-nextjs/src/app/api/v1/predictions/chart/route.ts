@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+
 import type { TimePoint } from '@/types/domain';
 
 export async function GET(req: NextRequest) {

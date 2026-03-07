@@ -1,30 +1,30 @@
 'use client';
 
-import { useMemo, useEffect, useCallback } from 'react';
+import { useCallback,useEffect, useMemo } from 'react';
 
-import { useAppSelector, useAppDispatch } from '@/shared/state';
+import type { DataArrays, FilteredData, FilterFacets,FilterState } from '@/features/map/lib/map-filter-engine';
+import { applyFilters, extractInitialState, extractTimeExtent } from '@/features/map/lib/map-filter-engine';
+import { useMapData } from '@/features/map/queries';
+import { selectFilterState, selectIsFiltered } from '@/features/map/state/map-selectors';
 import {
   initializeFilters as initializeFiltersAction,
-  toggleDataset  as toggleDatasetAction,
-  toggleType     as toggleTypeAction,
-  toggleActor    as toggleActorAction,
-  togglePriority as togglePriorityAction,
-  toggleStatus   as toggleStatusAction,
-  toggleHeat     as toggleHeatAction,
+  resetFilters   as resetFiltersAction,
   setTimeRange   as setTimeRangeAction,
   setViewExtent  as setViewExtentAction,
-  resetFilters   as resetFiltersAction,
+  toggleActor    as toggleActorAction,
+  toggleDataset  as toggleDatasetAction,
+  toggleHeat     as toggleHeatAction,
+  togglePriority as togglePriorityAction,
+  toggleStatus   as toggleStatusAction,
+  toggleType     as toggleTypeAction,
   toSerializable,
 } from '@/features/map/state/map-slice';
-import { selectFilterState, selectIsFiltered } from '@/features/map/state/map-selectors';
-
-import { useMapData } from '@/features/map/queries';
-import { applyFilters, extractInitialState, extractTimeExtent } from '@/features/map/lib/map-filter-engine';
 
 import type { ActorMeta } from '@/data/map-tokens';
-import type { DataArrays, FilterState, FilteredData, FilterFacets } from '@/features/map/lib/map-filter-engine';
 
-export type { FilterState, FilteredData, FilterFacets };
+import { useAppDispatch,useAppSelector } from '@/shared/state';
+
+export type { FilteredData, FilterFacets,FilterState };
 
 // Dataset names
 

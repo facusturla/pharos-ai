@@ -1,4 +1,4 @@
-import type { Severity, EventType } from '@/types/domain';
+import type { EventType,Severity } from '@/types/domain';
 
 /** Severity → CSS variable color. */
 export const SEV_C: Record<Severity, string> = {

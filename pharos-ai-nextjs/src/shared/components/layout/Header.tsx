@@ -1,12 +1,14 @@
 'use client';
 import Link           from 'next/link';
 import { usePathname } from 'next/navigation';
-import { fmtDate }    from '@/shared/lib/format';
+
 import { useBootstrap } from '@/features/dashboard/queries';
-import { useEvents } from '@/features/events/queries';
 import { useConflict } from '@/features/dashboard/queries/conflicts';
-import { useIsMobile } from '@/shared/hooks/use-is-mobile';
+import { useEvents } from '@/features/events/queries';
+
+import { fmtDate }    from '@/shared/lib/format';
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
+import { useIsMobile } from '@/shared/hooks/use-is-mobile';
 import { useLandscapeHeaderVisibility } from '@/shared/hooks/use-landscape-header-visibility';
 
 const NAV = [

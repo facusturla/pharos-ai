@@ -1,17 +1,16 @@
 'use client';
 
-import {
-  type TimelineArticle,
-  CARD_W,
-  CARD_H_IMG,
-  CARD_H_NO_IMG,
-  SPINE_Y,
-} from './timeline-constants';
-
 import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
 
-import { NormalCard } from './NormalCard';
 import { ExpandedCard } from './ExpandedCard';
+import { NormalCard } from './NormalCard';
+import {
+  CARD_H_IMG,
+  CARD_H_NO_IMG,
+  CARD_W,
+  SPINE_Y,
+  type TimelineArticle,
+} from './timeline-constants';
 
 // Types
 

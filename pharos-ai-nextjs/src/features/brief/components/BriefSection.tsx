@@ -1,5 +1,5 @@
-import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
 
 export function BriefSection({ number, title, children }: {
   number: string; title: string; children: React.ReactNode;

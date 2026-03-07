@@ -1,11 +1,14 @@
 'use client';
 
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useCallback,useEffect, useRef, useState } from 'react';
+
 import type { IChartApi } from 'lightweight-charts';
+
+import { RANGES } from '@/features/economics/components/focused-chart-constants';
 import { FocusedChartHeader } from '@/features/economics/components/FocusedChartHeader';
 import { FocusedChartStats } from '@/features/economics/components/FocusedChartStats';
 import { useFocusedChart } from '@/features/economics/components/use-focused-chart';
-import { RANGES } from '@/features/economics/components/focused-chart-constants';
+
 import type { EconomicIndex, MarketResult } from '@/types/domain';
 
 type Props = {

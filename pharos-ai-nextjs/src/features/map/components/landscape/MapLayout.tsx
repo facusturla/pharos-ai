@@ -1,14 +1,16 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useCallback,useState } from 'react';
+
+import type { SelectedItem } from '@/features/map/components/types';
+import type { MapPageContext } from '@/features/map/components/use-map-page';
+
+import type { MapStory } from '@/types/domain';
+
+import { EventDetailScreen } from './EventDetailScreen';
 import { MapCanvas } from './MapCanvas';
 import { StoriesScreen } from './StoriesScreen';
 import { StoryDetailScreen } from './StoryDetailScreen';
-import { EventDetailScreen } from './EventDetailScreen';
-
-import type { MapPageContext } from '@/features/map/components/use-map-page';
-import type { SelectedItem } from '@/features/map/components/types';
-import type { MapStory } from '@/types/domain';
 
 // Screen stack types
 

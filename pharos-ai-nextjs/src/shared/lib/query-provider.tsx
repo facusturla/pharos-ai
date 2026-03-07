@@ -1,6 +1,7 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { STALE } from '@/shared/lib/query/keys';
 
 const queryClient = new QueryClient({

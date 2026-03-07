@@ -1,10 +1,10 @@
 import type { PickingInfo } from '@deck.gl/core';
 
 import type {
-  StrikeArc,
-  MissileTrack,
-  Target,
   Asset,
+  MissileTrack,
+  StrikeArc,
+  Target,
   ThreatZone,
 } from '@/data/map-data';
 

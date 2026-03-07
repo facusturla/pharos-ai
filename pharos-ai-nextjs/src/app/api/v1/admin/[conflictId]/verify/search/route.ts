@@ -1,11 +1,12 @@
 /** Discover real X posts via Grok API; returns pre-formatted creation payloads. */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/server/lib/db';
-import { ok, err } from '@/server/lib/api-utils';
+
 import { requireAdmin } from '@/server/lib/admin-auth';
 import { safeJson } from '@/server/lib/admin-validate';
-import { searchXPosts, isXAIConfigured } from '@/server/lib/xai-client';
+import { err,ok } from '@/server/lib/api-utils';
+import { prisma } from '@/server/lib/db';
+import { isXAIConfigured,searchXPosts } from '@/server/lib/xai-client';
 
 export async function POST(
   req: NextRequest,

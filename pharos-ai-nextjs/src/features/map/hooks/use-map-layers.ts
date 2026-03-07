@@ -1,15 +1,16 @@
 'use client';
 
 import { useMemo } from 'react';
-import { ArcLayer, ScatterplotLayer, TextLayer, PolygonLayer } from '@deck.gl/layers';
+
 import { HeatmapLayer } from '@deck.gl/aggregation-layers';
+import { ArcLayer, PolygonLayer,ScatterplotLayer, TextLayer } from '@deck.gl/layers';
 
-import { NAVAL_RGB, STATUS_META } from '@/data/map-tokens';
-
+import type { Asset, HeatPoint,MissileTrack, StrikeArc, Target, ThreatZone } from '@/data/map-data';
 import type { ActorMeta } from '@/data/map-tokens';
-import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone, HeatPoint } from '@/data/map-data';
-import type { FilteredData } from './use-map-filters';
+import { NAVAL_RGB, STATUS_META } from '@/data/map-tokens';
 import type { MapStory } from '@/types/domain';
+
+import type { FilteredData } from './use-map-filters';
 
 // Types
 

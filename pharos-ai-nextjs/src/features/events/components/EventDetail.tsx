@@ -1,13 +1,17 @@
 'use client';
 import { CheckCircle } from 'lucide-react';
+
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { IntelTabBar, TabsContent } from '@/shared/components/shared/IntelTabs';
+
 import { EventReportContent, MetaChip } from '@/features/events/components/EventReportContent';
 import { EventSignalsContent } from '@/features/events/components/EventSignalsContent';
 import { useXPostsByEvent } from '@/features/events/queries/x-posts';
-import type { IntelEvent } from '@/types/domain';
+import { IntelTabBar, TabsContent } from '@/shared/components/shared/IntelTabs';
+
 import { SEV_C } from '@/shared/lib/severity-colors';
 import { cn } from '@/shared/lib/utils';
+
+import type { IntelEvent } from '@/types/domain';
 
 type Props = {
   event: IntelEvent;

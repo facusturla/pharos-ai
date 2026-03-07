@@ -1,8 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-
 import type { MapViewState } from '@deck.gl/core';
+
+import { Button } from '@/components/ui/button';
 
 type Props = {
   viewState:        MapViewState;

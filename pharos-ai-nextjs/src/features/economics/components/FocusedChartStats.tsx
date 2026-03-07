@@ -1,7 +1,9 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { fmtPrice, fmtPct } from '@/features/economics/components/focused-chart-constants';
+
+import { fmtPct,fmtPrice } from '@/features/economics/components/focused-chart-constants';
+
 import type { EconomicIndex } from '@/types/domain';
 
 type Props = {

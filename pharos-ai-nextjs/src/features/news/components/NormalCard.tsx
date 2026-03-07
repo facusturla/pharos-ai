@@ -2,16 +2,16 @@
 
 import Image from 'next/image';
 
+import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
+
 import {
-  type TimelineArticle,
   CARD_W,
-  IMG_H,
   formatHour,
   formatTimeAgo,
+  IMG_H,
   proxyImg,
+  type TimelineArticle,
 } from './timeline-constants';
-
-import { PERSPECTIVE_COLORS } from '@/features/news/lib/news-colors';
 
 // Types
 

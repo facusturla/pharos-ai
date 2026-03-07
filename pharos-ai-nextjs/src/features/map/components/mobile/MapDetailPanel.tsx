@@ -1,9 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { StrikeContent, MissileContent, TargetContent, AssetContent, ZoneContent } from '@/features/map/components/MapDetailContent';
 
+import { AssetContent, MissileContent, StrikeContent, TargetContent, ZoneContent } from '@/features/map/components/MapDetailContent';
 import type { SelectedItem } from '@/features/map/components/types';
+
 import type { MapStory } from '@/types/domain';
 
 const PANEL_LABEL: Record<SelectedItem['type'], string> = {

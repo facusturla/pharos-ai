@@ -1,7 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import type { BootstrapData } from '@/types/domain';
+
 import { api } from '@/shared/lib/query/client';
 import { queryKeys, STALE } from '@/shared/lib/query/keys';
+
+import type { BootstrapData } from '@/types/domain';
 
 export function useBootstrap() {
   return useQuery({

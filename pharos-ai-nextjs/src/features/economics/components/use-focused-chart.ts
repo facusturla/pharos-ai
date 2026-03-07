@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useRef, type RefObject, type MutableRefObject } from 'react';
-import { createChart, ColorType, LineStyle, AreaSeries, type IChartApi, type UTCTimestamp } from 'lightweight-charts';
+import { type MutableRefObject,type RefObject, useEffect, useRef } from 'react';
+
+import { AreaSeries, ColorType, createChart, type IChartApi, LineStyle, type UTCTimestamp } from 'lightweight-charts';
+
 import type { MarketResult } from '@/types/domain';
 
 export function useFocusedChart(

@@ -1,7 +1,9 @@
 'use client';
 import { XPostCard } from '@/shared/components/shared/XPostCard';
-import type { XPost } from '@/types/domain';
+
 import { cn } from '@/shared/lib/utils';
+
+import type { XPost } from '@/types/domain';
 
 type Props = {
   xPosts: XPost[];

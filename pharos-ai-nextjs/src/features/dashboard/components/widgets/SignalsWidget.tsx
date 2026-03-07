@@ -3,9 +3,12 @@
 import { useContext, useMemo } from 'react';
 
 import { XPostCard } from '@/shared/components/shared/XPostCard';
+
 import { getPostsForDay } from '@/shared/lib/day-filter';
-import { DashCtx } from '../DashCtx';
+
 import type { XPost } from '@/types/domain';
+
+import { DashCtx } from '../DashCtx';
 
 export function SignalsWidget() {
   const { day, xPosts, allDays } = useContext(DashCtx);

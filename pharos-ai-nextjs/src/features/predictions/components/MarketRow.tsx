@@ -1,14 +1,18 @@
 'use client';
 import { useState } from 'react';
-import { ExternalLink, ChevronDown } from 'lucide-react';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { Progress } from '@/components/ui/progress';
+
+import { ChevronDown,ExternalLink } from 'lucide-react';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import { Progress } from '@/components/ui/progress';
+
 import type { PredictionMarket } from '@/types/domain';
+
 import { PriceChart } from './PriceChart';
 import { SubMarketTable } from './SubMarketTable';
-import { fmtVol, fmtMarketDate, probColor, probBg, spreadColor, statusLabel, getLeadProb, COL } from './utils';
+import { COL,fmtMarketDate, fmtVol, getLeadProb, probBg, probColor, spreadColor, statusLabel } from './utils';
 
 type Props = {
   market: PredictionMarket;

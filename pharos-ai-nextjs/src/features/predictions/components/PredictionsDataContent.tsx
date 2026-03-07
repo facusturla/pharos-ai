@@ -1,15 +1,20 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useMemo,useState } from 'react';
+
 import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
-import { MarketCard } from '@/features/predictions/components/MarketCard';
+
 import { FocusedMarket } from '@/features/predictions/components/FocusedMarket';
-import { usePredictionMarkets } from '@/features/predictions/queries';
-import { MARKET_GROUPS, UNCATEGORIZED_GROUP, assignGroup } from '@/data/prediction-groups';
+import { MarketCard } from '@/features/predictions/components/MarketCard';
 import { fmtVol, getLeadProb } from '@/features/predictions/components/utils';
+import { usePredictionMarkets } from '@/features/predictions/queries';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
+import { assignGroup,MARKET_GROUPS, UNCATEGORIZED_GROUP } from '@/data/prediction-groups';
 
 const ALL_GROUPS = [...MARKET_GROUPS, UNCATEGORIZED_GROUP];
 

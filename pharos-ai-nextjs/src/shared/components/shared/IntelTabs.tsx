@@ -1,5 +1,6 @@
 'use client';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Tabs, TabsContent,TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 import { cn } from '@/shared/lib/utils';
 
 export type TabItem<T extends string> = {

@@ -1,12 +1,14 @@
 /** Verify a single X post against the X AI API. */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/server/lib/db';
-import { ok, err } from '@/server/lib/api-utils';
+
 import { requireAdmin } from '@/server/lib/admin-auth';
 import { safeJson } from '@/server/lib/admin-validate';
-import { verifyXPost } from '@/server/lib/xai-verify';
+import { err,ok } from '@/server/lib/api-utils';
+import { prisma } from '@/server/lib/db';
 import { isXAIConfigured } from '@/server/lib/xai-client';
+import { verifyXPost } from '@/server/lib/xai-verify';
+
 import { VerificationStatus } from '@/generated/prisma/client';
 
 export async function POST(

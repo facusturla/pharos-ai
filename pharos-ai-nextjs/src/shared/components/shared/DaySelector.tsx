@@ -1,14 +1,18 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+
+import { ChevronDown,ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
+
+import { useConflictDays } from '@/features/dashboard/queries/conflicts';
+import { useEvents } from '@/features/events/queries';
 import { DayPickerDropdown } from '@/shared/components/shared/DayPickerDropdown';
+
 import { dayLabel, dayShort } from '@/shared/lib/day-filter';
 import { useConflictDay } from '@/shared/hooks/use-conflict-day';
-import { useEvents } from '@/features/events/queries';
-import { useConflictDays } from '@/features/dashboard/queries/conflicts';
 
 type Props = {
   currentDay: string;

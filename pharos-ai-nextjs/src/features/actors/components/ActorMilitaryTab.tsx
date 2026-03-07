@@ -1,13 +1,15 @@
 'use client';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { SectionDivider } from '@/shared/components/shared/SectionDivider';
+
 import { MilitaryDataTable } from '@/features/actors/components/MilitaryDataTable';
 import {
-  latestPoint, fmtUsd, fmtPct, fmtPeople, fmtIndex,
-  yoyChange, Sparkline, YoyBadge, MetricCard, Skeleton,
-} from '@/features/actors/components/MilitaryHelpers';
+fmtIndex,
+fmtPct, fmtPeople, fmtUsd,   latestPoint, MetricCard, Skeleton,
+Sparkline, YoyBadge,   yoyChange, } from '@/features/actors/components/MilitaryHelpers';
 import { useMilitarySpending } from '@/features/actors/queries/world-bank';
+import { SectionDivider } from '@/shared/components/shared/SectionDivider';
+
 import type { Actor } from '@/types/domain';
 
 type Props = { actor: Actor; iso3: string; pageScroll?: boolean };

@@ -1,10 +1,14 @@
 'use client';
 
 import { MapPin } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
-import { LandscapeHeader } from './LandscapeHeader';
+
 import { fmtTimeZ } from '@/shared/lib/format';
+
 import type { MapStory } from '@/types/domain';
+
+import { LandscapeHeader } from './LandscapeHeader';
 
 type Props = {
   story: MapStory;

@@ -1,11 +1,11 @@
 /** Verification orchestrator — routes posts to tweet_lookup or corroboration by postType. */
 
 import {
-  verifyTweet,
   corroboratePost,
+  type CorroborationResult,
   isXAIConfigured,
   type TweetVerificationResult,
-  type CorroborationResult,
+  verifyTweet,
 } from './xai-client';
 
 // Types

@@ -1,9 +1,12 @@
 'use client';
 
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { useCallback } from 'react';
-import { dayLabel, dayShort, dayIndex } from '@/shared/lib/day-filter';
+
+import { usePathname,useRouter, useSearchParams } from 'next/navigation';
+
 import { useBootstrap } from '@/features/dashboard/queries';
+
+import { dayIndex,dayLabel, dayShort } from '@/shared/lib/day-filter';
 
 export function useConflictDay() {
   const searchParams = useSearchParams();

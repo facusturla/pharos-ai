@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 
 import { publicConflictId } from '@/shared/lib/env';
-import type { IntelEvent, EventFilters } from '@/types/domain';
-
 import { api, buildUrl } from '@/shared/lib/query/client';
 import { queryKeys, STALE } from '@/shared/lib/query/keys';
+
+import type { EventFilters,IntelEvent } from '@/types/domain';
 
 const CONFLICT_ID = publicConflictId;
 

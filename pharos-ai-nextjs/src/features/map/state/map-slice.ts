@@ -1,9 +1,10 @@
+import type { MapViewState } from '@deck.gl/core';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
-import { extractInitialState } from '@/features/map/lib/map-filter-engine';
-import type { MapViewState } from '@deck.gl/core';
-import type { MapStory } from '@/types/domain';
 import type { SelectedItem } from '@/features/map/components/types';
+import { extractInitialState } from '@/features/map/lib/map-filter-engine';
+
+import type { MapStory } from '@/types/domain';
 
 // Types
 

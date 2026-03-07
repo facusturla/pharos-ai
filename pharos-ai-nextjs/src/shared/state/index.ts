@@ -1,32 +1,33 @@
 import { configureStore, createListenerMiddleware, isAnyOf } from '@reduxjs/toolkit';
-import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux';
+import { type TypedUseSelectorHook,useDispatch, useSelector } from 'react-redux';
+
+import type { Column } from '@/features/dashboard/state/presets';
 import workspaceReducer, {
-  applyPreset,
-  setColumns,
-  addWidget,
-  removeWidget,
-  moveWidget,
   addColumn,
-  toggleEditing,
+  addWidget,
+  applyPreset,
+  moveWidget,
+  removeWidget,
   resetToPreset,
+  setColumns,
   setColumnSizes,
   setRowSizes,
+  toggleEditing,
   type WorkspaceState,
 } from '@/features/dashboard/state/workspace-slice';
 import mapReducer, {
-  toggleDataset,
-  toggleType,
-  toggleActor,
-  togglePriority,
-  toggleStatus,
-  toggleHeat,
-  setTimeRange,
-  resetFilters,
-  toggleSidebar,
-  setMapStyle,
   persistMapPrefs,
+  resetFilters,
+  setMapStyle,
+  setTimeRange,
+  toggleActor,
+  toggleDataset,
+  toggleHeat,
+  togglePriority,
+  toggleSidebar,
+  toggleStatus,
+  toggleType,
 } from '@/features/map/state/map-slice';
-import type { Column } from '@/features/dashboard/state/presets';
 
 // localStorage persistence
 

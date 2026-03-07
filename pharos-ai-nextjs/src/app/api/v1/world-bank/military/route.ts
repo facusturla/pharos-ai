@@ -1,5 +1,6 @@
 import { NextRequest } from 'next/server';
-import { ok, err, parseQueryArray } from '@/server/lib/api-utils';
+
+import { err, ok, parseQueryArray } from '@/server/lib/api-utils';
 
 // Types
 

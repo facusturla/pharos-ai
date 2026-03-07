@@ -1,17 +1,19 @@
 'use client';
 
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useCallback,useEffect, useMemo, useState } from 'react';
 
 import { useRssFeeds } from '@/features/news/queries';
-import type { FeedItem } from '@/types/domain';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 
-import { TimelineHeader } from './TimelineHeader';
+import type { FeedItem } from '@/types/domain';
+
+import { CARD_W,type TimelineArticle } from './timeline-constants';
 import { TimelineCanvas } from './TimelineCanvas';
-import { type TimelineArticle, CARD_W } from './timeline-constants';
-import { useTimelineTransform } from './use-timeline-transform';
-import { useTimelineLayout } from './use-timeline-layout';
+import { TimelineHeader } from './TimelineHeader';
 import { useTimelineFocus } from './use-timeline-focus';
+import { useTimelineLayout } from './use-timeline-layout';
+import { useTimelineTransform } from './use-timeline-transform';
 
 // Types
 

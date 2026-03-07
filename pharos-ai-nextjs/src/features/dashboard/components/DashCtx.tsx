@@ -1,5 +1,6 @@
 import { createContext } from 'react';
-import type { ConflictDaySnapshot, IntelEvent, Actor, XPost, Conflict } from '@/types/domain';
+
+import type { Actor, Conflict,ConflictDaySnapshot, IntelEvent, XPost } from '@/types/domain';
 
 export type DashData = {
   day: string;

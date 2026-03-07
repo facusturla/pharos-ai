@@ -1,6 +1,6 @@
-import type { RssFeed } from '@/types/domain';
-
 import { ago } from '@/shared/lib/format';
+
+import type { RssFeed } from '@/types/domain';
 
 // Types
 

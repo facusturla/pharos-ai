@@ -1,6 +1,6 @@
 'use client';
 
-import { SPINE_Y, formatHour } from './timeline-constants';
+import { formatHour,SPINE_Y } from './timeline-constants';
 
 // Types
 

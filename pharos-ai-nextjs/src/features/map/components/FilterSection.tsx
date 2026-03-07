@@ -3,7 +3,6 @@
 import { Button } from '@/components/ui/button';
 
 import { FilterRow } from '@/features/map/components/FilterRow';
-
 import type { FacetOption } from '@/features/map/lib/map-filter-engine';
 
 // Types

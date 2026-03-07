@@ -1,15 +1,20 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef, useMemo } from 'react';
+import { useCallback, useEffect, useMemo,useRef, useState } from 'react';
+
 import Link from 'next/link';
+
 import { Button } from '@/components/ui/button';
-import { ConflictBanner } from '@/features/news/components/ConflictBanner';
-import { ChannelView } from '@/features/news/components/ChannelView';
+
 import { AllFeedsView } from '@/features/news/components/AllFeedsView';
-import { useRssFeeds, useRssCollections, fetchFeedItems } from '@/features/news/queries';
-import { clientCache, CLIENT_FRESH_TTL } from '@/features/news/lib/client-cache';
+import { ChannelView } from '@/features/news/components/ChannelView';
+import { ConflictBanner } from '@/features/news/components/ConflictBanner';
+import { CLIENT_FRESH_TTL,clientCache } from '@/features/news/lib/client-cache';
+import { fetchFeedItems,useRssCollections, useRssFeeds } from '@/features/news/queries';
+
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+
 import type { FeedItem } from '@/types/domain';
 
 type ViewMode = 'conflict' | 'all';

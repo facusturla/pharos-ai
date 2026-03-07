@@ -1,13 +1,18 @@
 'use client';
 import React from 'react';
+
 import { CheckCircle, ExternalLink, Eye, Heart, Repeat2 } from 'lucide-react';
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+
 import { ago, fmt } from '@/shared/lib/format';
-import { getInitials, resolveAvatarColor, IMG_BG, IMG_LBL } from './x-post-constants';
-import { EngStat, EmbedSkeleton, VerificationBadge, PharosNote } from './x-post-subcomponents';
+
 import type { XPost } from '@/types/domain';
+
+import { getInitials, IMG_BG, IMG_LBL,resolveAvatarColor } from './x-post-constants';
+import { EmbedSkeleton, EngStat, PharosNote,VerificationBadge } from './x-post-subcomponents';
 
 // Pharos intel view (reused in both layouts)
 

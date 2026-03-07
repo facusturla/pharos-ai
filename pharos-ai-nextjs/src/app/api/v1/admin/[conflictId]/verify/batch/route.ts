@@ -1,14 +1,16 @@
 /** Batch verify X posts (max 20 for cost control). */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/server/lib/db';
-import { ok, err } from '@/server/lib/api-utils';
+
 import { requireAdmin } from '@/server/lib/admin-auth';
 import { safeJson } from '@/server/lib/admin-validate';
-import { verifyXPost } from '@/server/lib/xai-verify';
+import { err,ok } from '@/server/lib/api-utils';
+import { prisma } from '@/server/lib/db';
 import { isXAIConfigured } from '@/server/lib/xai-client';
-import { VerificationStatus, PostType } from '@/generated/prisma/client';
+import { verifyXPost } from '@/server/lib/xai-verify';
+
 import type { Prisma } from '@/generated/prisma/client';
+import { PostType,VerificationStatus } from '@/generated/prisma/client';
 
 const MAX_BATCH = 20;
 

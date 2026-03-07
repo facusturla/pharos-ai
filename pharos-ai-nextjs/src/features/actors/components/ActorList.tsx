@@ -1,18 +1,23 @@
 'use client';
 import { useMemo } from 'react';
+
 import { ArrowRight } from 'lucide-react';
-import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { Flag } from '@/shared/components/shared/Flag';
-import { DaySelector } from '@/shared/components/shared/DaySelector';
-import { ACT_C, STA_C } from '@/data/iran-actors';
-import { getActorForDay } from '@/shared/lib/day-filter';
-import type { Actor, ConflictDay } from '@/types/domain';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
 import { useActors } from '@/features/actors/queries';
 import { useXPosts } from '@/features/events/queries/x-posts';
+import { DaySelector } from '@/shared/components/shared/DaySelector';
+import { Flag } from '@/shared/components/shared/Flag';
+
+import { getActorForDay } from '@/shared/lib/day-filter';
 import { cn } from '@/shared/lib/utils';
+
+import { ACT_C, STA_C } from '@/data/iran-actors';
+import type { Actor, ConflictDay } from '@/types/domain';
 
 type Props = {
   selectedId: string | null;

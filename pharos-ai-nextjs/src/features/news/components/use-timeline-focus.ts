@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback, type RefObject, type MutableRefObject } from 'react';
+import { type MutableRefObject,type RefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-import { type TimelineArticle, CARD_W, SPINE_Y, DEFAULT_ZOOM } from './timeline-constants';
+import { CARD_W, DEFAULT_ZOOM,SPINE_Y, type TimelineArticle } from './timeline-constants';
 
 // Types
 

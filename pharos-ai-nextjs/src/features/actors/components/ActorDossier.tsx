@@ -1,19 +1,22 @@
 'use client';
 
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { IntelTabBar, TabsContent } from '@/shared/components/shared/IntelTabs';
-import { Flag } from '@/shared/components/shared/Flag';
-import { XPostCard } from '@/shared/components/shared/XPostCard';
+import { Skeleton } from '@/components/ui/skeleton';
+
 import { ActorIntelTab } from '@/features/actors/components/ActorIntelTab';
 import { ActorMilitaryTab } from '@/features/actors/components/ActorMilitaryTab';
-import { ACT_C, STA_C } from '@/data/iran-actors';
 import { ISO2_TO_ISO3 } from '@/features/actors/lib/country-codes';
-import { getActorForDay, dayAbbrev } from '@/shared/lib/day-filter';
 import { useXPostsByActor } from '@/features/events/queries/x-posts';
-import { useConflictDay } from '@/shared/hooks/use-conflict-day';
-import type { Actor, XPost } from '@/types/domain';
+import { Flag } from '@/shared/components/shared/Flag';
+import { IntelTabBar, TabsContent } from '@/shared/components/shared/IntelTabs';
+import { XPostCard } from '@/shared/components/shared/XPostCard';
+
+import { dayAbbrev,getActorForDay } from '@/shared/lib/day-filter';
 import { cn } from '@/shared/lib/utils';
-import { Skeleton } from '@/components/ui/skeleton';
+import { useConflictDay } from '@/shared/hooks/use-conflict-day';
+
+import { ACT_C, STA_C } from '@/data/iran-actors';
+import type { Actor, XPost } from '@/types/domain';
 
 type DossierTab = 'intel' | 'signals' | 'military';
 

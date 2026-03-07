@@ -2,25 +2,27 @@
 
 import { useCallback, useMemo, useState } from 'react';
 
-import { useAppSelector, useAppDispatch } from '@/shared/state';
-import {
-  setViewState    as setViewStateAction,
-  activateStory   as activateStoryAction,
-  setActiveStory  as setActiveStoryAction,
-  setSelectedItem as setSelectedItemAction,
-  toggleSidebar   as toggleSidebarAction,
-  setSidebarOpen  as setSidebarOpenAction,
-  setMapStyle     as setMapStyleAction,
-} from '@/features/map/state/map-slice';
-import { useMapStories } from '@/features/map/queries';
+import type { MapViewState, PickingInfo } from '@deck.gl/core';
+
+import type { OverlayVisibility } from '@/features/map/components/MapVisibilityMenu';
+import type { SelectedItem } from '@/features/map/components/types';
 import { useMapFilters } from '@/features/map/hooks/use-map-filters';
 import { useMapLayers } from '@/features/map/hooks/use-map-layers';
 import { createBuildTooltip } from '@/features/map/lib/map-tooltip';
+import { useMapStories } from '@/features/map/queries';
+import {
+  activateStory   as activateStoryAction,
+  setActiveStory  as setActiveStoryAction,
+  setMapStyle     as setMapStyleAction,
+  setSelectedItem as setSelectedItemAction,
+  setSidebarOpen  as setSidebarOpenAction,
+  setViewState    as setViewStateAction,
+  toggleSidebar   as toggleSidebarAction,
+} from '@/features/map/state/map-slice';
 
-import type { MapViewState, PickingInfo } from '@deck.gl/core';
-import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone } from '@/data/map-data';
-import type { OverlayVisibility } from '@/features/map/components/MapVisibilityMenu';
-import type { SelectedItem } from '@/features/map/components/types';
+import type { Asset, MissileTrack, StrikeArc, Target, ThreatZone } from '@/data/map-data';
+
+import { useAppDispatch,useAppSelector } from '@/shared/state';
 
 export function useMapPage({ isMobile }: { isMobile: boolean }) {
   const dispatch = useAppDispatch();

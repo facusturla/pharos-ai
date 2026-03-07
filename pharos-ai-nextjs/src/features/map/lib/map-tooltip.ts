@@ -6,11 +6,11 @@
  * All colours reference CSS variables — zero hex literals allowed.
  */
 
-import { STATUS_META } from '@/data/map-tokens';
-
-import type { ActorMeta } from '@/data/map-tokens';
 import type { PickingInfo } from '@deck.gl/core';
-import type { StrikeArc, MissileTrack, Target, Asset, ThreatZone } from '@/data/map-data';
+
+import type { Asset, MissileTrack, StrikeArc, Target, ThreatZone } from '@/data/map-data';
+import type { ActorMeta } from '@/data/map-tokens';
+import { STATUS_META } from '@/data/map-tokens';
 
 // Inline timestamp formatter (no import to keep file pure .ts)
 
