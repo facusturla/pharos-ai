@@ -69,7 +69,7 @@ export function AllFeedsView({ showImages, feedData }: Props) {
             >
               <NewsFeedColumn
                 feed={feed}
-                color={PERSPECTIVE_COLORS[feed.perspective] ?? '#6b7280'}
+                color={PERSPECTIVE_COLORS[feed.perspective] ?? 'var(--t4)'}
                 showImages={showImages}
                 preloaded={feedData.get(feed.id)}
               />

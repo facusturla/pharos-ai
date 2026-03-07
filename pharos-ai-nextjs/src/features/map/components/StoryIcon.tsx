@@ -11,11 +11,11 @@ const ICON_MAP: Record<string, FC<LucideProps>> = {
 };
 
 const CATEGORY_COLOR: Record<string, string> = {
-  STRIKE:      '#E84C4C',
-  RETALIATION: '#E8A84C',
-  NAVAL:       '#4C9BE8',
-  INTEL:       '#B84CE8',
-  DIPLOMATIC:  '#4CE8A8',
+  STRIKE:      'var(--danger)',
+  RETALIATION: 'var(--warning)',
+  NAVAL:       'var(--blue-l)',
+  INTEL:       'var(--cyber)',
+  DIPLOMATIC:  'var(--success)',
 };
 
 const CATEGORY_BG: Record<string, string> = {
@@ -42,7 +42,7 @@ export function StoryIcon({
   style,
 }: Props) {
   const Icon = ICON_MAP[iconName] ?? AlertTriangle;
-  const color = CATEGORY_COLOR[category] ?? '#8F99A8';
+  const color = CATEGORY_COLOR[category] ?? 'var(--t3)';
   const bg    = CATEGORY_BG[category]    ?? 'rgba(143,153,168,0.12)';
 
   return (

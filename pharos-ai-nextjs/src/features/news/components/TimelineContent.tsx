@@ -177,7 +177,7 @@ export function TimelineContent() {
           ) : (
             allArticles.map(({ item, feedId }, i) => {
               const feed = allFeeds.find(f => f.id === feedId);
-              const color = feed ? (PERSPECTIVE_COLORS[feed.perspective] ?? '#6b7280') : '#6b7280';
+              const color = feed ? (PERSPECTIVE_COLORS[feed.perspective] ?? 'var(--t4)') : 'var(--t4)';
               return (
                 <a
                   key={`${feedId}-${i}`}

@@ -40,7 +40,7 @@ export function TimelineCard({
   focusCard,
   defocus,
 }: Props) {
-  const color = PERSPECTIVE_COLORS[article.feed.perspective] ?? '#6b7280';
+  const color = PERSPECTIVE_COLORS[article.feed.perspective] ?? 'var(--t4)';
   const isHovered = hoveredId === article.id;
   const isFocused = focusedId === article.id;
   const hasImg = !!article.imageUrl;

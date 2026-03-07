@@ -1,12 +1,12 @@
-/** Perspective → hex color. Shared across all news views. */
+/** Perspective → color. Shared across all news views. Uses CSS variables (CODEX §1.2). */
 export const PERSPECTIVE_COLORS: Record<string, string> = {
-  ALL: '#6b7280',
-  WESTERN: '#3b82f6',
-  US_GOV: '#60a5fa',
-  ISRAELI: '#a78bfa',
-  IRANIAN: '#ef4444',
-  ARAB: '#f59e0b',
-  RUSSIAN: '#f97316',
-  CHINESE: '#dc2626',
-  INDEPENDENT: '#10b981',
+  ALL: 'var(--t4)',
+  WESTERN: 'var(--blue)',
+  US_GOV: 'var(--blue-l)',
+  ISRAELI: 'var(--cyber)',
+  IRANIAN: 'var(--danger)',
+  ARAB: 'var(--warning)',
+  RUSSIAN: 'var(--warning)',
+  CHINESE: 'var(--danger)',
+  INDEPENDENT: 'var(--success)',
 };

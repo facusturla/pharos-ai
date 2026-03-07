@@ -28,7 +28,7 @@ type Props = {
 // Component
 
 export function NormalCard({ article, x, cardTop, isHovered, onMouseEnter, onMouseLeave, onClick }: Props) {
-  const color = PERSPECTIVE_COLORS[article.feed.perspective] ?? '#6b7280';
+  const color = PERSPECTIVE_COLORS[article.feed.perspective] ?? 'var(--t4)';
   const hasImg = !!article.imageUrl;
 
   return (
@@ -42,8 +42,8 @@ export function NormalCard({ article, x, cardTop, isHovered, onMouseEnter, onMou
       <div
         className={`rounded-lg border overflow-hidden transition-all duration-150
           ${isHovered
-            ? 'bg-[#1a1a24] border-white/30 shadow-2xl shadow-black/50'
-            : 'bg-[#111118] border-white/15'
+            ? 'bg-[var(--bg-app)] border-white/30 shadow-2xl shadow-black/50'
+            : 'bg-[var(--bg-app)] border-white/15'
           }`}
       >
         {hasImg && (

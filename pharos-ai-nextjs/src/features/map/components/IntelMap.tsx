@@ -25,12 +25,12 @@ const BUTTON_CONFIG: Array<{
   label: string;
   active: { bg: string; border: string; color: string };
 }> = [
-  { key: 'strikes',  label: 'STRIKES',  active: { bg: '#1C3A5E', border: '#2D72D2', color: '#4C9BE8' } },
-  { key: 'missiles', label: 'MISSILES', active: { bg: '#3A1C1C', border: '#D23232', color: '#E84C4C' } },
-  { key: 'targets',  label: 'TARGETS',  active: { bg: '#3A2A1C', border: '#D27832', color: '#E8A84C' } },
-  { key: 'assets',   label: 'ASSETS',   active: { bg: '#1C3A3A', border: '#32C8C8', color: '#4CE8E8' } },
-  { key: 'zones',    label: 'ZONES',    active: { bg: '#3A3A1C', border: '#C8C832', color: '#E8E84C' } },
-  { key: 'heat',     label: 'HEAT',     active: { bg: '#2A1C3A', border: '#8232D2', color: '#B84CE8' } },
+  { key: 'strikes',  label: 'STRIKES',  active: { bg: 'var(--blue-dim)', border: 'var(--blue)', color: 'var(--blue-l)' } },
+  { key: 'missiles', label: 'MISSILES', active: { bg: 'var(--danger-dim)', border: 'var(--danger)', color: 'var(--danger)' } },
+  { key: 'targets',  label: 'TARGETS',  active: { bg: 'var(--warning-dim)', border: 'var(--warning)', color: 'var(--warning)' } },
+  { key: 'assets',   label: 'ASSETS',   active: { bg: 'var(--teal-dim)', border: 'var(--teal)', color: 'var(--teal)' } },
+  { key: 'zones',    label: 'ZONES',    active: { bg: 'var(--gold-dim)', border: 'var(--gold)', color: 'var(--gold)' } },
+  { key: 'heat',     label: 'HEAT',     active: { bg: 'var(--cyber-dim)', border: 'var(--cyber)', color: 'var(--cyber)' } },
 ];
 
 const DEFAULT_VISIBILITY: LayerVisibility = {
@@ -52,13 +52,13 @@ export function IntelMap() {
   );
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: '#1C2127' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', background: 'var(--bg-app)' }}>
       {/* Title Bar */}
       <div style={{ height: 36, background: 'var(--bg-app)', borderBottom: '1px solid var(--bd)', display: 'flex', alignItems: 'center', padding: '0 12px', gap: 8, flexShrink: 0 }}>
-        <span style={{ color: '#2D72D2', fontWeight: 700, fontSize: 11, fontFamily: 'monospace' }}>◈ INTEL MAP</span>
-        <span style={{ color: '#8F99A8', fontSize: 9, fontFamily: 'monospace', marginLeft: 4 }}>OPERATION EPIC FURY</span>
-        <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#32C832', display: 'inline-block', marginLeft: 4 }} />
-        <span style={{ color: '#32C832', fontSize: 9, fontFamily: 'monospace' }}>LIVE</span>
+        <span style={{ color: 'var(--blue)', fontWeight: 700, fontSize: 11, fontFamily: 'monospace' }}>◈ INTEL MAP</span>
+        <span style={{ color: 'var(--t3)', fontSize: 9, fontFamily: 'monospace', marginLeft: 4 }}>OPERATION EPIC FURY</span>
+        <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--success)', display: 'inline-block', marginLeft: 4 }} />
+        <span style={{ color: 'var(--success)', fontSize: 9, fontFamily: 'monospace' }}>LIVE</span>
 
         {/* Toggle buttons */}
         <div style={{ marginLeft: 'auto', display: 'flex', gap: 4 }}>
@@ -100,7 +100,7 @@ export function IntelMap() {
         <IntelMapLegend />
 
         {/* Coords */}
-        <div style={{ position: 'absolute', bottom: 52, right: 12, background: 'rgba(28,33,39,0.85)', border: '1px solid #404854', padding: '4px 8px', fontSize: 9, fontFamily: 'monospace', color: '#5C7080', pointerEvents: 'none' }}>
+        <div style={{ position: 'absolute', bottom: 52, right: 12, background: 'rgba(28,33,39,0.85)', border: '1px solid var(--bd)', padding: '4px 8px', fontSize: 9, fontFamily: 'monospace', color: 'var(--t4)', pointerEvents: 'none' }}>
           {viewState.latitude.toFixed(2)}°N {viewState.longitude.toFixed(2)}°E
         </div>
 
@@ -117,7 +117,7 @@ function OpenMapButton() {
       href="/dashboard/map"
       style={{
         position: 'absolute', bottom: 16, right: 12,
-        background: hovered ? '#1F4F9B' : '#2D72D2',
+        background: hovered ? 'var(--blue)' : 'var(--blue)',
         color: 'white', padding: '8px 16px', fontSize: 11, fontWeight: 700,
         fontFamily: 'monospace', border: 'none', borderRadius: 2,
         cursor: 'pointer', letterSpacing: '0.08em', textDecoration: 'none',

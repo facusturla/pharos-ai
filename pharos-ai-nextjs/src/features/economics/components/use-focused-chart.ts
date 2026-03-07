@@ -46,8 +46,8 @@ export function useFocusedChart(
       },
       crosshair: {
         mode: 1, // normal crosshair
-        vertLine: { color: 'rgba(255,255,255,0.25)', width: 1, style: LineStyle.Dashed, labelBackgroundColor: '#1a1a2e' },
-        horzLine: { color: 'rgba(255,255,255,0.25)', width: 1, style: LineStyle.Dashed, labelBackgroundColor: '#1a1a2e' },
+        vertLine: { color: 'rgba(255,255,255,0.25)', width: 1, style: LineStyle.Dashed, labelBackgroundColor: 'var(--bg-app)' },
+        horzLine: { color: 'rgba(255,255,255,0.25)', width: 1, style: LineStyle.Dashed, labelBackgroundColor: 'var(--bg-app)' },
       },
       handleScroll: true,
       handleScale: true,

@@ -39,7 +39,7 @@ export const IMG_LBL: Record<string, string> = {
   'uss-reagan-philippine-sea': 'USN · PHILIPPINE SEA',
 };
 
-export const DEFAULT_AVATAR_COLOR = '#6B7280';
+export const DEFAULT_AVATAR_COLOR = 'var(--t4)';
 
 // Helpers
 
