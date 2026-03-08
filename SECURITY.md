@@ -4,7 +4,7 @@
 
 If you discover a security vulnerability in Pharos, please report it responsibly. **Do not open a public GitHub issue.**
 
-Email: **julius@conflicts.app**
+Email: **julius.olsson05@gmail.com**
 
 Include:
 
