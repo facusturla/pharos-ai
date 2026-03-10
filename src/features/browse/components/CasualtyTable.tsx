@@ -1,13 +1,7 @@
-type Casualty = {
-  faction: string;
-  killed: number;
-  wounded: number;
-  civilians: number;
-  injured: number;
-};
+import type { BrowseCasualty } from '@/types/domain';
 
 type Props = {
-  casualties: Casualty[];
+  casualties: BrowseCasualty[];
 };
 
 export function CasualtyTable({ casualties }: Props) {

@@ -19,11 +19,10 @@ type Crumb = {
 
 type Props = {
   crumbs: Crumb[];
-  /** When true, mounts auto-refresh polling and shows a live status indicator. */
-  autoRefresh?: boolean;
+  hasAutoRefresh?: boolean;
 };
 
-export function BrowsePageHeader({ crumbs, autoRefresh }: Props) {
+export function BrowsePageHeader({ crumbs, hasAutoRefresh }: Props) {
   return (
     <div className="flex items-center justify-between gap-4">
       <div className="flex items-center gap-4">
@@ -58,14 +57,13 @@ export function BrowsePageHeader({ crumbs, autoRefresh }: Props) {
           </BreadcrumbList>
         </Breadcrumb>
 
-        {autoRefresh && <BrowseRefreshControls />}
+        {hasAutoRefresh && <BrowseRefreshControls />}
       </div>
 
       <Button
-        variant="outline"
         size="xs"
         asChild
-        className="[--border:var(--bd)] [--background:var(--bg-1)] [--accent:var(--bg-3)] [--accent-foreground:var(--t1)] text-[var(--t2)] hover:text-[var(--t1)]"
+        className="bg-[var(--blue)] text-[var(--bg-app)] font-bold hover:bg-[var(--blue-l)]"
       >
         <Link href="/dashboard">Dashboard &rarr;</Link>
       </Button>

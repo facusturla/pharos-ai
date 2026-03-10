@@ -5,7 +5,6 @@ type Props = {
 export function EscalationBar({ escalation }: Props) {
   const clamped = Math.max(0, Math.min(100, escalation));
 
-  // Green (low) → Yellow (mid) → Red (high)
   const color =
     clamped < 40 ? 'var(--success)'
     : clamped < 70 ? 'var(--warning)'

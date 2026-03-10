@@ -35,7 +35,7 @@ export default async function BrowseEventsPage({ searchParams }: Props) {
   const from = (page - 1) * PAGE_SIZE + 1;
   const to = Math.min(page * PAGE_SIZE, total);
 
-  // Build search params string for pagination hrefs (without `page`)
+  // Page number is added by EventPagination itself
   const filterParams = new URLSearchParams();
   if (severity) for (const s of severity) filterParams.append('severity', s);
   if (date) filterParams.set('date', date);
@@ -43,7 +43,7 @@ export default async function BrowseEventsPage({ searchParams }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <BrowsePageHeader crumbs={[{ label: 'Events' }]} autoRefresh />
+      <BrowsePageHeader crumbs={[{ label: 'Events' }]} hasAutoRefresh />
 
       <header className="mt-6 mb-8">
         <p className="label mb-2">Intelligence feed</p>

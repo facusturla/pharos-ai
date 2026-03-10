@@ -2,17 +2,13 @@ import { publicConflictId } from '@/shared/lib/env';
 import { fmtDate } from '@/shared/lib/format';
 import { prisma } from '@/server/lib/db';
 
+import type { BrowseEventFilters } from '@/types/domain';
+
 const CONFLICT_ID = publicConflictId;
 
 export const PAGE_SIZE = 20;
 
-type EventFilters = {
-  severity?: string[];
-  date?: string;
-  page?: number;
-};
-
-export async function getEvents(filters?: EventFilters) {
+export async function getEvents(filters?: BrowseEventFilters) {
   const where: Record<string, unknown> = { conflictId: CONFLICT_ID };
 
   if (filters?.severity?.length) {

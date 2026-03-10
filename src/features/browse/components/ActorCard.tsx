@@ -29,7 +29,6 @@ export function ActorCard(props: Props) {
       className="no-underline block group"
     >
       <article className="relative rounded-md border border-[var(--bd-s)] px-4 py-3.5 h-full transition-colors hover:border-[var(--bd)] hover:bg-[var(--bg-3)]/20">
-        {/* Top row: flag, name, activity score */}
         <div className="flex items-center gap-2.5 mb-2.5">
           {props.countryCode && <Flag code={props.countryCode} size={22} />}
           <div className="flex-1 min-w-0">
@@ -46,7 +45,6 @@ export function ActorCard(props: Props) {
           </span>
         </div>
 
-        {/* Stance + activity badges — compact row */}
         <div className="flex items-center gap-1.5 mb-3">
           <span
             className="mono text-[8px] font-bold px-1.5 py-px rounded-sm"
@@ -62,12 +60,10 @@ export function ActorCard(props: Props) {
           </span>
         </div>
 
-        {/* Assessment — single focus text */}
         <p className="text-[11px] text-[var(--t2)] leading-[1.6] line-clamp-2">
           {props.assessment}
         </p>
 
-        {/* Activity bar — thin, subtle */}
         <div className="mt-3 h-[2px] rounded-full bg-[var(--bg-3)]">
           <div
             className="h-full rounded-full"

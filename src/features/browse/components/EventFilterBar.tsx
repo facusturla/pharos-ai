@@ -18,11 +18,11 @@ const SEV_FILTERS = [
   { key: 'STANDARD', color: 'var(--info)' },
 ] as const;
 
-type EventFilterBarProps = {
+type Props = {
   eventDates: string[];
 };
 
-export function EventFilterBar({ eventDates }: EventFilterBarProps) {
+export function EventFilterBar({ eventDates }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -48,14 +48,14 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
     router.push(qs ? `?${qs}` : '/browse/events', { scroll: false });
   }
 
-  function toggleSeverity(sev: string) {
+  function handleToggleSeverity(sev: string) {
     const next = new Set(activeSev);
     if (next.has(sev)) next.delete(sev);
     else next.add(sev);
     updateParams({ severity: next.size > 0 ? [...next] : null });
   }
 
-  function pickDate(day: Date | undefined) {
+  function handlePickDate(day: Date | undefined) {
     if (!day) {
       updateParams({ date: null });
       return;
@@ -70,7 +70,6 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
 
   return (
     <div className="flex items-center gap-3">
-      {/* Severity dots */}
       {SEV_FILTERS.map(({ key, color }) => {
         const active = activeSev.has(key);
         const hasAnySev = activeSev.size > 0;
@@ -79,7 +78,7 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
             key={key}
             variant="ghost"
             size="icon-xs"
-            onClick={() => toggleSeverity(key)}
+            onClick={() => handleToggleSeverity(key)}
             className="size-3 rounded-full shrink-0 p-0"
             style={{
               background: color,
@@ -91,7 +90,6 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
         );
       })}
 
-      {/* Date picker */}
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -108,7 +106,7 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
           <Calendar
             mode="single"
             selected={selectedDate}
-            onSelect={pickDate}
+            onSelect={handlePickDate}
             defaultMonth={selectedDate}
             disabled={(d) => {
               const y = d.getFullYear();
@@ -120,7 +118,6 @@ export function EventFilterBar({ eventDates }: EventFilterBarProps) {
         </PopoverContent>
       </Popover>
 
-      {/* Clear all */}
       {hasFilters && (
         <Button
           variant="ghost"

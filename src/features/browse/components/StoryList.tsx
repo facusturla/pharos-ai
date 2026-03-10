@@ -1,11 +1,6 @@
-import { StoryCard } from './StoryCard';
+import type { BrowseStoryEvent } from '@/types/domain';
 
-type StoryEvent = {
-  id: string;
-  time: string;
-  label: string;
-  type: string;
-};
+import { StoryCard } from './StoryCard';
 
 type StoryItem = {
   id: string;
@@ -15,7 +10,7 @@ type StoryItem = {
   narrative: string;
   keyFacts: string[];
   timestamp: string;
-  events: StoryEvent[];
+  events: BrowseStoryEvent[];
 };
 
 type Props = {

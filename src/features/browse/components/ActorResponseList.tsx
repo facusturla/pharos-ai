@@ -1,5 +1,7 @@
 import Link from 'next/link';
 
+import type { ActorResponse } from '@/types/domain';
+
 const STANCE_STYLE: Record<string, string> = {
   SUPPORTING: 'text-[var(--success)]',
   OPPOSING: 'text-[var(--danger)]',
@@ -8,16 +10,8 @@ const STANCE_STYLE: Record<string, string> = {
   UNKNOWN: 'text-[var(--t4)]',
 };
 
-type Response = {
-  actorId: string;
-  actorName: string;
-  stance: string;
-  type: string;
-  statement: string;
-};
-
 type Props = {
-  responses: Response[];
+  responses: ActorResponse[];
 };
 
 export function ActorResponseList({ responses }: Props) {

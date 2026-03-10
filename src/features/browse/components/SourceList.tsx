@@ -1,11 +1,6 @@
 import { SourceBadge } from '@/features/browse/components/SourceBadge';
 
-type Source = {
-  name: string;
-  tier: number;
-  reliability: number;
-  url?: string | null;
-};
+import type { Source } from '@/types/domain';
 
 type Props = {
   sources: Source[];

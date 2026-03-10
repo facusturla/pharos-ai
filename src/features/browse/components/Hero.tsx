@@ -20,10 +20,10 @@ export function Hero() {
       </p>
 
       <div className="flex items-center gap-3">
-        <Button variant="default" size="sm" asChild>
+        <Button size="sm" asChild className="bg-[var(--blue)] text-[var(--bg-app)] font-bold hover:bg-[var(--blue-l)]">
           <Link href="/dashboard">Open dashboard &rarr;</Link>
         </Button>
-        <Button variant="outline" size="sm" asChild>
+        <Button size="sm" asChild className="bg-[var(--t1)] text-[var(--bg-app)] font-bold hover:bg-[var(--t2)]">
           <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer">
             View on GitHub
           </a>

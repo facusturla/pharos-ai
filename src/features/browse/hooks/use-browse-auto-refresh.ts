@@ -31,7 +31,6 @@ export function useBrowseAutoRefresh(): UseBrowseAutoRefreshReturn {
     }, 1_500);
   }, [router]);
 
-  // Polling interval — pauses when the tab is hidden
   useEffect(() => {
     function start() {
       if (intervalRef.current) return;

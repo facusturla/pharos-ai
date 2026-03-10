@@ -1,31 +1,10 @@
+import type { BrowseCasualty, BrowseEconChip, BrowseScenario } from '@/types/domain';
+
 import { BrowsePageHeader } from './BrowsePageHeader';
 import { CasualtyTable } from './CasualtyTable';
 import { EconomicChipGrid } from './EconomicChipGrid';
 import { EscalationBar } from './EscalationBar';
 import { ScenarioCard } from './ScenarioCard';
-
-type Casualty = {
-  faction: string;
-  killed: number;
-  wounded: number;
-  civilians: number;
-  injured: number;
-};
-
-type EconChip = {
-  label: string;
-  val: string;
-  sub: string;
-  color: string;
-};
-
-type Scenario = {
-  label: string;
-  subtitle: string;
-  color: string;
-  prob: string;
-  body: string;
-};
 
 type Brief = {
   day: string;
@@ -34,9 +13,9 @@ type Brief = {
   escalation: number;
   keyFacts: string[];
   economicNarrative: string;
-  casualties: Casualty[];
-  economicChips: EconChip[];
-  scenarios: Scenario[];
+  casualties: BrowseCasualty[];
+  economicChips: BrowseEconChip[];
+  scenarios: BrowseScenario[];
 };
 
 type Props = {
@@ -62,12 +41,10 @@ export function BriefArticle({ brief }: Props) {
         </div>
       </header>
 
-      {/* Summary */}
       <section className="mb-8">
         <p className="text-[15px] text-[var(--t1)] leading-[1.7]">{brief.summary}</p>
       </section>
 
-      {/* Key Facts */}
       {brief.keyFacts.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Key facts</h2>
@@ -82,7 +59,6 @@ export function BriefArticle({ brief }: Props) {
         </section>
       )}
 
-      {/* Casualties */}
       {brief.casualties.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Casualties</h2>
@@ -90,7 +66,6 @@ export function BriefArticle({ brief }: Props) {
         </section>
       )}
 
-      {/* Economic Impact */}
       {brief.economicChips.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Economic impact</h2>
@@ -103,7 +78,6 @@ export function BriefArticle({ brief }: Props) {
         </section>
       )}
 
-      {/* Scenarios */}
       {brief.scenarios.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Scenarios</h2>

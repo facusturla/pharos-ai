@@ -28,7 +28,7 @@ export default async function BrowseBriefPage({ searchParams }: Props) {
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
-      <BrowsePageHeader crumbs={[{ label: 'Briefs' }]} autoRefresh />
+      <BrowsePageHeader crumbs={[{ label: 'Briefs' }]} hasAutoRefresh />
 
       <header className="mt-6 mb-8">
         <p className="label mb-2">Intelligence briefs</p>

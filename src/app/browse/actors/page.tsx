@@ -39,7 +39,7 @@ export default async function BrowseActorsPage({ searchParams }: Props) {
 
   return (
     <div className="max-w-3xl mx-auto px-6 py-8">
-      <BrowsePageHeader crumbs={[{ label: 'Actors' }]} autoRefresh />
+      <BrowsePageHeader crumbs={[{ label: 'Actors' }]} hasAutoRefresh />
 
       <header className="mt-6 mb-8">
         <p className="label mb-2">Intelligence profiles</p>

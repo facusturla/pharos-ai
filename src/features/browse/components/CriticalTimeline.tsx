@@ -4,12 +4,12 @@ import { useMemo } from 'react';
 
 import Link from 'next/link';
 
+import { BROWSE_POLL } from '@/features/browse/constants';
 import { useEvents } from '@/features/events/queries';
 
 import { timeAgo } from '@/shared/lib/format';
 
 const HOURS_32 = 32 * 60 * 60 * 1000;
-const BROWSE_POLL = 4 * 60_000; // align with browse auto-refresh cadence
 
 export function CriticalTimeline() {
   const { data: events, dataUpdatedAt } = useEvents(
@@ -47,15 +47,12 @@ export function CriticalTimeline() {
 
             return (
               <li key={event.id} className="relative pl-5 pb-5 last:pb-0">
-                {/* Connecting line */}
                 {!isLast && (
                   <span
-                    className="absolute left-[3.5px] top-[10px] bottom-0 w-px"
-                    style={{ background: 'var(--danger-bd)' }}
+                    className="absolute left-[3.5px] top-[10px] bottom-0 w-px bg-[var(--danger-bd)]"
                   />
                 )}
 
-                {/* Dot */}
                 <span
                   className="absolute left-0 top-[1px] size-2 rounded-full"
                   style={{

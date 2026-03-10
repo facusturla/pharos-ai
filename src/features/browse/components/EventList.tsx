@@ -4,16 +4,9 @@ import { SeverityBadge } from '@/features/browse/components/SeverityBadge';
 
 import { fmtDate, fmtTimeZ } from '@/shared/lib/format';
 
-type EventItem = {
-  id: string;
-  timestamp: string;
-  severity: string;
-  type: string;
-  title: string;
-  location: string;
-  summary: string;
-  verified: boolean;
-};
+import type { IntelEvent } from '@/types/domain';
+
+type EventItem = Pick<IntelEvent, 'id' | 'timestamp' | 'severity' | 'type' | 'title' | 'location' | 'summary' | 'verified'>;
 
 type Props = {
   events: EventItem[];

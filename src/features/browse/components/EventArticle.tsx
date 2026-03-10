@@ -6,30 +6,9 @@ import { SourceList } from '@/features/browse/components/SourceList';
 
 import { fmtDate, fmtTimeZ } from '@/shared/lib/format';
 
-type Source = {
-  name: string;
-  tier: number;
-  reliability: number;
-  url?: string | null;
-};
+import type { ActorResponse, Source, XPost } from '@/types/domain';
 
-type ActorResponse = {
-  actorId: string;
-  actorName: string;
-  stance: string;
-  type: string;
-  statement: string;
-};
-
-type Signal = {
-  handle: string;
-  displayName: string;
-  significance: string;
-  timestamp: string;
-  content: string;
-  likes: number;
-  retweets: number;
-  views: number;
+type Signal = Pick<XPost, 'handle' | 'displayName' | 'significance' | 'timestamp' | 'content' | 'likes' | 'retweets' | 'views'> & {
   pharosNote?: string | null;
 };
 
@@ -60,7 +39,6 @@ export function EventArticle({ event, signals }: Props) {
         ]}
       />
 
-      {/* Headline */}
       <header className="mt-8 mb-8">
         <div className="flex items-center gap-2 mb-4">
           <SeverityBadge severity={event.severity} />
@@ -85,19 +63,16 @@ export function EventArticle({ event, signals }: Props) {
 
       <div className="h-px bg-[var(--bd)] mb-8" />
 
-      {/* Lead / summary */}
       <p className="text-[18px] text-[var(--t1)] leading-[1.6] font-medium mb-8">
         {event.summary}
       </p>
 
-      {/* Full report */}
       {event.fullContent && (
         <div className="text-[15px] text-[var(--t2)] leading-[1.8] whitespace-pre-line mb-10">
           {event.fullContent}
         </div>
       )}
 
-      {/* Tags */}
       {event.tags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mb-10">
           {event.tags.map((tag) => (
@@ -111,7 +86,6 @@ export function EventArticle({ event, signals }: Props) {
         </div>
       )}
 
-      {/* Actor responses */}
       {event.actorResponses.length > 0 && (
         <section className="mb-10">
           <div className="h-px bg-[var(--bd)] mb-8" />
@@ -119,7 +93,6 @@ export function EventArticle({ event, signals }: Props) {
         </section>
       )}
 
-      {/* Sources */}
       {event.sources.length > 0 && (
         <section className="mb-10">
           <div className="h-px bg-[var(--bd)] mb-8" />
@@ -127,7 +100,6 @@ export function EventArticle({ event, signals }: Props) {
         </section>
       )}
 
-      {/* Related signals */}
       {signals.length > 0 && (
         <section className="mb-10">
           <div className="h-px bg-[var(--bd)] mb-8" />

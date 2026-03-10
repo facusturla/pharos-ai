@@ -1,15 +1,9 @@
 import { fmtDate, fmtTimeZ } from '@/shared/lib/format';
 
+import type { BrowseStoryEvent } from '@/types/domain';
+
 import { BrowsePageHeader } from './BrowsePageHeader';
 import { CategoryBadge } from './CategoryBadge';
-
-type StoryEvent = {
-  id: string;
-  ord: number;
-  time: string;
-  label: string;
-  type: string;
-};
 
 type Story = {
   id: string;
@@ -19,7 +13,7 @@ type Story = {
   narrative: string;
   keyFacts: string[];
   timestamp: string;
-  events: StoryEvent[];
+  events: BrowseStoryEvent[];
 };
 
 type Props = {
@@ -58,14 +52,12 @@ export function StoryArticle({ story }: Props) {
         <p className="text-sm text-[var(--t3)]">{story.tagline}</p>
       </header>
 
-      {/* Narrative */}
       <section className="mb-8">
         <p className="text-[15px] text-[var(--t2)] leading-[1.8]">
           {story.narrative}
         </p>
       </section>
 
-      {/* Key Facts */}
       {story.keyFacts.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Key facts</h2>
@@ -83,12 +75,10 @@ export function StoryArticle({ story }: Props) {
         </section>
       )}
 
-      {/* Timeline */}
       {story.events.length > 0 && (
         <section>
           <h2 className="label mb-4">Timeline</h2>
           <div className="relative ml-3">
-            {/* Vertical line */}
             <div className="absolute left-0 top-1 bottom-1 w-px bg-[var(--bd-s)]" />
 
             <div className="flex flex-col gap-4">
@@ -96,7 +86,6 @@ export function StoryArticle({ story }: Props) {
                 const color = EVENT_COLOR[ev.type] ?? 'var(--t4)';
                 return (
                   <div key={ev.id} className="relative pl-6">
-                    {/* Dot on the line */}
                     <div
                       className="absolute left-[-4px] top-[6px] size-[9px] rounded-full border-2 border-[var(--bg-1)]"
                       style={{ background: color }}

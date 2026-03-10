@@ -49,7 +49,6 @@ export function ActorProfile({ actor }: Props) {
         ]}
       />
 
-      {/* Header */}
       <header className="mt-6 mb-8">
         <div className="h-[3px] w-10 mb-5" style={{ background: actC }} />
 
@@ -93,13 +92,11 @@ export function ActorProfile({ actor }: Props) {
         </div>
       </header>
 
-      {/* Assessment */}
       <section className="mb-8">
         <h2 className="label mb-3">Assessment</h2>
         <p className="text-[15px] text-[var(--t1)] leading-[1.7]">{actor.assessment}</p>
       </section>
 
-      {/* Current Posture */}
       <section className="mb-8">
         <h2 className="label mb-3">Current posture</h2>
         <blockquote className="border-l-2 border-[var(--bd)] pl-4 mb-4">
@@ -119,7 +116,6 @@ export function ActorProfile({ actor }: Props) {
         )}
       </section>
 
-      {/* Key Figures */}
       {actor.keyFigures.length > 0 && (
         <section className="mb-8">
           <h2 className="label mb-3">Key figures</h2>

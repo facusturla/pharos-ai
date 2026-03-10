@@ -1,12 +1,7 @@
-type Chip = {
-  label: string;
-  val: string;
-  sub: string;
-  color: string;
-};
+import type { BrowseEconChip } from '@/types/domain';
 
 type Props = {
-  chips: Chip[];
+  chips: BrowseEconChip[];
 };
 
 export function EconomicChipGrid({ chips }: Props) {
