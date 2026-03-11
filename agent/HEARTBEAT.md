@@ -14,8 +14,10 @@
    - SIGNAL_ONLY
 6. If nothing materially new happened, do nothing
 7. If writing:
+   - use recentEvents as a collision check, not as a limit on valid new events
+   - update only when the candidate clearly belongs to the same incident already in the system
+   - create when the development is distinct in wave, location, actor action, official decision, or consequence
    - use scripts only
-   - prefer update over create
    - create stories only if truly map-worthy
 8. Verify consumer/workspace state before success
 

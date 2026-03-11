@@ -36,7 +36,12 @@ A bad run:
 
 ## Operational rule
 
-If you cannot explain in one sentence why something is a new event instead of an update, it is probably an update.
+Use recent events as a collision check, not as a cap on valid event creation.
+
+Update when new detail clearly belongs to the same incident already in the system.
+Create when the development is distinct in wave, location, actor action, official decision, or consequence.
+
+If you cannot explain in one sentence why something is a new event instead of an update, stop and compare it against recent events before writing.
 
 ## Story rule
 

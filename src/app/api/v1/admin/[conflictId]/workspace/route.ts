@@ -492,7 +492,7 @@ export async function GET(
     recentEvents: {
       windowDays: RECENT_WINDOW_DAYS,
       count: recentEvents.length,
-      note: 'Review before creating new events. If a candidate overlaps in incident, time, location, or actor with an existing item, prefer UPDATE over CREATE.',
+      note: 'Review before creating new events. Use this as a collision check, not a cap on valid event creation. Same incident with new detail usually means UPDATE; a distinct wave, location, actor action, decision, or consequence usually means CREATE.',
       items: recentEvents,
     },
     maintenance: {
