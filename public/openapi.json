@@ -423,8 +423,8 @@
           {
             "name": "datasets",
             "in": "query",
-            "schema": { "type": "string" },
-            "description": "Comma-separated dataset names to include (e.g. `strikes,missiles,targets`)"
+            "schema": { "type": "string", "enum": ["STRIKE_ARC", "MISSILE_TRACK", "TARGET", "ASSET", "THREAT_ZONE", "HEAT_POINT"] },
+            "description": "Comma-separated MapFeatureType values to filter by (e.g. `STRIKE_ARC,TARGET`)"
           }
         ],
         "responses": {

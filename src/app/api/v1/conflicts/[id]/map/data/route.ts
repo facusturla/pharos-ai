@@ -2,16 +2,26 @@ import { NextRequest } from 'next/server';
 
 import { err, ok, parseQueryArray } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { MapFeatureType } from '@/generated/prisma/enums';
+
+const VALID_FEATURE_TYPES = Object.values(MapFeatureType) as string[];
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const datasets = parseQueryArray(req.nextUrl.searchParams.get('datasets'));
 
+  if (datasets.length > 0) {
+    const invalid = datasets.filter(d => !VALID_FEATURE_TYPES.includes(d));
+    if (invalid.length > 0) {
+      return err('VALIDATION', `Invalid dataset value(s): ${invalid.join(', ')}. Valid values: ${VALID_FEATURE_TYPES.join(', ')}`, 400);
+    }
+  }
+
   const [features, actors] = await Promise.all([
     prisma.mapFeature.findMany({
       where: {
         conflictId: id,
-        ...(datasets.length > 0 ? { featureType: { in: datasets as never[] } } : {}),
+        ...(datasets.length > 0 ? { featureType: { in: datasets as MapFeatureType[] } } : {}),
       },
       orderBy: { timestamp: 'asc' },
       select: {
