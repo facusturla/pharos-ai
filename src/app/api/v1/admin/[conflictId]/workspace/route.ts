@@ -97,7 +97,16 @@ export async function GET(
   ] = await Promise.all([
     prisma.conflictDaySnapshot.findFirst({
       where: { conflictId, day: dayDate },
-      select: { id: true, escalation: true, keyFacts: true, summary: true },
+      select: {
+        id: true,
+        escalation: true,
+        keyFacts: true,
+        summary: true,
+        economicNarrative: true,
+        casualties: { select: { id: true } },
+        economicChips: { select: { id: true } },
+        scenarios: { select: { id: true } },
+      },
     }),
     prisma.actorDaySnapshot.findMany({
       where: { day: dayDate, actor: { conflictId } },
@@ -281,6 +290,41 @@ export async function GET(
     !storyCoveredEventIds.has(event.id) && mappedEventIds.has(event.id)
   ));
 
+  // Day snapshot completeness
+  const daySnapshotCompleteness = todaySnapshot ? {
+    hasSummary: typeof todaySnapshot.summary === 'string' && todaySnapshot.summary.length > 50,
+    keyFactsCount: Array.isArray(todaySnapshot.keyFacts) ? todaySnapshot.keyFacts.length : 0,
+    hasCasualties: todaySnapshot.casualties.length > 0,
+    hasEconomicChips: todaySnapshot.economicChips.length > 0,
+    hasEconomicNarrative: typeof todaySnapshot.economicNarrative === 'string' && todaySnapshot.economicNarrative.length > 20,
+    hasScenarios: todaySnapshot.scenarios.length > 0,
+  } : null;
+
+  const daySnapshotGaps: string[] = [];
+  if (!todaySnapshot) {
+    daySnapshotGaps.push('missing snapshot');
+  } else {
+    if (!daySnapshotCompleteness!.hasSummary) daySnapshotGaps.push('summary empty or too short');
+    if (daySnapshotCompleteness!.keyFactsCount < 3) daySnapshotGaps.push(`only ${daySnapshotCompleteness!.keyFactsCount} key facts (need 3+)`);
+    if (!daySnapshotCompleteness!.hasCasualties) daySnapshotGaps.push('no casualties data');
+    if (!daySnapshotCompleteness!.hasEconomicChips) daySnapshotGaps.push('no economic chips');
+    if (!daySnapshotCompleteness!.hasEconomicNarrative) daySnapshotGaps.push('no economic narrative');
+    if (!daySnapshotCompleteness!.hasScenarios) daySnapshotGaps.push('no scenarios/outlook');
+  }
+
+  // HIGH/CRITICAL events missing responses
+  const highCritWithoutResponses = eventsWithoutResponsesToday.filter(
+    event => event.severity === 'CRITICAL' || event.severity === 'HIGH',
+  );
+
+  // Completeness gaps count (drives cycle mode)
+  const completenessGaps =
+    daySnapshotGaps.length +
+    eventsWithoutSourcesToday.length +
+    highCritWithoutResponses.length +
+    actorsWithoutSnapshot.length +
+    mapCandidates.length;
+
   const maintenanceCandidates = [
     !todaySnapshot ? 1 : 0,
     actorsWithoutSnapshot.length,
@@ -299,6 +343,7 @@ export async function GET(
       brokenHighlights.length +
       invalidActorFeatures.length +
       invalidPriorityFeatures.length,
+    completenessGaps,
     newEventCandidates: 0,
     updateCandidates: 0,
     maintenanceCandidates,
@@ -495,23 +540,83 @@ export async function GET(
       note: 'Review before creating new events. Use this as a collision check, not a cap on valid event creation. Same incident with new detail usually means UPDATE; a distinct wave, location, actor action, decision, or consequence usually means CREATE.',
       items: recentEvents,
     },
+    completeness: {
+      daySnapshot: {
+        exists: !!todaySnapshot,
+        fields: daySnapshotCompleteness,
+        gaps: daySnapshotGaps,
+        note: daySnapshotGaps.length > 0
+          ? `Day snapshot has ${daySnapshotGaps.length} gap(s). Fill these — empty fields on a live conflict day are a product failure.`
+          : 'Day snapshot is complete.',
+      },
+      events: {
+        totalToday: eventsToday.length,
+        withoutSources: eventsWithoutSourcesToday.length,
+        withoutResponses: eventsWithoutResponsesToday.length,
+        highCritWithoutResponses: highCritWithoutResponses.length,
+        note: eventsWithoutSourcesToday.length > 0 || highCritWithoutResponses.length > 0
+          ? `${eventsWithoutSourcesToday.length} event(s) missing sources, ${highCritWithoutResponses.length} HIGH/CRITICAL event(s) missing actor responses. These are not optional.`
+          : 'Event enrichment is caught up.',
+      },
+      actors: {
+        total: actors.length,
+        withoutSnapshot: actorsWithoutSnapshot.length,
+        actionsToday: actorActionsToday,
+        note: actorsWithoutSnapshot.length > 0
+          ? `${actorsWithoutSnapshot.length} actor(s) missing today's snapshot.`
+          : 'All actor snapshots present.',
+      },
+      signals: {
+        xPostsToday,
+        unlinkedBreaking: unlinkedBreakingXPosts.length,
+        note: xPostsToday === 0
+          ? 'No signals captured today. Search for real X posts and official statements.'
+          : unlinkedBreakingXPosts.length > 0
+            ? `${unlinkedBreakingXPosts.length} BREAKING signal(s) unlinked to events.`
+            : 'Signal state is adequate.',
+      },
+      map: {
+        featuresCreatedToday: mapFeaturesCreatedToday.length,
+        unmappedHighValueEvents: mapCandidates.length,
+        note: mapCandidates.length > 0
+          ? `${mapCandidates.length} HIGH/CRITICAL event(s) lack map representation. Evaluate for map features.`
+          : 'Map coverage is caught up.',
+      },
+      stories: {
+        storiesToday: storiesToday.length,
+        uncoveredCandidates: storyCandidates.length,
+        note: storyCandidates.length > 0
+          ? `${storyCandidates.length} mapped event(s) lack story coverage. Evaluate for story creation.`
+          : 'Story coverage is adequate.',
+      },
+      integrity: {
+        brokenStoryRefs: brokenHighlights.length,
+        invalidMapFeatures: invalidActorFeatures.length + invalidPriorityFeatures.length,
+        unlinkedBreakingXPosts: unlinkedBreakingXPosts.length,
+      },
+      totalGaps: completenessGaps,
+      note: completenessGaps > 0
+        ? `${completenessGaps} completeness gap(s) remain. NOOP is not valid while gaps exist — fill them.`
+        : 'Dashboard is complete. NOOP is valid if no new developments exist.',
+    },
     maintenance: {
       eventsWithoutSourcesToday: eventsWithoutSourcesToday.length,
       eventsWithoutResponsesToday: eventsWithoutResponsesToday.length,
+      highCritWithoutResponses: highCritWithoutResponses.length,
       actorsWithoutSnapshot: actorsWithoutSnapshot.length,
       unlinkedBreakingXPosts: unlinkedBreakingXPosts.length,
       brokenStoryRefs: brokenHighlights.length,
     },
-    backlog: {
-      note: 'Backlog is intentionally de-emphasized during active cycles. Prefer today\'s high-value work first.',
-    },
     todos,
     summary: {
       total: todos.length,
-      allClear,
-      message: allClear
-        ? 'No materially new or broken high-value items require action right now. NOOP is correct.'
-        : `${todos.length} actionable item(s). Follow priority and remember that story/map creation is candidate-based, not quota-based.`,
+      completenessGaps,
+      allClear: allClear && completenessGaps === 0,
+      message: completenessGaps > 0
+        ? `${completenessGaps} completeness gap(s) and ${todos.length} todo(s). Fill gaps before declaring NOOP.`
+        : allClear
+          ? 'Dashboard is complete and no actionable items remain. NOOP is correct if scanning confirms nothing new.'
+          : `${todos.length} actionable item(s). Address todos then verify completeness.`,
     },
   });
 }

@@ -156,7 +156,7 @@ Copy the `agent/` repo files to `/data/.openclaw/workspace/` on the host:
 ### TOOLS.md auth block (deployment only)
 
 After copying `TOOLS.md`, append the Pharos API credentials directly on the deployment target.
-These are not checked into the repo.
+These are **never** checked into the repo.
 
 ```markdown
 ## Authentication
@@ -165,7 +165,21 @@ These are not checked into the repo.
 - conflict: <conflict-id>
 - header: Authorization: Bearer <PHAROS_ADMIN_API_KEY>
 - PHAROS_ADMIN_API_KEY: <key>
+- this key is safe to use for Pharos admin operations
 ```
+
+### USER.md personalization (deployment only)
+
+The repo `USER.md` uses a generic operator name. On the deployment target, replace the name and profile with the real operator's details. Do not commit personal names back to the repo.
+
+### Sync contract
+
+The repo `agent/` files are the canonical mirrors. Do not hand-edit VPS workspace files independently. To update the agent's behavior:
+
+1. Update the repo mirrors in `agent/`.
+2. Redeploy to VPS workspace.
+3. Append the auth block to `TOOLS.md` on VPS only.
+4. Restart: `docker compose down && docker compose up -d`.
 
 ## 4. Restart procedure
 
