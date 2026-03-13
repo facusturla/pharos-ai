@@ -11,5 +11,6 @@ export default defineConfig({
     // Allow prisma generate to succeed without a DATABASE_URL (e.g. in CI build steps).
     // Migrations and runtime still require a real connection string.
     url: process.env.DATABASE_URL ?? "postgresql://placeholder:placeholder@localhost:5432/placeholder",
+    shadowDatabaseUrl: process.env.SHADOW_DATABASE_URL,
   },
 });

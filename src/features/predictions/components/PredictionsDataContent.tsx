@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo,useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -13,6 +13,7 @@ import { usePredictionMarkets } from '@/features/predictions/queries';
 
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { useNow } from '@/shared/hooks/use-now';
 
 import { assignGroup,MARKET_GROUPS, UNCATEGORIZED_GROUP } from '@/data/prediction-groups';
 
@@ -37,6 +38,7 @@ export function PredictionsDataContent() {
   const [liveOnly,     setLiveOnly]     = useState(true);
   const [groupFilter,  setGroupFilter]  = useState<string>('ALL');
   const [focusedId,    setFocusedId]    = useState<string | null>(null);
+  const now = useNow();
   const isLandscapePhone = useIsLandscapePhone();
   const onLandscapeScroll = useLandscapeScrollEmitter(isLandscapePhone);
 
@@ -71,7 +73,7 @@ export function PredictionsDataContent() {
   const totalVol   = markets.reduce((s, m) => s + m.volume, 0);
   const totalVol24 = markets.reduce((s, m) => s + m.volume24hr, 0);
   const liveCount  = markets.filter(m => m.active && !m.closed).length;
-  const timeSince  = fetchedAt ? `${Math.floor((Date.now() - fetchedAt) / 1000)}s ago` : 'loading…';
+  const timeSince = fetchedAt ? `${Math.floor((now - fetchedAt) / 1000)}s ago` : 'loading…';
 
   const focusedMarket = focusedId ? markets.find(m => m.id === focusedId) ?? null : null;
   const focusedGroup  = focusedMarket ? assignGroup(focusedMarket.title) : null;

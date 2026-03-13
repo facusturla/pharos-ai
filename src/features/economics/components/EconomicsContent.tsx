@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo,useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import Link from 'next/link';
 
@@ -14,6 +14,7 @@ import { useEconomicIndexes, useMarketData } from '@/features/economics/queries'
 
 import { useIsLandscapePhone } from '@/shared/hooks/use-is-landscape-phone';
 import { useLandscapeScrollEmitter } from '@/shared/hooks/use-landscape-scroll-emitter';
+import { useNow } from '@/shared/hooks/use-now';
 
 import { ECON_CATEGORIES } from '@/data/economic-indexes';
 import type { EconCategory, EconomicIndex, MarketResult } from '@/types/domain';
@@ -39,6 +40,7 @@ export function EconomicsContent() {
   const [tierFilter, setTierFilter] = useState(0); // 0 = all
   const [catFilter, setCatFilter] = useState<EconCategory | 'ALL'>('ALL');
   const [focusedId, setFocusedId] = useState<string | null>(null);
+  const now = useNow();
   const isLandscapePhone = useIsLandscapePhone();
   const onLandscapeScroll = useLandscapeScrollEmitter(isLandscapePhone);
 
@@ -64,7 +66,7 @@ export function EconomicsContent() {
     return true;
   });
 
-  const timeSince = lastRefresh > 0 ? `${Math.floor((Date.now() - lastRefresh) / 1000)}s ago` : 'loading…';
+  const timeSince = lastRefresh > 0 ? `${Math.floor((now - lastRefresh) / 1000)}s ago` : 'loading…';
 
   return (
     <div

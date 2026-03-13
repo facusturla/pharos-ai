@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback,useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 
@@ -29,6 +29,7 @@ export function FocusedMarket({ market, group, onClose }: Props) {
   const [open,         setOpen]         = useState(false);
   const [rangeIdx,     setRangeIdx]     = useState(1); // default 7D
   const [crosshairPct, setCrosshairPct] = useState<number | null>(null);
+  const [nowMs]                         = useState(() => Date.now());
 
   const range = RANGES[rangeIdx].key;
   const { data: historyData, isLoading: chartLoading } = usePredictionHistory(market.yesTokenId ?? '', range);
@@ -39,7 +40,7 @@ export function FocusedMarket({ market, group, onClose }: Props) {
   const status = statusLabel(market);
 
   const daysLeft = market.endDate
-    ? Math.max(0, Math.floor((new Date(market.endDate).getTime() - Date.now()) / 86_400_000))
+    ? Math.max(0, Math.floor((new Date(market.endDate).getTime() - nowMs) / 86_400_000))
     : null;
 
   useEffect(() => {
