@@ -13,7 +13,6 @@ export type DocumentMatch = {
 
 /**
  * Search for the most relevant documents using pgvector cosine similarity.
- * Requires the `vector` extension and `document_embedding` table to exist.
  */
 export async function searchDocuments(
   conflictId: string,
@@ -26,13 +25,13 @@ export async function searchDocuments(
   const results = await prisma.$queryRawUnsafe<DocumentMatch[]>(
     `SELECT
        id,
-       source_type AS "sourceType",
-       source_id   AS "sourceId",
+       "sourceType"::text AS "sourceType",
+       "sourceId" AS "sourceId",
        content,
        metadata,
        1 - (embedding <=> $1::vector) AS similarity
-     FROM document_embedding
-     WHERE conflict_id = $2
+     FROM "DocumentEmbedding"
+     WHERE "conflictId" = $2 AND embedding IS NOT NULL
      ORDER BY embedding <=> $1::vector
      LIMIT $3`,
     vectorLiteral,
