@@ -49,6 +49,24 @@ npm run dev
 
 Requires Node 22 and Docker. If you have an older Postgres 16 Docker volume, run `docker compose down -v` once before setup.
 
+## Open-source scope
+
+Pharos is being open-sourced in stages. This repository includes the full application layer — dashboard, API routes, map, and all supporting frontend and server code.
+
+The internal agent layer that ingests and prepares data for the application is being open-sourced separately. The app works without the agent layer using the public snapshot onboarding system described above.
+
+## License
+
+[AGPL-3.0-only](LICENSE)
+
+---
+
+<a href="https://conflicts.app">
+  <img src="public/og-image-1200x630.jpg" alt="conflicts.app — live geopolitical intelligence dashboard" width="100%" />
+</a>
+
+---
+
 ## How it works
 
 Pharos tracks a conflict through a few core concepts:
@@ -104,19 +122,3 @@ Useful commands:
 See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full setup walkthrough, branch workflow, and PR guidelines.
 
 Code conventions are documented in [`CODEX.md`](CODEX.md). The key rules: 150-line file limit, `type` not `interface`, CSS variables for all colours, shadcn primitives for interactive elements, and enforced import ordering.
-
-## Open-source scope
-
-Pharos is being open-sourced in stages. This repository includes the full application layer — dashboard, API routes, map, and all supporting frontend and server code.
-
-The internal agent layer that ingests and prepares data for the application is being open-sourced separately. The app works without the agent layer using the public snapshot onboarding system described above.
-
-## License
-
-[AGPL-3.0-only](LICENSE)
-
----
-
-<a href="https://conflicts.app">
-  <img src="public/og-image-1200x630.jpg" alt="conflicts.app — live geopolitical intelligence dashboard" width="100%" />
-</a>
