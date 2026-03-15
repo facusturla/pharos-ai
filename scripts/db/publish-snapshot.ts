@@ -33,7 +33,15 @@ export async function publishSnapshot() {
   const dumpPath = snapshotPath(SNAPSHOT_DUMP);
   run({
     command: PG_DUMP_BIN,
-    args: ['--data-only', '--format=custom', '--file', dumpPath, ...INCLUDED_TABLES.flatMap(table => ['-t', quoted(table)]), databaseUrl],
+    args: [
+      '--data-only',
+      '--enable-row-security',
+      '--format=custom',
+      '--file',
+      dumpPath,
+      ...INCLUDED_TABLES.flatMap(table => ['-t', quoted(table)]),
+      databaseUrl,
+    ],
   });
   const rowCountsSql = INCLUDED_TABLES.map(table => `select '${table}', count(*) from ${quoted(table)};`).join(' ');
   const rows = run({ command: PSQL_BIN, args: [databaseUrl, '-At', '-c', rowCountsSql] });
