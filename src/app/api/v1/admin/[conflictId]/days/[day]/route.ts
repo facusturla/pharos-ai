@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertIntRange , safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { syncSnapshotDocumentForDay } from '@/server/lib/rag/snapshot-sync';
 
 export async function PUT(
   req: NextRequest,
@@ -99,6 +100,8 @@ export async function PUT(
       }
     }
   });
+
+  await syncSnapshotDocumentForDay(conflictId, day);
 
   return ok({ id: snapshot.id, day: dayStr, updated: true });
 }

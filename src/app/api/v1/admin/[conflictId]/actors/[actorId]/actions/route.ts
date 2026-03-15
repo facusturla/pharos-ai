@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum , assertRequired, safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertActorDocument } from '@/server/lib/rag/indexer';
 
 import { ActionSignificance,ActionType } from '@/generated/prisma/client';
 
@@ -43,6 +44,8 @@ export async function POST(
       significance: body.significance,
     },
   });
+
+  await upsertActorDocument(conflictId, actorId);
 
   return ok({ id: action.id, created: true });
 }

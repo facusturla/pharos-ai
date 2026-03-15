@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum, parseISODate , safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { removeEventDocument, upsertEventDocument } from '@/server/lib/rag/indexer';
 
 import { EventType,Severity } from '@/generated/prisma/client';
 
@@ -63,6 +64,8 @@ export async function PUT(
     data,
   });
 
+  await upsertEventDocument(conflictId, updated.id);
+
   return ok({ id: updated.id, updated: true });
 }
 
@@ -81,6 +84,7 @@ export async function DELETE(
   if (!event) return err('NOT_FOUND', `Event ${eventId} not found`, 404);
 
   await prisma.intelEvent.delete({ where: { id: eventId } });
+  await removeEventDocument(conflictId, eventId);
 
   return ok({ id: eventId, deleted: true });
 }

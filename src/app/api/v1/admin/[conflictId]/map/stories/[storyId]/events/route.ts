@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum, parseISODate, safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertMapStoryDocument } from '@/server/lib/rag/indexer';
 
 import { StoryEventType } from '@/generated/prisma/client';
 
@@ -63,6 +64,8 @@ export async function POST(
     ),
   });
 
+  await upsertMapStoryDocument(conflictId, storyId);
+
   return ok({ storyId, added: created.count });
 }
 
@@ -107,6 +110,8 @@ export async function PUT(
       ),
     }),
   ]);
+
+  await upsertMapStoryDocument(conflictId, storyId);
 
   return ok({ storyId, replaced: created.count });
 }

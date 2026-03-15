@@ -6,6 +6,7 @@ import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
 import { checkXPostEnforcement } from '@/server/lib/enforcement';
 import { enforcementResponse,isEnforcementMode } from '@/server/lib/enforcement-utils';
+import { upsertXPostDocument } from '@/server/lib/rag/indexer';
 import { isXAIConfigured } from '@/server/lib/xai-client';
 import { shouldSkipVerification,verifyXPost } from '@/server/lib/xai-verify';
 
@@ -130,6 +131,8 @@ export async function POST(
       xaiCitations,
     },
   });
+
+  await upsertXPostDocument(conflictId, post.id);
 
   return ok({
     id: post.id,

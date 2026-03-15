@@ -8,15 +8,18 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { useChat } from '../hooks/use-chat';
+import { useChatPanelSize } from '../hooks/use-chat-panel-size';
 import { ChatInput } from './ChatInput';
 import { ChatMessage } from './ChatMessage';
+import { ChatResizeHandle } from './ChatResizeHandle';
 import { ChatTrigger } from './ChatTrigger';
 
 const CONFLICT_ID = process.env.NEXT_PUBLIC_CONFLICT_ID ?? 'iran-2026';
 
 export function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const { messages, input, setInput, isLoading, handleSubmit, stop, clear } = useChat({
+  const { isMobile, size, startResize } = useChatPanelSize();
+  const { messages, input, setInput, isLoading, isReady, error, handleSubmit, stop, clear } = useChat({
     conflictId: CONFLICT_ID,
   });
 
@@ -29,7 +32,10 @@ export function ChatWidget() {
       />
 
       {isOpen && (
-        <div className="chat-panel fixed bottom-20 right-5 z-50 flex flex-col overflow-hidden rounded border border-[var(--bd)] bg-[var(--bg-1)] shadow-2xl">
+        <div
+          className="chat-panel fixed bottom-20 right-5 z-50 flex flex-col overflow-hidden rounded border border-[var(--bd)] bg-[var(--bg-1)] shadow-2xl"
+          style={isMobile ? undefined : { width: size.width, height: size.height }}
+        >
           {/* Header */}
           <div className="panel-header justify-between">
             <span className="section-title flex items-center gap-2">
@@ -53,15 +59,18 @@ export function ChatWidget() {
             <div className="p-3">
               {messages.length === 0 && (
                 <div className="flex flex-col items-center justify-center py-10 text-center">
-                  <p className="text-[var(--t3)] text-[13px] mb-1">Pharos Intel Assistant</p>
-                  <p className="text-[var(--t4)] text-[11px] max-w-[260px]">
-                    Ask about events, actors, signals, or any intelligence in the conflict database.
+                  <p className="mb-1 text-[13px] text-[var(--t3)]">Pharos Intel Assistant</p>
+                  <p className="max-w-[260px] text-[11px] text-[var(--t4)]">
+                    {isReady
+                      ? 'Ask about events, actors, signals, or any intelligence in the conflict database.'
+                      : 'Loading prior session...'}
                   </p>
                 </div>
               )}
               {messages.map(msg => (
                 <ChatMessage key={msg.id} message={msg} />
               ))}
+              {error && <p className="px-1 pt-2 text-[11px] text-[var(--danger)]">{error}</p>}
             </div>
           </ScrollArea>
 
@@ -73,6 +82,7 @@ export function ChatWidget() {
             onSubmit={handleSubmit}
             onStop={stop}
           />
+          <ChatResizeHandle hidden={isMobile} onPointerDown={startResize} />
         </div>
       )}
     </>

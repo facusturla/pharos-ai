@@ -99,11 +99,11 @@ enum AccountType {
 }
 
 enum PostType {
-  XPOST              // Actual tweet on X/Twitter — tweetId required
-  NEWS_ARTICLE       // News wire / media article / headline
+  XPOST // Actual tweet on X/Twitter — tweetId required
+  NEWS_ARTICLE // News wire / media article / headline
   OFFICIAL_STATEMENT // Government / military / org official statement
-  PRESS_RELEASE      // Formal press release
-  ANALYSIS           // Analyst commentary, thread, assessment
+  PRESS_RELEASE // Formal press release
+  ANALYSIS // Analyst commentary, thread, assessment
 }
 
 enum Perspective {
@@ -160,11 +160,24 @@ enum StoryEventType {
 }
 
 enum VerificationStatus {
-  UNVERIFIED      // Not yet checked against X AI
-  VERIFIED        // Confirmed real via X AI search
-  FAILED          // tweetId doesn't exist or content mismatch
-  PARTIAL         // Corroborating evidence found but no exact match (non-XPOST types)
-  SKIPPED         // Post type doesn't need verification (e.g. ANALYSIS)
+  UNVERIFIED // Not yet checked against X AI
+  VERIFIED // Confirmed real via X AI search
+  FAILED // tweetId doesn't exist or content mismatch
+  PARTIAL // Corroborating evidence found but no exact match (non-XPOST types)
+  SKIPPED // Post type doesn't need verification (e.g. ANALYSIS)
+}
+
+enum RagDocumentSourceType {
+  EVENT
+  XPOST
+  SNAPSHOT
+  ACTOR
+  STORY
+}
+
+enum ChatMessageRole {
+  USER
+  ASSISTANT
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -174,7 +187,7 @@ enum VerificationStatus {
 model Conflict {
   id          String         @id
   name        String
-  codename    Json           // { us: string; il: string }
+  codename    Json // { us: string; il: string }
   status      ConflictStatus
   threatLevel ThreatLevel?
   startDate   DateTime       @db.Date
@@ -183,8 +196,8 @@ model Conflict {
   escalation  Int
   summary     String
   keyFacts    String[]
-  objectives  Json           // { us: string; il: string }
-  commanders  Json           // { us: string[]; il: string[]; ir: string[] }
+  objectives  Json // { us: string; il: string }
+  commanders  Json // { us: string[]; il: string[]; ir: string[] }
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -196,6 +209,68 @@ model Conflict {
   mapFeatures  MapFeature[]
   mapStories   MapStory[]
   collections  ConflictCollection[]
+  embeddings   DocumentEmbedding[]
+  chatSessions ChatSession[]
+}
+
+model AnonymousVisitor {
+  id         String   @id @default(cuid())
+  tokenHash  String   @unique
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  lastSeenAt DateTime @default(now())
+
+  chatSessions ChatSession[]
+}
+
+model ChatSession {
+  id            String    @id @default(cuid())
+  conflictId    String
+  visitorId     String
+  title         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastMessageAt DateTime?
+
+  conflict Conflict             @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+  visitor  AnonymousVisitor     @relation(fields: [visitorId], references: [id], onDelete: Cascade)
+  messages ChatSessionMessage[]
+
+  @@index([conflictId, visitorId, updatedAt(sort: Desc)])
+  @@index([visitorId, updatedAt(sort: Desc)])
+}
+
+model ChatSessionMessage {
+  id        String          @id @default(cuid())
+  sessionId String
+  ord       Int
+  role      ChatMessageRole
+  content   String
+  createdAt DateTime        @default(now())
+
+  session ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@unique([sessionId, ord])
+  @@index([sessionId, createdAt])
+}
+
+model DocumentEmbedding {
+  id          String                       @id @default(cuid())
+  conflictId  String
+  sourceType  RagDocumentSourceType
+  sourceId    String
+  content     String
+  contentHash String
+  metadata    Json
+  embedding   Unsupported("vector(1536)")?
+  createdAt   DateTime                     @default(now())
+  updatedAt   DateTime                     @updatedAt
+
+  conflict Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+
+  @@unique([conflictId, sourceType, sourceId])
+  @@index([conflictId, sourceType])
+  @@index([conflictId, updatedAt])
 }
 
 // ────────────────────────────────────────────────────────────────
@@ -203,19 +278,19 @@ model Conflict {
 // ────────────────────────────────────────────────────────────────
 
 model ConflictDaySnapshot {
-  id         String   @id @default(cuid())
-  conflictId String
-  day        DateTime @db.Date
-  dayLabel   String
-  summary    String
-  keyFacts   String[]
-  escalation Int
-  economicNarrative String @default("")
+  id                String   @id @default(cuid())
+  conflictId        String
+  day               DateTime @db.Date
+  dayLabel          String
+  summary           String
+  keyFacts          String[]
+  escalation        Int
+  economicNarrative String   @default("")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  conflict  Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+  conflict Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
 
   casualties    CasualtySummary[]
   economicChips EconomicImpactChip[]
@@ -278,19 +353,19 @@ model Scenario {
 // ────────────────────────────────────────────────────────────────
 
 model Actor {
-  id            String        @id
-  conflictId    String
-  name          String
-  fullName      String
-  countryCode   String?
-  type          ActorType
+  id          String    @id
+  conflictId  String
+  name        String
+  fullName    String
+  countryCode String?
+  type        ActorType
 
   // Display metadata (drives map colors, labels, affiliation)
-  mapKey       String?       @unique
-  cssVar       String?
-  colorRgb     Int[]
-  affiliation  Affiliation?
-  mapGroup     String?
+  mapKey      String?      @unique
+  cssVar      String?
+  colorRgb    Int[]
+  affiliation Affiliation?
+  mapGroup    String?
 
   // Current / latest snapshot fields
   activityLevel ActivityLevel
@@ -306,7 +381,7 @@ model Actor {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  conflict     Conflict           @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+  conflict     Conflict             @relation(fields: [conflictId], references: [id], onDelete: Cascade)
   daySnapshots ActorDaySnapshot[]
   actions      ActorAction[]
   responses    EventActorResponse[]
@@ -316,9 +391,9 @@ model Actor {
 }
 
 model ActorDaySnapshot {
-  id            String        @id @default(cuid())
-  actorId       String
-  day           DateTime      @db.Date
+  id      String   @id @default(cuid())
+  actorId String
+  day     DateTime @db.Date
 
   activityLevel ActivityLevel
   activityScore Int
@@ -339,7 +414,7 @@ model ActorDaySnapshot {
 model ActorAction {
   id           String             @id @default(cuid())
   actorId      String
-  date         String             // Original date string from data
+  date         String // Original date string from data
   type         ActionType
   description  String
   verified     Boolean            @default(false)
@@ -385,7 +460,7 @@ model IntelEvent {
 }
 
 model EventSource {
-  id          String @id @default(cuid())
+  id          String  @id @default(cuid())
   eventId     String
   name        String
   tier        Int
@@ -418,34 +493,34 @@ model EventActorResponse {
 // ────────────────────────────────────────────────────────────────
 
 model XPost {
-  id           String           @id
+  id           String            @id
   conflictId   String
-  tweetId      String?          @unique   // Real X/Twitter numeric ID for embeds — required when postType = XPOST
-  postType     PostType         @default(XPOST)
+  tweetId      String?           @unique // Real X/Twitter numeric ID for embeds — required when postType = XPOST
+  postType     PostType          @default(XPOST)
   handle       String
   displayName  String
   avatar       String
   avatarColor  String
-  verified     Boolean          @default(false)
+  verified     Boolean           @default(false)
   accountType  AccountType
   significance SignificanceLevel
   timestamp    DateTime
   content      String
   images       String[]
   videoThumb   String?
-  likes        Int              @default(0)
-  retweets     Int              @default(0)
-  replies      Int              @default(0)
-  views        Int              @default(0)
+  likes        Int               @default(0)
+  retweets     Int               @default(0)
+  replies      Int               @default(0)
+  views        Int               @default(0)
   pharosNote   String?
   eventId      String?
   actorId      String?
 
   // Verification fields — powered by X AI (Grok) API
-  verificationStatus  VerificationStatus @default(UNVERIFIED)
-  verificationResult  Json?              // { match, contentSimilarity, actualContent, discrepancies, grokResponse }
-  verifiedAt          DateTime?          // When verification was performed
-  xaiCitations        String[]           // URLs from Grok citations (e.g. x.com/handle/status/123)
+  verificationStatus VerificationStatus @default(UNVERIFIED)
+  verificationResult Json? // { match, contentSimilarity, actualContent, discrepancies, grokResponse }
+  verifiedAt         DateTime? // When verification was performed
+  xaiCitations       String[] // URLs from Grok citations (e.g. x.com/handle/status/123)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -469,18 +544,18 @@ model XPost {
 // ────────────────────────────────────────────────────────────────
 
 model MapFeature {
-  id          String         @id
-  conflictId  String
-  featureType MapFeatureType
+  id            String         @id
+  conflictId    String
+  featureType   MapFeatureType
   sourceEventId String?
-  actor       String
-  priority    String
-  category    String
-  type        String
-  status      String?
-  timestamp   DateTime?
-  geometry    Json           // {from,to} or {position} or {coordinates}
-  properties  Json           // type-specific: {label,severity} or {name,description} etc.
+  actor         String
+  priority      String
+  category      String
+  type          String
+  status        String?
+  timestamp     DateTime?
+  geometry      Json // {from,to} or {position} or {coordinates}
+  properties    Json // type-specific: {label,severity} or {name,description} etc.
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -501,22 +576,22 @@ model MapFeature {
 // ────────────────────────────────────────────────────────────────
 
 model MapStory {
-  id                   String        @id
-  conflictId           String
-  primaryEventId       String?
-  sourceEventIds       String[]
-  title                String
-  tagline              String
-  iconName             String
-  category             StoryCategory
-  narrative            String
-  highlightStrikeIds   String[]
-  highlightMissileIds  String[]
-  highlightTargetIds   String[]
-  highlightAssetIds    String[]
-  viewState            Json          // { longitude, latitude, zoom }
-  keyFacts             String[]
-  timestamp            DateTime
+  id                  String        @id
+  conflictId          String
+  primaryEventId      String?
+  sourceEventIds      String[]
+  title               String
+  tagline             String
+  iconName            String
+  category            StoryCategory
+  narrative           String
+  highlightStrikeIds  String[]
+  highlightMissileIds String[]
+  highlightTargetIds  String[]
+  highlightAssetIds   String[]
+  viewState           Json // { longitude, latitude, zoom }
+  keyFacts            String[]
+  timestamp           DateTime
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -532,7 +607,7 @@ model MapStoryEvent {
   id      String         @id @default(cuid())
   storyId String
   ord     Int
-  time    String         // Original time string
+  time    String // Original time string
   label   String
   type    StoryEventType
 

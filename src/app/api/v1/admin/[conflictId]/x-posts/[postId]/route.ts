@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum, parseISODate , safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { removeXPostDocument, upsertXPostDocument } from '@/server/lib/rag/indexer';
 
 import { AccountType,SignificanceLevel } from '@/generated/prisma/client';
 
@@ -71,6 +72,8 @@ export async function PUT(
 
   const updated = await prisma.xPost.update({ where: { id: postId }, data });
 
+  await upsertXPostDocument(conflictId, updated.id);
+
   return ok({ id: updated.id, updated: true });
 }
 
@@ -87,6 +90,7 @@ export async function DELETE(
   if (!post) return err('NOT_FOUND', `X post ${postId} not found`, 404);
 
   await prisma.xPost.delete({ where: { id: postId } });
+  await removeXPostDocument(conflictId, postId);
 
   return ok({ id: postId, deleted: true });
 }

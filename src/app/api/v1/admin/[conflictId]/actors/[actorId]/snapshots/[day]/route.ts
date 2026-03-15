@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum, assertIntRange , safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertActorDocument } from '@/server/lib/rag/indexer';
 
 import { ActivityLevel, Stance } from '@/generated/prisma/client';
 
@@ -57,6 +58,8 @@ export async function PUT(
     where: { id: snapshot.id },
     data,
   });
+
+  await upsertActorDocument(conflictId, actorId);
 
   return ok({ id: updated.id, updated: true });
 }

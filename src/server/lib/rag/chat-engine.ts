@@ -5,6 +5,11 @@ import type { DocumentMatch } from './vector-search';
 import { searchDocuments } from './vector-search';
 
 type ChatMessage = { role: 'user' | 'assistant'; content: string };
+type CreateChatStreamOptions = {
+  conflictId: string;
+  messages: ChatMessage[];
+  onFinish?: (text: string) => Promise<void> | void;
+};
 
 const SYSTEM_PROMPT = `You are the Pharos Intel Analyst — a disciplined, professional intelligence assistant embedded in a live conflict-monitoring dashboard.
 
@@ -47,7 +52,7 @@ function buildContextBlock(docs: DocumentMatch[]): string {
  * Create a streaming chat response using RAG.
  * Retrieves relevant documents via vector search and streams the LLM response.
  */
-export async function createChatStream(conflictId: string, messages: ChatMessage[]) {
+export async function createChatStream({ conflictId, messages, onFinish }: CreateChatStreamOptions) {
   const lastUserMessage = [...messages].reverse().find(m => m.role === 'user');
 
   let contextBlock = '';
@@ -67,5 +72,10 @@ export async function createChatStream(conflictId: string, messages: ChatMessage
     model: openai('gpt-4o'),
     system: systemMessage,
     messages,
+    async onFinish({ text }) {
+      await onFinish?.(text);
+    },
   });
 }
+
+export type { ChatMessage };

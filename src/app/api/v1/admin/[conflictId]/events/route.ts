@@ -6,6 +6,7 @@ import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
 import { checkEventEnforcement } from '@/server/lib/enforcement';
 import { enforcementResponse,isEnforcementMode } from '@/server/lib/enforcement-utils';
+import { upsertEventDocument } from '@/server/lib/rag/indexer';
 
 import { EventType,Severity } from '@/generated/prisma/client';
 
@@ -107,6 +108,8 @@ export async function POST(
     },
     include: { sources: true, actorResponses: true },
   });
+
+  await upsertEventDocument(conflictId, event.id);
 
   return ok({ id: event.id, created: true });
 }

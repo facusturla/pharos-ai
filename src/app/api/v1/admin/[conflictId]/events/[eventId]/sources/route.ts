@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertEventDocument } from '@/server/lib/rag/indexer';
 
 export async function POST(
   req: NextRequest,
@@ -34,6 +35,8 @@ export async function POST(
       url: s.url ?? null,
     })),
   });
+
+  await upsertEventDocument(conflictId, eventId);
 
   return ok({ eventId, added: created.count });
 }

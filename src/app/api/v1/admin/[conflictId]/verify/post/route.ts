@@ -6,6 +6,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertXPostDocument } from '@/server/lib/rag/indexer';
 import { isXAIConfigured } from '@/server/lib/xai-client';
 import { verifyXPost } from '@/server/lib/xai-verify';
 
@@ -55,6 +56,8 @@ export async function POST(
       xaiCitations: outcome.citations,
     },
   });
+
+  await upsertXPostDocument(conflictId, post.id);
 
   return ok({
     postId: post.id,

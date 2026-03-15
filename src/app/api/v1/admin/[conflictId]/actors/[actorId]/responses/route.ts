@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum , assertRequired, safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertActorDocument, upsertEventDocument } from '@/server/lib/rag/indexer';
 
 import { ActorResponseStance } from '@/generated/prisma/client';
 
@@ -45,6 +46,11 @@ export async function POST(
       statement: body.statement,
     },
   });
+
+  await Promise.all([
+    upsertActorDocument(conflictId, actorId),
+    upsertEventDocument(conflictId, body.eventId),
+  ]);
 
   return ok({ id: response.id, created: true });
 }

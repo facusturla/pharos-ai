@@ -6,6 +6,7 @@ import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
 import { checkDaySnapshotEnforcement } from '@/server/lib/enforcement';
 import { enforcementResponse,isEnforcementMode } from '@/server/lib/enforcement-utils';
+import { upsertSnapshotDocument } from '@/server/lib/rag/indexer';
 
 export async function POST(
   req: NextRequest,
@@ -104,6 +105,8 @@ export async function POST(
 
     return snap;
   });
+
+  await upsertSnapshotDocument(conflictId, snapshot.id);
 
   return ok({ id: snapshot.id, day: body.day, created: true });
 }

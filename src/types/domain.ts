@@ -246,6 +246,18 @@ export type FeedResult = {
   fresh?: boolean;
 };
 
+export type ChatMessage = {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  createdAt: string;
+};
+
+export type ChatSessionData = {
+  sessionId: string;
+  messages: ChatMessage[];
+};
+
 // RSS Feed Sources
 
 export type RssFeed = {

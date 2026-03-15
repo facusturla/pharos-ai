@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum , safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertActorDocument } from '@/server/lib/rag/indexer';
 
 import { ActivityLevel, Stance } from '@/generated/prisma/client';
 
@@ -44,6 +45,8 @@ export async function PUT(
   if (body.linkedEventIds !== undefined) data.linkedEventIds = body.linkedEventIds;
 
   const updated = await prisma.actor.update({ where: { id: actorId }, data });
+
+  await upsertActorDocument(conflictId, updated.id);
 
   return ok({ id: updated.id, updated: true });
 }

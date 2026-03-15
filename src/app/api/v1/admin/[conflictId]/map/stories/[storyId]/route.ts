@@ -5,6 +5,7 @@ import { validateOptionalEventId, validateOptionalEventIds } from '@/server/lib/
 import { assertEnum, parseISODate, safeJson, STORY_ICON_NAMES } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { removeMapStoryDocument, upsertMapStoryDocument } from '@/server/lib/rag/indexer';
 
 import { StoryCategory } from '@/generated/prisma/client';
 
@@ -68,6 +69,8 @@ export async function PUT(
 
   const updated = await prisma.mapStory.update({ where: { id: storyId }, data });
 
+  await upsertMapStoryDocument(conflictId, updated.id);
+
   return ok({ id: updated.id, updated: true });
 }
 
@@ -84,6 +87,7 @@ export async function DELETE(
   if (!story) return err('NOT_FOUND', `Map story ${storyId} not found`, 404);
 
   await prisma.mapStory.delete({ where: { id: storyId } });
+  await removeMapStoryDocument(conflictId, storyId);
 
   return ok({ id: storyId, deleted: true });
 }

@@ -7,6 +7,7 @@ import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
 import { checkStoryEnforcement } from '@/server/lib/enforcement';
 import { enforcementResponse,isEnforcementMode } from '@/server/lib/enforcement-utils';
+import { upsertMapStoryDocument } from '@/server/lib/rag/indexer';
 
 import { StoryCategory } from '@/generated/prisma/client';
 
@@ -99,6 +100,8 @@ export async function POST(
         : undefined,
     },
   });
+
+  await upsertMapStoryDocument(conflictId, story.id);
 
   return ok({ id: story.id, created: true });
 }

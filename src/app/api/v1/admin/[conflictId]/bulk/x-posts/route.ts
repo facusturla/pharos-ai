@@ -4,6 +4,7 @@ import { requireAdmin } from '@/server/lib/admin-auth';
 import { assertEnum, assertRequired, parseISODate, safeJson } from '@/server/lib/admin-validate';
 import { err,ok } from '@/server/lib/api-utils';
 import { prisma } from '@/server/lib/db';
+import { upsertXPostDocument } from '@/server/lib/rag/indexer';
 import { isXAIConfigured } from '@/server/lib/xai-client';
 import { shouldSkipVerification,verifyXPost } from '@/server/lib/xai-verify';
 
@@ -207,6 +208,8 @@ export async function POST(
       created.push(item.id);
     }
   });
+
+  await Promise.all(created.map(id => upsertXPostDocument(conflictId, id)));
 
   return ok({ created, errors: [] });
 }
