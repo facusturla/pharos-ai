@@ -92,6 +92,7 @@ export type UseMapFiltersReturn = {
 
 export function useMapFilters(): UseMapFiltersReturn {
   const dispatch   = useAppDispatch();
+  const activeStory = useAppSelector(s => s.map.activeStory);
   const dataExtent = useAppSelector(s => s.map.dataExtent);
   const viewExtent = useAppSelector(s => s.map.viewExtent);
   const isFiltered = useAppSelector(selectIsFiltered);
@@ -115,10 +116,41 @@ export function useMapFilters(): UseMapFiltersReturn {
   }, [rawData, dispatch]);
 
   // Compute filtered data + facets locally (replaces selectFilteredData)
-  const { filtered, facets } = useMemo(
-    () => rawData ? applyFilters(rawData, filterState, actorMeta) : EMPTY_RESULT,
-    [rawData, filterState, actorMeta],
-  );
+  const { filtered, facets } = useMemo(() => {
+    if (!rawData) return EMPTY_RESULT;
+
+    const result = applyFilters(rawData, filterState, actorMeta);
+    if (!activeStory) return result;
+
+    const activeEventIds = new Set<string>(
+      [activeStory.primaryEventId, ...(activeStory.sourceEventIds ?? [])].filter(
+        (id): id is string => Boolean(id),
+      ),
+    );
+
+    const withPreserved = <T extends { id: string; sourceEventId?: string | null }>(
+      visible: T[],
+      all: T[],
+      explicitIds: string[],
+    ) => {
+      const preserved = all.filter((item) => (
+        explicitIds.includes(item.id)
+        || (item.sourceEventId ? activeEventIds.has(item.sourceEventId) : false)
+      ));
+      return [...new Map([...visible, ...preserved].map(item => [item.id, item])).values()];
+    };
+
+    return {
+      filtered: {
+        ...result.filtered,
+        strikes: withPreserved(result.filtered.strikes, rawData.strikes, activeStory.highlightStrikeIds),
+        missiles: withPreserved(result.filtered.missiles, rawData.missiles, activeStory.highlightMissileIds),
+        targets: withPreserved(result.filtered.targets, rawData.targets, activeStory.highlightTargetIds),
+        assets: withPreserved(result.filtered.assets, rawData.assets, activeStory.highlightAssetIds),
+      },
+      facets: result.facets,
+    };
+  }, [rawData, filterState, actorMeta, activeStory]);
 
   const datasetTypesMap = useMemo(() => {
     if (!rawData) return {} as Record<string, string[]>;

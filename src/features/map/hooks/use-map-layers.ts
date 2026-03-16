@@ -79,8 +79,38 @@ export function useMapLayers({
   isMobile = false,
 }: Props): Layer[] {
   return useMemo(() => {
+    const activeEventIds = activeStory
+      ? new Set<string>(
+          [activeStory.primaryEventId, ...(activeStory.sourceEventIds ?? [])].filter(
+            (id): id is string => Boolean(id),
+          ),
+        )
+      : null;
+
+    const mergedActiveStory = !activeStory || !activeEventIds
+      ? activeStory
+      : {
+          ...activeStory,
+          highlightStrikeIds: [...new Set([
+            ...activeStory.highlightStrikeIds,
+            ...filtered.strikes.filter(d => d.sourceEventId && activeEventIds.has(d.sourceEventId)).map(d => d.id),
+          ])],
+          highlightMissileIds: [...new Set([
+            ...activeStory.highlightMissileIds,
+            ...filtered.missiles.filter(d => d.sourceEventId && activeEventIds.has(d.sourceEventId)).map(d => d.id),
+          ])],
+          highlightTargetIds: [...new Set([
+            ...activeStory.highlightTargetIds,
+            ...filtered.targets.filter(d => d.sourceEventId && activeEventIds.has(d.sourceEventId)).map(d => d.id),
+          ])],
+          highlightAssetIds: [...new Set([
+            ...activeStory.highlightAssetIds,
+            ...filtered.assets.filter(d => d.sourceEventId && activeEventIds.has(d.sourceEventId)).map(d => d.id),
+          ])],
+        };
+
     const alpha    = activeAlpha(isSatellite);
-    const dimActive = activeStory !== null;
+    const dimActive = mergedActiveStory !== null;
 
     const highlighted = (id: string, arr: string[]) => !dimActive || arr.includes(id);
 
@@ -94,7 +124,7 @@ export function useMapLayers({
       filtered.assets,
       viewState,
       selectedItem,
-      activeStory,
+      mergedActiveStory,
     );
 
     // Heat map
@@ -137,12 +167,12 @@ export function useMapLayers({
       getTargetPosition: (d: StrikeArc): [number, number] => d.to,
       getSourceColor: (d: StrikeArc): RGBA => {
         const rgb = d.type === 'NAVAL_STRIKE' ? NAVAL_RGB : (actorMeta[d.actor] ?? FALLBACK_META).rgb;
-        return highlighted(d.id, activeStory?.highlightStrikeIds ?? [])
+        return highlighted(d.id, mergedActiveStory?.highlightStrikeIds ?? [])
           ? withAlpha(rgb, alpha)
           : withAlpha(rgb, DIM);
       },
       getTargetColor: (d: StrikeArc): RGBA =>
-        highlighted(d.id, activeStory?.highlightStrikeIds ?? [])
+        highlighted(d.id, mergedActiveStory?.highlightStrikeIds ?? [])
           ? [255, 255, 255, isSatellite ? 230 : 180]
           : [255, 255, 255, 30],
       getWidth: (d: StrikeArc): number =>
@@ -151,8 +181,8 @@ export function useMapLayers({
       pickable: true,
       autoHighlight: true,
       updateTriggers: {
-        getSourceColor: [activeStory?.id, isSatellite],
-        getTargetColor: [activeStory?.id, isSatellite],
+        getSourceColor: [mergedActiveStory?.id, mergedActiveStory?.highlightStrikeIds.join('|'), isSatellite],
+        getTargetColor: [mergedActiveStory?.id, mergedActiveStory?.highlightStrikeIds.join('|'), isSatellite],
         getWidth:       [isSatellite],
       },
     });
@@ -164,9 +194,9 @@ export function useMapLayers({
       getSourcePosition: (d: MissileTrack): [number, number] => d.from,
       getTargetPosition: (d: MissileTrack): [number, number] => d.to,
       getSourceColor: (d: MissileTrack): RGBA =>
-        actorColor((actorMeta[d.actor] ?? FALLBACK_META).rgb, d.id, activeStory?.highlightMissileIds ?? [], dimActive, alpha),
+        actorColor((actorMeta[d.actor] ?? FALLBACK_META).rgb, d.id, mergedActiveStory?.highlightMissileIds ?? [], dimActive, alpha),
       getTargetColor: (d: MissileTrack): RGBA => {
-        if (dimActive && !(activeStory?.highlightMissileIds ?? []).includes(d.id)) return withAlpha((actorMeta[d.actor] ?? FALLBACK_META).rgb, DIM);
+        if (dimActive && !(mergedActiveStory?.highlightMissileIds ?? []).includes(d.id)) return withAlpha((actorMeta[d.actor] ?? FALLBACK_META).rgb, DIM);
         return d.status === 'INTERCEPTED' ? [255, 200, 0, alpha] : [255, 50, 50, alpha];
       },
       getWidth: (d: MissileTrack): number =>
@@ -175,8 +205,8 @@ export function useMapLayers({
       pickable: true,
       autoHighlight: true,
       updateTriggers: {
-        getSourceColor: [activeStory?.id, isSatellite],
-        getTargetColor: [activeStory?.id, isSatellite],
+        getSourceColor: [mergedActiveStory?.id, mergedActiveStory?.highlightMissileIds.join('|'), isSatellite],
+        getTargetColor: [mergedActiveStory?.id, mergedActiveStory?.highlightMissileIds.join('|'), isSatellite],
         getWidth:       [isSatellite],
       },
     });
@@ -190,7 +220,7 @@ export function useMapLayers({
         d.status === 'DESTROYED' ? 18000 : d.status === 'DAMAGED' ? 14000 : 10000,
       getFillColor: (d: Target): RGBA => {
         const base = statusFill(d.status);
-        if (dimActive && !(activeStory?.highlightTargetIds ?? []).includes(d.id)) return withAlpha(base, DIM);
+        if (dimActive && !(mergedActiveStory?.highlightTargetIds ?? []).includes(d.id)) return withAlpha(base, DIM);
         return withAlpha(base, alpha);
       },
       stroked: true,
@@ -199,7 +229,7 @@ export function useMapLayers({
       pickable: true,
       autoHighlight: true,
       updateTriggers: {
-        getFillColor: [activeStory?.id, isSatellite],
+        getFillColor: [mergedActiveStory?.id, mergedActiveStory?.highlightTargetIds.join('|'), isSatellite],
         getLineColor: [isSatellite],
       },
     });
@@ -211,14 +241,14 @@ export function useMapLayers({
       getPosition:  (d: Asset): [number, number] => d.position,
       getRadius:    (d: Asset): number => (d.type === 'CARRIER' ? 20000 : 14000),
       getFillColor: (d: Asset): RGBA =>
-        actorColor((actorMeta[d.actor] ?? FALLBACK_META).rgb, d.id, activeStory?.highlightAssetIds ?? [], dimActive, alpha),
+        actorColor((actorMeta[d.actor] ?? FALLBACK_META).rgb, d.id, mergedActiveStory?.highlightAssetIds ?? [], dimActive, alpha),
       stroked: true,
       getLineColor: (): RGBA => [255, 255, 255, isSatellite ? 220 : 150],
       lineWidthMinPixels: strokeWidth,
       pickable: true,
       autoHighlight: true,
       updateTriggers: {
-        getFillColor: [activeStory?.id, isSatellite],
+        getFillColor: [mergedActiveStory?.id, mergedActiveStory?.highlightAssetIds.join('|'), isSatellite],
         getLineColor: [isSatellite],
       },
     });
