@@ -49,11 +49,9 @@ npm run dev
 
 Requires Node 22 and Docker. If you have an older Postgres 16 Docker volume, run `docker compose down -v` once before setup.
 
-## Open-source scope
+## Open source
 
-Pharos is being open-sourced in stages. This repository includes the full application layer — dashboard, API routes, map, and all supporting frontend and server code.
-
-The internal agent layer that ingests and prepares data for the application is being open-sourced separately. The app works without the agent layer using the public snapshot onboarding system described above.
+This repository contains the full application — dashboard, API routes, map, and all supporting frontend and server code. The agent layer that ingests and curates conflict data is maintained separately and will be open-sourced as it stabilises. The app runs independently using the public snapshot system for data.
 
 ## License
 
